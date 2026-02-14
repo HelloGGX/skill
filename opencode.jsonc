@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "one-dark",
+  "mcp": {
+    "shadcnVue": {
+      "type": "local",
+      "enabled": true,
+      "command": ["npx", "shadcn-vue@latest", "mcp"],
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+    },
+  },
+  "tools": {
+    "shadcn_vue_init": true,
+    "get_dsl": true,
+    "get_token": true,
+  },
+  "permission": {
+    "edit": "ask",
+    "skill": {
+      "*": "allow",
+    },
+  },
+}
