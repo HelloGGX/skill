@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "vibe",
+  "name": "vibe-coding",
   "description": "Vibe Coding development tool",
   "type": "module",
   "private": false,
