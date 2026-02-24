@@ -1,6 +1,6 @@
 {
-  "name": "vibe-cli",
-  "version": "1.0.0",
+  "name": "vibe-coding-cli",
+  "version": "1.0.1-snapshot.0",
   "description": "Vibe Coding development tool",
   "private": false,
   "type": "module",
@@ -17,7 +17,7 @@
     "build": "bun build ./src/cli.ts --outdir ./dist --target node --format esm",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "publish:snapshot": "npm version prerelease --preid=snapshot --no-git-tag-version && npm publish --tag snapshot"
+    "publish:snapshot": "bun publish --tag snapshot"
   },
   "keywords": [
     "cli",
