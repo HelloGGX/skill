@@ -3,7 +3,7 @@
 
 # 🌊 Vibe Coding CLI
 
-**专为 OpenCode 打造的设计驱动 Agent 技能生态构建工具**
+**专为 OpenCode 打造的 vibe coding 生态构建工具**
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
