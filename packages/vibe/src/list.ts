@@ -1,12 +1,6 @@
 import { execSync } from "child_process"
 import { readLockFile } from "./add"
-import { OPENCODE_DIR, TOOL_SUBDIR } from "./constants"
-
-const RESET = "\x1b[0m"
-const BOLD = "\x1b[1m"
-const CYAN = "\x1b[36m"
-const DIM = "\x1b[38;5;102m"
-const YELLOW = "\x1b[33m"
+import { BOLD, CYAN, DIM, OPENCODE_DIR, RESET, TOOL_SUBDIR, YELLOW } from "./constants"
 
 export async function runList(args: string[]) {
   // 1. 打印本地 Tools (使用常量动态拼接提示)

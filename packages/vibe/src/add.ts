@@ -3,16 +3,7 @@ import { execSync } from "child_process"
 import { existsSync, mkdirSync, cpSync, writeFileSync, readFileSync, readdirSync } from "fs"
 import path from "path"
 import { cloneRepo, cleanupTempDir, GitCloneError } from "./git"
-import { OPENCODE_DIR, TOOL_SUBDIR, LOCK_FILE, CONFIG_FILE } from "./constants"
-
-// ==========================================
-// 1. UI & 颜色定义
-// ==========================================
-export const RESET = "\x1b[0m"
-export const CYAN = "\x1b[36m"
-export const BG_CYAN = "\x1b[46m\x1b[30m"
-export const GREEN = "\x1b[32m"
-export const YELLOW = "\x1b[33m"
+import { OPENCODE_DIR, TOOL_SUBDIR, LOCK_FILE, CONFIG_FILE, YELLOW, CYAN, RESET, BG_CYAN, GREEN } from "./constants"
 
 // ==========================================
 // 2. 状态管理 (Lockfile & Config)
