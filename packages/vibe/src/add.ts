@@ -3,6 +3,7 @@ import { execSync } from "child_process"
 import { existsSync, mkdirSync, cpSync, writeFileSync, readFileSync, readdirSync } from "fs"
 import path from "path"
 import { cloneRepo, cleanupTempDir, GitCloneError } from "./git"
+import { OPENCODE_DIR, TOOL_SUBDIR, LOCK_FILE, CONFIG_FILE } from "./constants"
 
 // ==========================================
 // 1. UI & 颜色定义
@@ -21,28 +22,27 @@ export interface VibeLock {
   tools: Record<string, { source: string; installedAt: string }>
 }
 
-function getLockFilePath(agentName: string) {
-  return path.join(process.cwd(), `.${agentName}`, "vibe-lock.json")
+function getLockFilePath() {
+  return path.join(process.cwd(), OPENCODE_DIR, LOCK_FILE)
 }
 
-export function readLockFile(agentName: string): VibeLock {
-  const lockPath = getLockFilePath(agentName)
+export function readLockFile(): VibeLock {
+  const lockPath = getLockFilePath()
   try {
     if (existsSync(lockPath)) return JSON.parse(readFileSync(lockPath, "utf-8"))
   } catch (e) {}
   return { version: 1, tools: {} }
 }
 
-export function writeLockFile(agentName: string, lockData: VibeLock) {
-  const lockPath = getLockFilePath(agentName)
+export function writeLockFile(lockData: VibeLock) {
+  const lockPath = getLockFilePath()
   const dir = path.dirname(lockPath)
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
   writeFileSync(lockPath, JSON.stringify(lockData, null, 2), "utf-8")
 }
 
-export function ensureOpencodeConfig(agentName: string) {
-  if (agentName !== "opencode") return
-  const configPath = path.join(process.cwd(), `.${agentName}`, "opencode.jsonc")
+export function ensureOpencodeConfig() {
+  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
   const configDir = path.dirname(configPath)
 
   if (!existsSync(configDir)) mkdirSync(configDir, { recursive: true })
@@ -61,9 +61,9 @@ export function ensureOpencodeConfig(agentName: string) {
   }
 }
 
-export function updateOpencodeConfigTools(agentName: string, newTools: string[]) {
-  if (agentName !== "opencode" || newTools.length === 0) return
-  const configPath = path.join(process.cwd(), `.${agentName}`, "opencode.jsonc")
+export function updateOpencodeConfigTools(newTools: string[]) {
+  if (newTools.length === 0) return
+  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
   if (!existsSync(configPath)) return
 
   try {
@@ -93,10 +93,6 @@ export function updateOpencodeConfigTools(agentName: string, newTools: string[])
 // 3. 核心业务逻辑 (拆分出的独立执行单元)
 // ==========================================
 
-/**
- * 负责拷贝特定的 Tool 文件 (.ts 和 .py)
- * 返回是否拷贝了 Python 文件
- */
 function copyToolFiles(toolName: string, sourceDir: string, targetDir: string): boolean {
   let hasPython = false
 
@@ -115,14 +111,9 @@ function copyToolFiles(toolName: string, sourceDir: string, targetDir: string): 
   return hasPython
 }
 
-/**
- * 负责在项目根目录初始化 Python 虚拟环境并安装依赖
- */
 function setupPythonEnvironment(rootDir: string, spinner: ReturnType<typeof p.spinner>) {
-  // 👈 修正提示语为根目录
   spinner.message(`Initializing Python environment in ./.venv ...`)
   try {
-    // 👈 修正路径：生成在根目录下
     const reqPath = path.join(rootDir, "requirements.txt")
     const reqContent = `# 核心依赖\nrequests>=2.28.0\nurllib3>=1.26.0\npython-dotenv>=0.19.0\n`
 
@@ -133,7 +124,6 @@ function setupPythonEnvironment(rootDir: string, spinner: ReturnType<typeof p.sp
       if (!existingReq.includes("requests>=")) writeFileSync(reqPath, existingReq + "\n" + reqContent, "utf-8")
     }
 
-    // 👈 修正路径：生成在根目录下
     const venvPath = path.join(rootDir, ".venv")
     if (!existsSync(venvPath)) {
       try {
@@ -162,16 +152,15 @@ export async function runAdd(args: string[]) {
     process.exit(1)
   }
 
-  const agentName = args.includes("--agent") ? args[args.indexOf("--agent") + 1] || "opencode" : "opencode"
   const repoUrl = `https://github.com/${repository}.git`
 
   p.intro(`${BG_CYAN} vibe cli ${RESET}`)
-  p.note(`Repository: ${CYAN}${repoUrl}${RESET}\nTarget: ${CYAN}.${agentName}${RESET}`, "Initializing")
+  p.note(`Repository: ${CYAN}${repoUrl}${RESET}\nTarget: ${CYAN}${OPENCODE_DIR}${RESET}`, "Initializing")
 
-  // Step 1: Install standard skills
+  // Step 1: Install standard skills (锁定为 opencode)
   p.log.step("Executing standard skills installer (pnpx skills add)...")
   try {
-    execSync(`pnpx skills add ${repository} --agent ${agentName}`, { stdio: "inherit" })
+    execSync(`pnpx skills add ${repository} --agent opencode`, { stdio: "inherit" })
   } catch {
     p.log.warn("Skills installer finished with warnings.")
   }
@@ -217,12 +206,12 @@ export async function runAdd(args: string[]) {
 
     // Step 4: Execution (Copy files, update state, setup env)
     const installSpinner = p.spinner()
-    installSpinner.start(`Installing tools to .${agentName}/tool/ ...`)
+    installSpinner.start(`Installing tools to .opencode/tool/ ...`)
 
-    const targetDir = path.join(process.cwd(), `.${agentName}`, "tool")
+    const targetDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
     if (!existsSync(targetDir)) mkdirSync(targetDir, { recursive: true })
 
-    const lockData = readLockFile(agentName)
+    const lockData = readLockFile()
     const now = new Date().toISOString()
     let requiresPython = false
 
@@ -235,11 +224,10 @@ export async function runAdd(args: string[]) {
       lockData.tools[toolName] = { source: repoUrl, installedAt: now }
     }
 
-    writeLockFile(agentName, lockData)
-    ensureOpencodeConfig(agentName)
-    updateOpencodeConfigTools(agentName, selectedTools as string[])
+    writeLockFile(lockData)
+    ensureOpencodeConfig()
+    updateOpencodeConfigTools(selectedTools as string[])
 
-    // 👈 核心改动：传入 process.cwd() 作为 Python 环境的根目录
     if (requiresPython) {
       setupPythonEnvironment(process.cwd(), installSpinner)
     }
@@ -257,5 +245,5 @@ export async function runAdd(args: string[]) {
     if (tempDir) await cleanupTempDir(tempDir).catch(() => {})
   }
 
-  p.outro(`✨ Workspace updated for ${CYAN}.${agentName}${RESET}`)
+  p.outro(`✨ Workspace updated for ${CYAN}.opencode${RESET}`)
 }

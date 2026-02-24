@@ -1,7 +1,8 @@
-import { runAdd, readLockFile } from "./add"
+import { runAdd } from "./add"
+import { runList } from "./list"
 
 // ==========================================
-// 1. 原生 UI & 颜色定义
+// 本地 UI & 颜色定义
 // ==========================================
 const RESET = "\x1b[0m"
 const BOLD = "\x1b[1m"
@@ -26,54 +27,64 @@ function showLogo() {
 
 function showBanner() {
   showLogo()
-  console.log(`${DIM}The Design-Driven Agent Skills Ecosystem${RESET}`)
+  console.log(`${DIM}The Design-Driven Agent Skills Ecosystem for OpenCode${RESET}`)
   console.log()
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe add <repository>${RESET}    ${DIM}Add skills & tools${RESET}`)
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe list${RESET}                ${DIM}List installed tools${RESET}`)
   console.log()
-  console.log(`${DIM}Example:${RESET} vibe add helloggx/skill --agent opencode`)
+  console.log(`${DIM}Example:${RESET} vibe add helloggx/skill`)
   console.log()
 }
 
-async function runList(args: string[]) {
-  let agentName = "opencode"
-  const agentIdx = args.indexOf("--agent")
-  if (agentIdx !== -1 && args.length > agentIdx + 1) agentName = args[agentIdx + 1]!
+function showHelp(): void {
+  console.log(`
+${BOLD}Usage:${RESET} vibe <command> [options]
 
-  const lockData = readLockFile(agentName)
-  const tools = Object.keys(lockData.tools)
+${BOLD}Manage Tools & Skills:${RESET}
+  add <package>        Add a tool package (alias: a)
+                       e.g. helloggx/skill
+                            https://github.com/helloggx/skill
+  list, ls             List installed tools & skills for .opencode
 
-  console.log(`\n${BOLD}Installed tools for .${agentName}:${RESET}\n`)
-  if (tools.length === 0) {
-    console.log(`${DIM}No tools installed yet.${RESET}`)
-  } else {
-    tools.forEach((t) => console.log(`  ${CYAN}◆${RESET} ${t} ${DIM}(${lockData.tools[t]?.source})${RESET}`))
-  }
-  console.log()
+${BOLD}Options:${RESET}
+  --help, -h        Show this help message
+
+${BOLD}Examples:${RESET}
+  ${DIM}$${RESET} vibe add helloggx/skill
+  ${DIM}$${RESET} vibe list                          ${DIM}# list installed tools and skills${RESET}
+
+The Design-Driven Agent Skills Ecosystem
+`)
 }
 
 // ==========================================
-// 2. Command Router (路由分发)
+// Command Router (路由分发)
 // ==========================================
 async function main() {
   const args = process.argv.slice(2)
-  const command = args[0]
 
-  if (!command || command === "-h" || command === "--help") {
+  if (args.length === 0) {
     showBanner()
     return
   }
+
+  const command = args[0]
 
   switch (command) {
     case "a":
     case "add":
       console.clear()
-      showLogo() // 在转交控制权之前打印全局 Logo
+      showLogo()
       await runAdd(args.slice(1))
       break
     case "ls":
     case "list":
       await runList(args.slice(1))
+      break
+    case "--help":
+    case "-h":
+    case "help":
+      showHelp()
       break
     default:
       console.log(`${CYAN}vibe:${RESET} Unknown command '${command}'`)
