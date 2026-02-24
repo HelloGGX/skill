@@ -13,8 +13,8 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "bun run src/index.ts",
-    "build": "bun build ./src/index.ts --outdir ./dist --target node --format esm",
+    "dev": "bun run src/cli.ts",
+    "build": "bun build ./src/cli.ts --outdir ./dist --target node --format esm",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "publish:snapshot": "npm version prerelease --preid=snapshot --no-git-tag-version && npm publish --tag snapshot"
