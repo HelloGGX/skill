@@ -1,39 +1,37 @@
 {
-  "$schema": "https://json.schemastore.org/package.json",
+  "name": "vibe-cli",
   "version": "1.0.0",
-  "name": "vibe",
+  "description": "Vibe Coding development tool",
+  "private": false,
   "type": "module",
-  "license": "MIT",
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "bun test --timeout 30000",
-    "build": "bun run script/build.ts",
-    "dev": "bun run --conditions=browser ./src/index.ts",
-    "random": "echo 'Random script updated at $(date)' && echo 'Change queued successfully' && echo 'Another change made' && echo 'Yet another change' && echo 'One more change' && echo 'Final change' && echo 'Another final change' && echo 'Yet another final change'",
-    "clean": "echo 'Cleaning up...' && rm -rf node_modules dist",
-    "lint": "echo 'Running lint checks...' && bun test --coverage",
-    "format": "echo 'Formatting code...' && bun run --prettier --write src/**/*.ts",
-    "docs": "echo 'Generating documentation...' && find src -name '*.ts' -exec echo 'Processing: {}' \\;",
-    "deploy": "echo 'Deploying application...' && bun run build && echo 'Deployment completed successfully'"
-  },
   "bin": {
     "vibe": "./bin/vibe"
   },
-  "randomField": "this-is-a-random-value-12345",
-  "exports": {
-    "./*": "./src/*.ts"
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node --format esm",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "publish:snapshot": "npm version prerelease --preid=snapshot --no-git-tag-version && npm publish --tag snapshot"
+  },
+  "keywords": [
+    "cli",
+    "agent-skills",
+    "skills"
+  ],
+  "dependencies": {
+    "@clack/prompts": "^1.0.1",
+    "picocolors": "^1.1.1",
+    "simple-git": "^3.32.2"
   },
   "devDependencies": {
-    "@tsconfig/bun": "catalog:",
     "@types/bun": "catalog:",
-    "@types/yargs": "17.0.33",
-    "typescript": "catalog:",
-    "why-is-node-running": "3.2.2",
-    "zod-to-json-schema": "3.24.5"
-  },
-  "dependencies": {
-    "yargs": "18.0.0",
-    "zod": "catalog:",
-    "zod-to-json-schema": "3.24.5"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   }
 }
