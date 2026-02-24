@@ -62,26 +62,67 @@ export function ensureOpencodeConfig(agentName: string) {
     "shadcnVue": {
       "type": "local",
       "enabled": true,
-      "command": ["npx", "shadcn-vue@latest", "mcp"],
+      "command": ["npx", "shadcn-vue@latest", "mcp"]
     },
     "context7": {
       "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-    },
+      "url": "https://mcp.context7.com/mcp"
+    }
   },
   "tools": {
-    "shadcn_vue_init": true,
-    "get_dsl": true,
-    "get_token": true,
   },
   "permission": {
     "edit": "ask",
     "skill": {
-      "*": "allow",
-    },
-  },
+      "*": "allow"
+    }
+  }
 }`
     writeFileSync(configPath, jsoncContent, "utf-8")
+  }
+}
+
+// 👈 核心修复：智能识别字符串与注释
+export function updateOpencodeConfigTools(agentName: string, newTools: string[]) {
+  if (agentName !== "opencode" || newTools.length === 0) return
+
+  const configPath = path.join(process.cwd(), `.${agentName}`, "opencode.jsonc")
+  if (!existsSync(configPath)) return
+
+  try {
+    const content = readFileSync(configPath, "utf-8")
+
+    // 智能解析：避开字符串内部的 //（比如 https://），只清除真正的注释
+    let safeJsonStr = content.replace(/"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (match) =>
+      match.startsWith('"') ? match : "",
+    )
+
+    // 移除 JSON 中不合法的尾随逗号 (Trailing commas)
+    safeJsonStr = safeJsonStr.replace(/,\s*([\]}])/g, "$1")
+
+    const config = JSON.parse(safeJsonStr)
+
+    // 确保 tools 节点存在
+    if (!config.tools) {
+      config.tools = {}
+    }
+
+    // 遍历新工具，设置为 true
+    let updated = false
+    for (const tool of newTools) {
+      if (config.tools[tool] !== true) {
+        config.tools[tool] = true
+        updated = true
+      }
+    }
+
+    // 回写覆盖文件
+    if (updated) {
+      writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+    }
+  } catch (e) {
+    // 将具体的报错原因打印出来，方便定位
+    console.error(`\n${YELLOW}Warning: Failed to inject tools into opencode.jsonc. ${(e as Error).message}${RESET}`)
   }
 }
 
@@ -106,7 +147,6 @@ export async function runAdd(args: string[]) {
   p.intro(`${BG_CYAN} vibe cli ${RESET}`)
   p.note(`Repository: ${CYAN}${repoUrl}${RESET}\nTarget: ${CYAN}.${agentName}${RESET}`, "Initializing")
 
-  // 1. 自动执行基础的 Skills 安装
   p.log.step("Executing standard skills installer (pnpx skills add)...")
   try {
     execSync(`pnpx skills add ${repository} --agent ${agentName}`, { stdio: "inherit" })
@@ -114,7 +154,6 @@ export async function runAdd(args: string[]) {
     p.log.warn("Skills installer finished with warnings.")
   }
 
-  // 2. 增强的 Tool 安装逻辑
   const s = p.spinner()
   s.start("Fetching remote tools list...")
 
@@ -126,7 +165,6 @@ export async function runAdd(args: string[]) {
 
     const toolDirPath = path.join(tempDir, "tool")
     if (existsSync(toolDirPath)) {
-      // 👈 核心改动 1：只筛选 .ts 文件，并截取工具名用于展示
       const availableTools = readdirSync(toolDirPath)
         .filter((file) => file.endsWith(".ts"))
         .map((file) => file.replace(/\.ts$/, ""))
@@ -152,35 +190,73 @@ export async function runAdd(args: string[]) {
 
           const lockData = readLockFile(agentName)
           const now = new Date().toISOString()
+          let hasPythonScript = false
 
           for (const tool of selectedTools) {
             const toolName = tool as string
             const tsFile = `${toolName}.ts`
             const pyFile = `${toolName}.py`
 
-            // 👈 核心改动 2：复制对应的 .ts 脚本
             const srcTs = path.join(toolDirPath, tsFile)
             if (existsSync(srcTs)) {
               const destTs = path.join(targetDir, tsFile)
               cpSync(srcTs, destTs, { recursive: true })
             }
 
-            // 👈 核心改动 3：探测同名的 .py 脚本，如果存在则一同复制
             const srcPy = path.join(toolDirPath, pyFile)
             if (existsSync(srcPy)) {
               const destPy = path.join(targetDir, pyFile)
               cpSync(srcPy, destPy, { recursive: true })
+              hasPythonScript = true
             }
 
-            // 记录到 Lockfile (这里我们记录基础工具名即可)
             lockData.tools[toolName] = { source: repoUrl, installedAt: now }
           }
 
           writeLockFile(agentName, lockData)
           ensureOpencodeConfig(agentName)
 
+          // 自动激活工具配置
+          updateOpencodeConfigTools(agentName, selectedTools as string[])
+
+          if (hasPythonScript) {
+            installSpinner.message(`Initializing Python environment in .${agentName}/tool/.venv ...`)
+            try {
+              const reqPath = path.join(targetDir, "requirements.txt")
+              const reqContent = `# 核心依赖\nrequests>=2.28.0\nurllib3>=1.26.0\npython-dotenv>=0.19.0\n`
+
+              if (!existsSync(reqPath)) {
+                writeFileSync(reqPath, reqContent, "utf-8")
+              } else {
+                const existingReq = readFileSync(reqPath, "utf-8")
+                if (!existingReq.includes("requests>=")) {
+                  writeFileSync(reqPath, existingReq + "\n" + reqContent, "utf-8")
+                }
+              }
+
+              const venvPath = path.join(targetDir, ".venv")
+              if (!existsSync(venvPath)) {
+                try {
+                  execSync(`python3 -m venv "${venvPath}"`, { stdio: "ignore" })
+                } catch {
+                  execSync(`python -m venv "${venvPath}"`, { stdio: "ignore" })
+                }
+              }
+
+              const isWin = process.platform === "win32"
+              const pipCmd = isWin ? path.join(venvPath, "Scripts", "pip") : path.join(venvPath, "bin", "pip")
+
+              installSpinner.message(`Installing Python dependencies (requests, urllib3, dotenv)...`)
+              execSync(`"${pipCmd}" install -r "${reqPath}"`, { stdio: "ignore" })
+            } catch (pyError) {
+              p.log.warn(
+                `⚠️ Failed to initialize Python environment. You may need to manually install requirements in .${agentName}/tool/`,
+              )
+            }
+          }
+
           await new Promise((r) => setTimeout(r, 400)) // 动画缓冲
-          installSpinner.stop(`${GREEN}Successfully installed ${selectedTools.length} tools.${RESET}`)
+          installSpinner.stop(`${GREEN}Successfully installed and configured ${selectedTools.length} tools.${RESET}`)
         } else {
           p.log.info("No tools selected.")
         }
