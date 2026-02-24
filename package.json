@@ -3,6 +3,7 @@
   "name": "vibe",
   "description": "Vibe Coding development tool",
   "type": "module",
+  "private": false,
   "packageManager": "bun@1.3.9",
   "scripts": {
     "dev": "bun run --cwd packages/vibe src/index.ts",
