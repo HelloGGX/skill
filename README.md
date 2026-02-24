@@ -14,14 +14,14 @@ A curated collection of [Agent Skills](https://opencode.ai) built for **Design-D
 Add these skills to your Agent environment (e.g., OpenCode):
 
 ```bash
-pnpx skills add HelloGGX/skill --skill='*'
+pnpx skills add helloggx/skill --skill='*'
 
 ```
 
 or to install all of them globally:
 
 ```bash
-pnpx skills add HelloGGX/skill --skill='*' -g
+pnpx skills add helloggx/skill --skill='*' -g
 
 ```
 

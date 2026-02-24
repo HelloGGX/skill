@@ -13,12 +13,12 @@
 
 将这些技能添加到你的 Agent 环境（如 OpenCode）中：
 ```bash
-pnpx skills add HelloGGX/skill --skill='*'
+pnpx skills add helloggx/skill --skill='*'
 ```
 or to install all of them globally:
 
 ```bash
-pnpx skills add HelloGGX/skill --skill='*' -g
+pnpx skills add helloggx/skill --skill='*' -g
 ```
 
 ## 技能生态系统
