@@ -1,6 +1,6 @@
 {
   "name": "vibe-coding-cli",
-  "version": "1.0.1-snapshot.0",
+  "version": "1.0.0",
   "description": "Vibe Coding development tool",
   "private": false,
   "type": "module",
