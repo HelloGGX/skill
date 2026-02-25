@@ -4,7 +4,7 @@
 
 **A vibe coding ecosystem builder tailored for OpenCode**
 
-**English** · [简体中文](./README.zh.md)
+**English** · [简体中文](https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.zh.md)
 
 </div>
 

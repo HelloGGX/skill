@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
 [![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?logo=bun&logoColor=white)](https://bun.sh)
 
-[English](./README.md) · **简体中文**
+[English](https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.md) · **简体中文**
 
 </div>
 
