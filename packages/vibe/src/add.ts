@@ -348,6 +348,18 @@ export async function runAdd(args: string[]) {
 
     const totalInstalled = selectedTools.length + selectedRules.length
     installSpinner.stop(`${GREEN}Successfully installed ${totalInstalled} items.${RESET}`)
+
+    if (requiresPython) {
+      const isWin = process.platform === "win32"
+      // 根据操作系统生成正确的激活命令 (Windows 默认适配 PowerShell)
+      const activateCmd = isWin ? ".\\.venv\\Scripts\\Activate.ps1" : "source .venv/bin/activate"
+      
+      p.note(
+        `Your Python tools are ready. Run the following command to activate the environment:\n\n  ${CYAN}${activateCmd}${RESET}`,
+        "🐍 Python Environment"
+      )
+    }
+
   } catch (error) {
     s.stop("Failed to fetch repository.")
     if (error instanceof GitCloneError) p.log.error(`${YELLOW}Git Error:${RESET}\n${error.message}`)

@@ -12,10 +12,24 @@ const VIBE_LOGO = [
   "  ╚═══╝  ╚═╝╚═════╝ ╚══════╝",
 ]
 
-function showLogo() {
-  console.log()
-  VIBE_LOGO.forEach((line) => console.log(`${CYAN}${line}${RESET}`))
-  console.log()
+// 256-color middle grays - visible on both light and dark backgrounds
+const GRAYS = [
+  '\x1b[38;5;250m', // lighter gray
+  '\x1b[38;5;248m',
+  '\x1b[38;5;245m', // mid gray
+  '\x1b[38;5;243m',
+  '\x1b[38;5;240m',
+  '\x1b[38;5;238m', // darker gray
+];
+
+function showLogo(): void {
+  console.log();
+  VIBE_LOGO.forEach((line, i) => {
+    // 确保 i 不会越界，虽然这里刚好都是 6 行
+    const color = GRAYS[i] || GRAYS[GRAYS.length - 1]; 
+    console.log(`${color}${line}${RESET}`);
+  });
+  console.log();
 }
 
 function showBanner() {
