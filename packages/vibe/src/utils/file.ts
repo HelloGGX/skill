@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, cpSync, readdirSync } from "fs"
+import { existsSync, mkdirSync, cpSync, readdirSync, rmSync } from "fs"
 import path from "path"
 import { RULES_SUBDIR } from "../constants"
 
@@ -42,4 +42,21 @@ export function installRules(categories: string[], rulesSourceDir: string, targe
   }
 
   return installedRulePaths
+}
+
+// 🌟 新增：删除指定的 Tool 文件
+export function removeToolFiles(toolName: string, targetDir: string) {
+  const tsFile = path.join(targetDir, `${toolName}.ts`)
+  const pyFile = path.join(targetDir, `${toolName}.py`)
+
+  if (existsSync(tsFile)) rmSync(tsFile, { force: true })
+  if (existsSync(pyFile)) rmSync(pyFile, { force: true })
+}
+
+// 🌟 新增：删除指定的 Rule 目录
+export function removeRuleCategory(category: string, targetRulesDir: string) {
+  const catDir = path.join(targetRulesDir, category)
+  if (existsSync(catDir)) {
+    rmSync(catDir, { recursive: true, force: true })
+  }
 }

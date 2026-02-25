@@ -1,6 +1,7 @@
 import { runAdd } from "./commands/add"
 import { runList } from "./commands/list"
 import { runUpdate } from "./commands/update"
+import { runRemove } from "./commands/remove"
 import { RESET, BOLD, CYAN, DIM, TEXT } from "./constants"
 
 const VIBE_LOGO = [
@@ -39,6 +40,7 @@ function showBanner() {
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe add <repository>${RESET}    ${DIM}Add skills & tools${RESET}`)
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe list${RESET}                ${DIM}List installed tools & skills${RESET}`)
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe update${RESET}              ${DIM}Update installed tools & skills${RESET}`)
+  console.log(`  ${DIM}$${RESET} ${TEXT}vibe remove${RESET}              ${DIM}Remove tools & rules${RESET}`)
   console.log()
   console.log(`${DIM}Example:${RESET} vibe add helloggx/skill`)
   console.log()
@@ -54,6 +56,7 @@ ${BOLD}Manage Tools & Skills:${RESET}
                             https://github.com/helloggx/skill
   list, ls             List installed tools & skills for .opencode
   update, up           Update all local tools and standard skills
+  remove, rm         Remove selected tools & rules from .opencode
 
 ${BOLD}Options:${RESET}
   --help, -h        Show this help message
@@ -62,6 +65,7 @@ ${BOLD}Examples:${RESET}
   ${DIM}$${RESET} vibe add helloggx/skill
   ${DIM}$${RESET} vibe list                          ${DIM}# list installed tools and skills${RESET}
   ${DIM}$${RESET} vibe update                        ${DIM}# check and update all items${RESET}
+  ${DIM}$${RESET} vibe remove                        ${DIM}# remove selected tools and rules${RESET}
 
 The Design-Driven Agent Skills Ecosystem
 `)
@@ -86,6 +90,11 @@ async function main() {
       console.clear()
       showLogo()
       await runAdd(args.slice(1))
+      break
+    case "rm":         // 👈 接入路由
+    case "remove":
+      console.clear()
+      await runRemove(args.slice(1))
       break
     case "ls":
     case "list":

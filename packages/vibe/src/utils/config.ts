@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from "fs"
 import path from "path"
-import { OPENCODE_DIR, LOCK_FILE, CONFIG_FILE, YELLOW, RESET } from "../constants"
+import { OPENCODE_DIR, LOCK_FILE, CONFIG_FILE, YELLOW, RESET, RULES_SUBDIR } from "../constants"
 import type { VibeLock, OpencodeConfig } from "../types"
 import { ErrorSeverity, handleExecError } from "./error"
 
@@ -92,5 +92,46 @@ export function updateOpencodeConfig(newTools: string[], newRulePaths: string[])
     if (updated) writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
   } catch (e) {
     handleExecError(e, "Failed to update opencode.jsonc", ErrorSeverity.WARN)
+  }
+}
+
+// 🌟 新增：从 opencode.jsonc 中移除 tools 和 instructions
+export function removeOpencodeConfig(toolsToRemove: string[], rulesToRemove: string[]) {
+  if (toolsToRemove.length === 0 && rulesToRemove.length === 0) return;
+
+  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
+  if (!existsSync(configPath)) return;
+
+  try {
+    const content = readFileSync(configPath, "utf-8")
+    const config = parseJsonc<OpencodeConfig>(content)
+    let updated = false
+
+    // 1. 从 tools 字典中删除对应的 key
+    if (toolsToRemove.length > 0 && config.tools) {
+      for (const tool of toolsToRemove) {
+        if (tool in config.tools) {
+          delete config.tools[tool]
+          updated = true
+        }
+      }
+    }
+
+    // 2. 从 instructions 数组中过滤掉包含被删规则类别的路径
+    if (rulesToRemove.length > 0 && config.instructions) {
+      const originalLength = config.instructions.length
+      config.instructions = config.instructions.filter(inst => {
+        // 匹配规则路径，例如: "./rules/typescript/coding-style.md"
+        // 只要包含了 "/rules/被删类别/" 就将其过滤掉
+        return !rulesToRemove.some(rule => inst.includes(`/${RULES_SUBDIR}/${rule}/`))
+      })
+      if (config.instructions.length !== originalLength) {
+        updated = true
+      }
+    }
+
+    if (updated) writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+  } catch (e) {
+    handleExecError(e, "Failed to remove items from opencode.jsonc", ErrorSeverity.WARN)
   }
 }
