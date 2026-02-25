@@ -51,8 +51,9 @@ Please select the design source configuration:
 
     1. **Custom Design DSL** (Provide a URL or file path for the design tokens)
     2. **Use TOKEN_URL_LIGHT** (Read DSL URL from .env TOKEN_URL_LIGHT variable)
+    3. **Use Default** (Skip design tokens, use default theme)
 
-    Choice [1/2]:
+    Choice [1/2/3]:
 
 
 **STOP and WAIT for user input** - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command match
@@ -72,6 +73,10 @@ Fetch the design structure and layout data from the source:
     3. **If TOKEN_URL_LIGHT is defined**: Execute `get_dsl` with the URL from `TOKEN_URL_LIGHT`.
     4. **CAPTURE OUTPUT**: Look for the file path of the saved JSON (e.g., `.../dsl.json`).
     5. **ASSIGN**: Set this path to variable `$DSL_PATH`.
+
+* **If Choice "3" (Use Default):**
+    1. Log "Using default theme, skipping DSL fetch."
+    2. **ASSIGN**: Set `$DSL_PATH` to empty or null to indicate no custom design tokens.
 
 ### Step 3: Apply Design Tokens
 

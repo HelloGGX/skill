@@ -23,7 +23,13 @@ def run_command_silent(command, cwd=None):
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except subprocess.CalledProcessError as e:
+        print(f"命令执行失败: {' '.join(command)}", file=sys.stderr)
+        print(f"错误信息: {e.stderr}", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError as e:
+        print(f"命令不存在: {command[0]}", file=sys.stderr)
+        print(f"请确保已安装 bun: https://bun.sh", file=sys.stderr)
         sys.exit(1)
 
 
