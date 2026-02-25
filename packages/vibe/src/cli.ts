@@ -1,6 +1,6 @@
-import { runAdd } from "./add"
-import { runList } from "./list"
-import { runUpdate } from "./update"
+import { runAdd } from "./commands/add"
+import { runList } from "./commands/list"
+import { runUpdate } from "./commands/update"
 import { RESET, BOLD, CYAN, DIM, TEXT } from "./constants"
 
 const VIBE_LOGO = [
