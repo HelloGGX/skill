@@ -1,11 +1,10 @@
-
 <div align="center">
 
 # 🌊 Vibe Coding CLI
 
 **专为 OpenCode 打造的 vibe coding 生态构建工具**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](./package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
 [![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?logo=bun&logoColor=white)](https://bun.sh)
 
@@ -15,17 +14,17 @@
 
 ## 📖 简介 (Introduction)
 
-`vibe-coding-cli` 是一个专为 **OpenCode** 平台打造的现代命令行脚手架工具。它的核心目标是简化和自动化 Agent 技能（Skills）与底层脚本工具（Tools）的管理。
+`vibe-coding-cli` 是一个专为 **OpenCode** 平台打造的现代命令行脚手架工具。它的核心目标是快速搭建 Vibe Coding 的开发环境，简化规范驱动开发的资源管理。
 
-通过 `vibe` 命令，你可以一键拉取远程 GitHub 仓库中的 TypeScript 或 Python 工具脚本，自动将其注册到 OpenCode 配置中，并无缝管理其依赖环境（包括自动配置独立的 Python 虚拟环境）。
+通过 `vibe` 命令，你可以一键拉取远程 GitHub 仓库中的 TypeScript/Python 工具脚本或 Markdown 规则文件，自动将其无缝注册到 OpenCode 配置中，并接管其底层的运行依赖环境，让你专注于“与 AI 共创代码”本身。
 
 ## ✨ 核心特性 (Features)
 
-- 🛠 **全自动化工具管理**: 支持从任意 GitHub 仓库快速解析、选择并下载 `.ts` / `.py` 工具至本地 `.opencode/tool/` 目录。
-- 📦 **智能配置注入**: 自动维护状态锁文件 (`vibe-lock.json`) 并向 `.opencode/opencode.jsonc` 中无感注入工具注册信息，告别手动配置。
-- 🐍 **自动 Python 环境集成**: 侦测到 Python 工具时，自动在项目根目录创建 `.venv` 虚拟环境，并安装必要的 `requests`、`dotenv` 等基础依赖。
-- 🪄 **标准技能聚合**: 与 `pnpx skills` 生态深度集成，统一管理标准技能库和本地化扩展工具。
-- ⚡ **极致性能**: 基于 [Bun](https://bun.sh/) 编写与构建，极速执行代码和处理文件 IO。
+- 🛠 **全自动化工具管理**: 支持从任意 GitHub 仓库快速解析、选择并下载 `.ts` / `.py` 脚本至本地 `.opencode/tool/` 目录，开箱即用。
+- 📜 **集成 Vibe Coding 所需的一切**: 独创的生态聚合能力，将 Agent 执行所需的 **Capabilities（工具与技能）** 与 **Context（行为准则与最佳实践）** 完美融合。支持按需安装 `.md` 规则文件，让 AI 真正懂你的架构意图与代码规范。
+- 📦 **智能配置注入**: 自动拦截并更新 `.opencode/opencode.jsonc`，无感注入工具的启用开关与 Prompt 指令（instructions）路径，彻底告别繁琐的手动配置。
+- ⚡ **并行极速更新**: 基于并发模型设计，同时处理多个源仓库的资源对比与拉取，大幅缩短多依赖场景下的更新等待时间。
+- 🪄 **标准技能聚合**: 与 Vercel 的 `pnpx skills` 生态深度集成，在统一的 CLI 流程中同时管理标准 Agent 技能库和本地化扩展资源。
 
 ---
 
@@ -41,65 +40,62 @@ npm install -g vibe-coding-cli
 
 # 使用 bun
 bun add -g vibe-coding-cli
-
 ```
-
-*如果你在本地 monorepo 环境中开发，可以直接使用 `bun run dev` 或构建后执行 `./bin/vibe`。*
 
 ### 基础用法
 
-初始化并添加一个技能库（例如本项目的 `helloggx/skill`）：
+初始化并添加一个生态库（例如本项目的 `helloggx/skill`）：
 
 ```bash
 vibe add helloggx/skill
-
 ```
 
-*此命令将会弹出交互式菜单，让你选择想要安装的底层工具，并自动配置项目结构。*
+*此命令将会弹出交互式菜单，允许你灵活多选想要安装的 **Tools (工具)** 和 **Rules (规则)**，CLI 将会自动为你完成所有环境的配置。*
 
 ---
 
 ## 📚 命令指南 (Commands)
 
-### 1. 添加工具与技能 (`add` / `a`)
+### 1. 添加资源 (`add` / `a`)
 
 ```bash
 vibe add <repository>
-
 ```
 
-**功能流程**:
+**执行流程**:
 
-1. 调用原生能力安装目标仓库中的 Agent 技能。
-2. 克隆并解析目标仓库中的 `tool` 文件夹。
-3. 提供交互式多选列表，让你选择需要的具体工具。
-4. 自动拷贝文件、更新 `opencode.jsonc` 并配置 Python 依赖环境（如果需要）。
+1. 调用原生能力，安装目标仓库中的基础 Agent 技能。
+2. 克隆并解析目标仓库中的 `skill`、`tool` 和 `rules` 资产目录。
+3. 唤起交互式多选列表，按需挑选具体的工具脚本和规则文档。
+4. 自动执行文件拷贝、智能合并公共规则、更新 `opencode.jsonc` 并配置 Python 依赖环境（如需）。
 
 ### 2. 查看已安装项 (`list` / `ls`)
 
 ```bash
 vibe list
-
 ```
 
 **功能**:
-清晰打印当前项目中安装的所有本地 Tools（来自 `vibe-lock.json`）以及已安装的标准 Skills，便于进行环境审查。
+清晰打印当前项目中安装的所有资源态势图，包含：
 
-### 3. 一键更新 (`update` / `up`)
+* 🛠️ 本地扩展工具 (Local Tools)
+* 📜 注入的上下文规则 (Local Rules)
+* 🪄 全局标准技能 (Standard Skills)
+
+### 3. 一键同步更新 (`update` / `up`)
 
 ```bash
 vibe update
-
 ```
 
 **功能**:
-自动执行标准 Skills 的升级，并根据锁文件记录的源仓库，拉取并覆盖最新的本地工具脚本，保持生态环境最新。
+一键执行工作区全量更新。CLI 会并发拉取 `vibe-lock.json` 中记录的所有源仓库，智能比对并覆盖最新的本地脚本和规则文件，同时触发标准技能库的升级。
 
 ---
 
 ## 📂 目录与配置规范 (Workspace Structure)
 
-运行 `vibe add` 后，工具将在你的项目根目录下自动创建并维护以下结构：
+运行 `vibe add` 后，工具将在你的项目根目录下自动创建并维护以下标准 Vibe Coding 结构：
 
 ```text
 your-project/
@@ -107,32 +103,34 @@ your-project/
 │   ├── tool/                   # 存放被拉取下来的底层 .ts / .py 工具脚本
 │   │   ├── get_dsl.ts
 │   │   └── ...
-│   ├── opencode.jsonc          # OpenCode 核心配置（vibe 会自动向 "tools" 字段注入注册信息）
-│   └── vibe-lock.json          # Vibe 状态锁文件，记录工具来源和版本时间戳
-├── .venv/                      # (自动创建) Python 虚拟环境，为 .py 工具提供隔离环境
-└── requirements.txt            # (自动维护) 补充 Python 工具运行所需的核心依赖
-
+│   ├── rules/                  # 存放被拉取下来的 .md 规则文件（按类别分类归档）
+│   │   ├── common/
+│   │   └── typescript/
+│   ├── opencode.jsonc          # OpenCode 核心配置文件
+│   │                           # (vibe 会自动管理其中的 "tools": {...} 和 "instructions": [...])
+│   └── vibe-lock.json          # 内部状态锁文件，精准记录资源来源仓库、版本与更新时间戳
+├── .venv/                      # (按需自动创建) 隔离的 Python 虚拟环境
+└── requirements.txt            # (按需自动维护) Python 脚本所需的依赖清单
 ```
 
 ---
 
 ## 🛠️ 开发者指南 (Development)
 
-本项目使用 Bun 进行包管理和运行。
+本项目底层基于 [Bun](https://bun.sh/) 构建，拥有极速的执行与打包体验。
 
 ```bash
-# 1. 安装依赖
+# 1. 安装项目依赖
 bun install
 
-# 2. 本地开发运行 CLI
+# 2. 本地调试运行 CLI
 bun run dev --help
 
-# 3. 类型检查
+# 3. 严格类型检查
 bun run typecheck
 
 # 4. 构建生产版本 (输出至 ./dist)
 bun run build
-
 ```
 
 ## 📄 许可证 (License)
