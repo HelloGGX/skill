@@ -2,138 +2,160 @@
 
 # 🌊 Vibe Coding CLI
 
-**专为 OpenCode 打造的 vibe coding 生态构建工具**
+**A vibe coding ecosystem builder tailored for OpenCode**
 
-[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](./package.json)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
-[![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?logo=bun&logoColor=white)](https://bun.sh)
-
-[English](#) · **简体中文**
+**English** · [简体中文](./README.zh.md)
 
 </div>
 
-## 📖 简介 (Introduction)
+## 📖 Introduction
 
-`vibe-coding-cli` 是一个专为 **OpenCode** 平台打造的现代命令行脚手架工具。它的核心目标是快速搭建 Vibe Coding 的开发环境，简化规范驱动开发的资源管理。
+`vibe-coding-cli` is a modern command-line scaffolding tool built specifically for the **OpenCode** platform. Its core objective is to quickly set up a Vibe Coding development environment and simplify resource management for specification-driven development.
 
-通过 `vibe` 命令，你可以一键拉取远程 GitHub 仓库中的 TypeScript/Python 工具脚本或 Markdown 规则文件，自动将其无缝注册到 OpenCode 配置中，并接管其底层的运行依赖环境，让你专注于“与 AI 共创代码”本身。
+With the `vibe` command, you can pull TypeScript/Python tool scripts or Markdown rule files from remote GitHub repositories with a single click. It automatically and seamlessly registers them into your OpenCode configuration and manages the underlying runtime dependency environments, allowing you to focus entirely on "co-creating code with AI".
 
-## ✨ 核心特性 (Features)
+## ✨ Features
 
-- 🛠 **全自动化工具管理**: 支持从任意 GitHub 仓库快速解析、选择并下载 `.ts` / `.py` 脚本至本地 `.opencode/tool/` 目录，开箱即用。
-- 📜 **集成 Vibe Coding 所需的一切**: 独创的生态聚合能力，将 Agent 执行所需的 **Capabilities（工具与技能）** 与 **Context（行为准则与最佳实践）** 完美融合。支持按需安装 `.md` 规则文件，让 AI 真正懂你的架构意图与代码规范。
-- 📦 **智能配置注入**: 自动拦截并更新 `.opencode/opencode.jsonc`，无感注入工具的启用开关与 Prompt 指令（instructions）路径，彻底告别繁琐的手动配置。
-- ⚡ **并行极速更新**: 基于并发模型设计，同时处理多个源仓库的资源对比与拉取，大幅缩短多依赖场景下的更新等待时间。
-- 🪄 **标准技能聚合**: 与 Vercel 的 `pnpx skills` 生态深度集成，在统一的 CLI 流程中同时管理标准 Agent 技能库和本地化扩展资源。
+* 🛠 **Fully Automated Tool Management:** Quickly parse, select, and download `.ts` / `.py` scripts from any GitHub repository straight to your local `.opencode/tool/` directory, ready to use out of the box.
+* 📜 **Integrates Everything You Need for Vibe Coding:** A unique ecosystem aggregation capability that perfectly blends the **Capabilities (tools and skills)** needed for Agent execution with the **Context (guidelines and best practices)**. Supports on-demand installation of `.md` rule files so the AI truly understands your architectural intent and coding standards.
+* 📦 **Smart Configuration Injection:** Automatically intercepts and updates `.opencode/opencode.jsonc`, silently injecting tool enable-switches and Prompt instruction paths. Say goodbye to tedious manual configuration forever.
+* ⚡ **Lightning-Fast Parallel Updates:** Designed with a concurrency model to simultaneously handle resource comparison and pulling from multiple source repositories, drastically reducing update wait times in multi-dependency scenarios.
+* 🪄 **Standard Skills Aggregation:** Deeply integrated with Vercel's `pnpx skills` ecosystem, allowing you to manage standard Agent skill libraries alongside localized extension resources within a unified CLI workflow.
 
 ---
 
-## 🚀 快速开始 (Quick Start)
+## 🚀 Quick Start
 
-### 安装
+### Installation
 
-作为全局包安装（推荐使用 npm 或 bun）：
+Install as a global package (npm or bun recommended):
 
 ```bash
-# 使用 npm
+# Using npm
 npm install -g vibe-coding-cli
 
-# 使用 bun
+# Using bun
 bun add -g vibe-coding-cli
+
 ```
 
-### 基础用法
+### Basic Usage
 
-初始化并添加一个生态库（例如本项目的 `helloggx/skill`）：
+Initialize and add an ecosystem library (e.g., `helloggx/skill` from this project):
 
 ```bash
 vibe add helloggx/skill
+
 ```
 
-*此命令将会弹出交互式菜单，允许你灵活多选想要安装的 **Tools (工具)** 和 **Rules (规则)**，CLI 将会自动为你完成所有环境的配置。*
+*This command will pop up an interactive menu, allowing you to flexibly select the **Tools** and **Rules** you want to install. The CLI will automatically configure the entire environment for you.*
 
 ---
 
-## 📚 命令指南 (Commands)
+## 📚 Commands
 
-### 1. 添加资源 (`add` / `a`)
+### 1. Add Resources (`add` / `a`)
 
 ```bash
 vibe add <repository>
+
 ```
 
-**执行流程**:
+**Execution Flow**:
 
-1. 调用原生能力，安装目标仓库中的基础 Agent 技能。
-2. 克隆并解析目标仓库中的 `skill`、`tool` 和 `rules` 资产目录。
-3. 唤起交互式多选列表，按需挑选具体的工具脚本和规则文档。
-4. 自动执行文件拷贝、智能合并公共规则、更新 `opencode.jsonc` 并配置 Python 依赖环境（如需）。
+1. Invokes native capabilities to install basic Agent skills from the target repository.
+2. Clones and parses the `skill`, `tool`, and `rules` asset directories in the target repository.
+3. Triggers an interactive multi-select list to pick specific tool scripts and rule documents on demand.
+4. Automatically executes file copying, intelligently merges common rules, updates `opencode.jsonc`, and configures the Python dependency environment (if needed).
 
-### 2. 查看已安装项 (`list` / `ls`)
+### 2. List Installed Items (`list` / `ls`)
 
 ```bash
 vibe list
+
 ```
 
-**功能**:
-清晰打印当前项目中安装的所有资源态势图，包含：
+**Function**:
+Clearly prints a status map of all installed resources in the current project, including:
 
-* 🛠️ 本地扩展工具 (Local Tools)
-* 📜 注入的上下文规则 (Local Rules)
-* 🪄 全局标准技能 (Standard Skills)
+* 🛠️ Local Tools
+* 📜 Injected Context Rules (Local Rules)
+* 🪄 Global Standard Skills
 
-### 3. 一键同步更新 (`update` / `up`)
+### 3. One-Click Sync & Update (`update` / `up`)
 
 ```bash
 vibe update
+
 ```
 
-**功能**:
-一键执行工作区全量更新。CLI 会并发拉取 `vibe-lock.json` 中记录的所有源仓库，智能比对并覆盖最新的本地脚本和规则文件，同时触发标准技能库的升级。
+**Function**:
+Executes a full workspace update with one click. The CLI will concurrently pull all source repositories recorded in `vibe-lock.json`, intelligently compare and overwrite the latest local scripts and rule files, and simultaneously trigger an upgrade of the standard skills library.
+
+### 4. Remove Resources (`remove` / `rm`)
+
+```bash
+# Interactive mode: Pops up a UI list to select tools and rules to remove
+vibe remove
+
+# Shortcut mode: Directly specify the resource to remove (supports standard skills and local tools/rules)
+vibe remove <resource>
+
+```
+
+**Execution Flow**:
+
+1. Invokes native capabilities to remove standard Agent skills from the target repository (via `pnpx skills remove`).
+2. Parses the list of installed resources in the local `vibe-lock.json`.
+3. **Interactive Mode**: Pops up a multi-select list, allowing you to choose specific tools and rule categories for removal.
+4. **Shortcut Mode**: Directly matches and removes local tool/rule files based on the passed arguments.
+5. Automatically cleans up the corresponding physical files (`.opencode/tool/` and `.opencode/rules/`) and synchronously updates the `opencode.jsonc` configuration.
 
 ---
 
-## 📂 目录与配置规范 (Workspace Structure)
+## 📂 Workspace Structure
 
-运行 `vibe add` 后，工具将在你的项目根目录下自动创建并维护以下标准 Vibe Coding 结构：
+After running `vibe add`, the tool will automatically create and maintain the following standard Vibe Coding structure in your project's root directory:
 
 ```text
 your-project/
 ├── .opencode/
-│   ├── tool/                   # 存放被拉取下来的底层 .ts / .py 工具脚本
-│   │   ├── get_dsl.ts
-│   │   └── ...
-│   ├── rules/                  # 存放被拉取下来的 .md 规则文件（按类别分类归档）
-│   │   ├── common/
-│   │   └── typescript/
-│   ├── opencode.jsonc          # OpenCode 核心配置文件
-│   │                           # (vibe 会自动管理其中的 "tools": {...} 和 "instructions": [...])
-│   └── vibe-lock.json          # 内部状态锁文件，精准记录资源来源仓库、版本与更新时间戳
-├── .venv/                      # (按需自动创建) 隔离的 Python 虚拟环境
-└── requirements.txt            # (按需自动维护) Python 脚本所需的依赖清单
+│   ├── tool/                   # Stores the pulled underlying .ts / .py tool scripts
+│   │   ├── get_dsl.ts
+│   │   └── ...
+│   ├── rules/                  # Stores the pulled .md rule files (categorized by type)
+│   │   ├── common/
+│   │   └── typescript/
+│   ├── opencode.jsonc          # Core OpenCode configuration file
+│   │                           # (vibe automatically manages "tools": {...} and "instructions": [...] inside)
+│   └── vibe-lock.json          # Internal state lock file, accurately recording resource sources, versions, and update timestamps
+├── .venv/                      # (Auto-created as needed) Isolated Python virtual environment
+└── requirements.txt            # (Auto-maintained as needed) Dependency list required for Python scripts
+
 ```
 
 ---
 
-## 🛠️ 开发者指南 (Development)
+## 🛠️ Development
 
-本项目底层基于 [Bun](https://bun.sh/) 构建，拥有极速的执行与打包体验。
+This project is built on top of [Bun](https://bun.sh/), offering a lightning-fast execution and bundling experience.
 
 ```bash
-# 1. 安装项目依赖
+# 1. Install project dependencies
 bun install
 
-# 2. 本地调试运行 CLI
+# 2. Run CLI locally for debugging
 bun run dev --help
 
-# 3. 严格类型检查
+# 3. Strict type checking
 bun run typecheck
 
-# 4. 构建生产版本 (输出至 ./dist)
+# 4. Build production version (outputs to ./dist)
 bun run build
+
 ```
 
-## 📄 许可证 (License)
+## 📄 License
 
-本项目采用 [MIT License](https://www.google.com/search?q=../../LICENSE.md) 进行开源。
+This project is open-sourced under the [MIT License](https://www.google.com/search?q=../../LICENSE.md).
 © 2026 [HelloGGX](https://github.com/HelloGGX)
