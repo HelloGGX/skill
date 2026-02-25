@@ -3,14 +3,28 @@ import { execSync } from "child_process"
 import { existsSync, mkdirSync, cpSync, writeFileSync, readFileSync, readdirSync } from "fs"
 import path from "path"
 import { cloneRepo, cleanupTempDir, GitCloneError } from "./git"
-import { OPENCODE_DIR, TOOL_SUBDIR, LOCK_FILE, CONFIG_FILE, YELLOW, CYAN, RESET, BG_CYAN, GREEN } from "./constants"
+import {
+  OPENCODE_DIR,
+  TOOL_SUBDIR,
+  RULES_SUBDIR,
+  LOCK_FILE,
+  CONFIG_FILE,
+  RESET,
+  CYAN,
+  BG_CYAN,
+  GREEN,
+  YELLOW,
+  DIM,
+  TEXT,
+} from "./constants"
 
 // ==========================================
-// 2. 状态管理 (Lockfile & Config)
+// 状态管理 (Lockfile & Config)
 // ==========================================
 export interface VibeLock {
   version: number
   tools: Record<string, { source: string; installedAt: string }>
+  rules?: Record<string, { source: string; installedAt: string }>
 }
 
 function getLockFilePath() {
@@ -20,9 +34,13 @@ function getLockFilePath() {
 export function readLockFile(): VibeLock {
   const lockPath = getLockFilePath()
   try {
-    if (existsSync(lockPath)) return JSON.parse(readFileSync(lockPath, "utf-8"))
+    if (existsSync(lockPath)) {
+      const parsed = JSON.parse(readFileSync(lockPath, "utf-8"))
+      if (!parsed.rules) parsed.rules = {}
+      return parsed
+    }
   } catch (e) {}
-  return { version: 1, tools: {} }
+  return { version: 1, tools: {}, rules: {} }
 }
 
 export function writeLockFile(lockData: VibeLock) {
@@ -37,10 +55,13 @@ export function ensureOpencodeConfig() {
   const configDir = path.dirname(configPath)
 
   if (!existsSync(configDir)) mkdirSync(configDir, { recursive: true })
+
+  // 如果配置文件不存在，则写入带有 instructions 的默认纯净模板
   if (!existsSync(configPath)) {
     const jsoncContent = `{
   "$schema": "https://opencode.ai/config.json",
   "theme": "one-dark",
+  "instructions": [],
   "mcp": {
     "shadcnVue": { "type": "local", "enabled": true, "command": ["npx", "shadcn-vue@latest", "mcp"] },
     "context7": { "type": "remote", "url": "https://mcp.context7.com/mcp" }
@@ -80,13 +101,44 @@ export function updateOpencodeConfigTools(newTools: string[]) {
   }
 }
 
+// 接收路径数组，依次注入到 instructions
+export function updateOpencodeConfigInstructions(rulePaths: string[]) {
+  if (rulePaths.length === 0) return
+  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
+  if (!existsSync(configPath)) return
+
+  try {
+    const content = readFileSync(configPath, "utf-8")
+    let safeJsonStr = content.replace(/"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (m) =>
+      m.startsWith('"') ? m : "",
+    )
+    safeJsonStr = safeJsonStr.replace(/,\s*([\]}])/g, "$1")
+
+    const config = JSON.parse(safeJsonStr)
+    config.instructions = config.instructions || []
+
+    let updated = false
+    for (const rulePath of rulePaths) {
+      if (!config.instructions.includes(rulePath)) {
+        config.instructions.push(rulePath)
+        updated = true
+      }
+    }
+
+    if (updated) writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8")
+  } catch (e) {
+    console.error(
+      `\n${YELLOW}Warning: Failed to inject instructions into opencode.jsonc. ${(e as Error).message}${RESET}`,
+    )
+  }
+}
+
 // ==========================================
-// 3. 核心业务逻辑 (拆分出的独立执行单元)
+// 核心业务逻辑
 // ==========================================
 
-function copyToolFiles(toolName: string, sourceDir: string, targetDir: string): boolean {
+export function copyToolFiles(toolName: string, sourceDir: string, targetDir: string): boolean {
   let hasPython = false
-
   const tsFile = `${toolName}.ts`
   const pyFile = `${toolName}.py`
 
@@ -98,8 +150,42 @@ function copyToolFiles(toolName: string, sourceDir: string, targetDir: string): 
     cpSync(srcPy, path.join(targetDir, pyFile), { recursive: true })
     hasPython = true
   }
-
   return hasPython
+}
+
+// 原样拷贝文件夹，并返回相对路径列表
+export function installRules(categories: string[], rulesSourceDir: string, targetRulesDir: string): string[] {
+  if (!existsSync(targetRulesDir)) mkdirSync(targetRulesDir, { recursive: true })
+
+  const installedRulePaths: string[] = []
+
+  // 1. 拷贝 common 目录 (作为所有规则的基础)
+  const commonSource = path.join(rulesSourceDir, "common")
+  const commonTarget = path.join(targetRulesDir, "common")
+  if (existsSync(commonSource)) {
+    if (!existsSync(commonTarget)) mkdirSync(commonTarget, { recursive: true })
+    const files = readdirSync(commonSource).filter((f) => f.endsWith(".md"))
+    for (const file of files) {
+      cpSync(path.join(commonSource, file), path.join(commonTarget, file))
+      installedRulePaths.push(`./${RULES_SUBDIR}/common/${file}`)
+    }
+  }
+
+  // 2. 拷贝选中的特定类别目录
+  for (const category of categories) {
+    const catSource = path.join(rulesSourceDir, category)
+    const catTarget = path.join(targetRulesDir, category)
+    if (existsSync(catSource)) {
+      if (!existsSync(catTarget)) mkdirSync(catTarget, { recursive: true })
+      const files = readdirSync(catSource).filter((f) => f.endsWith(".md"))
+      for (const file of files) {
+        cpSync(path.join(catSource, file), path.join(catTarget, file))
+        installedRulePaths.push(`./${RULES_SUBDIR}/${category}/${file}`)
+      }
+    }
+  }
+
+  return installedRulePaths
 }
 
 function setupPythonEnvironment(rootDir: string, spinner: ReturnType<typeof p.spinner>) {
@@ -126,15 +212,15 @@ function setupPythonEnvironment(rootDir: string, spinner: ReturnType<typeof p.sp
 
     const pipCmd =
       process.platform === "win32" ? path.join(venvPath, "Scripts", "pip") : path.join(venvPath, "bin", "pip")
-    spinner.message(`Installing Python dependencies (requests, urllib3, dotenv)...`)
+    spinner.message(`Installing Python dependencies...`)
     execSync(`"${pipCmd}" install -r "${reqPath}"`, { stdio: "ignore" })
   } catch (pyError) {
-    p.log.warn(`⚠️ Failed to initialize Python environment. Manual setup required for requirements.txt`)
+    p.log.warn(`⚠️ Failed to initialize Python environment. Manual setup required.`)
   }
 }
 
 // ==========================================
-// 4. Add 命令入口 (Orchestrator)
+// Add 命令入口
 // ==========================================
 export async function runAdd(args: string[]) {
   const repository = args[0]
@@ -148,7 +234,6 @@ export async function runAdd(args: string[]) {
   p.intro(`${BG_CYAN} vibe cli ${RESET}`)
   p.note(`Repository: ${CYAN}${repoUrl}${RESET}\nTarget: ${CYAN}${OPENCODE_DIR}${RESET}`, "Initializing")
 
-  // Step 1: Install standard skills (锁定为 opencode)
   p.log.step("Executing standard skills installer (pnpx skills add)...")
   try {
     execSync(`pnpx skills add ${repository} --agent opencode`, { stdio: "inherit" })
@@ -156,9 +241,8 @@ export async function runAdd(args: string[]) {
     p.log.warn("Skills installer finished with warnings.")
   }
 
-  // Step 2: Fetch and Parse Remote Tools
   const s = p.spinner()
-  s.start("Fetching remote tools list...")
+  s.start("Fetching remote repository...")
   let tempDir: string | null = null
 
   try {
@@ -166,75 +250,111 @@ export async function runAdd(args: string[]) {
     s.stop("Remote repository parsed.")
 
     const toolDirPath = path.join(tempDir, "tool")
-    if (!existsSync(toolDirPath)) {
-      return p.log.warn('No "tool" directory found in repository.')
+    const rulesDirPath = path.join(tempDir, "rules")
+
+    const hasTools = existsSync(toolDirPath)
+    const hasRules = existsSync(rulesDirPath)
+
+    if (!hasTools && !hasRules) {
+      return p.log.warn('Neither "tool" nor "rules" directory found in repository.')
     }
 
-    const availableTools = readdirSync(toolDirPath)
-      .filter((f) => f.endsWith(".ts"))
-      .map((f) => f.replace(/\.ts$/, ""))
+    let selectedTools: string[] = []
+    let selectedRules: string[] = []
 
-    if (availableTools.length === 0) {
-      return p.log.info('Remote "tool" directory has no TypeScript (.ts) tools.')
+    // --- 交互 1: 选 Tools ---
+    if (hasTools) {
+      const availableTools = readdirSync(toolDirPath)
+        .filter((f) => f.endsWith(".ts"))
+        .map((f) => f.replace(/\.ts$/, ""))
+
+      if (availableTools.length > 0) {
+        const result = await p.multiselect({
+          message: "Select tools to install (space to toggle)",
+          options: availableTools.map((t) => ({ value: t, label: t })),
+          required: false,
+        })
+        if (p.isCancel(result)) return p.cancel("Installation cancelled.")
+        if (Array.isArray(result)) selectedTools = result as string[]
+      }
     }
 
-    // Step 3: User Selection
-    const selectedTools = await p.multiselect({
-      message: "Select tools to install (space to toggle)",
-      options: availableTools.map((t) => ({ value: t, label: t })),
-      required: false,
-    })
+    // --- 交互 2: 选 Rules ---
+    if (hasRules) {
+      const availableRules = readdirSync(rulesDirPath, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory() && dirent.name !== "common")
+        .map((dirent) => dirent.name)
 
-    if (p.isCancel(selectedTools)) {
-      p.cancel("Tool installation cancelled.")
+      if (availableRules.length > 0) {
+        const result = await p.multiselect({
+          message: "Select rule categories to install (space to toggle)",
+          options: availableRules.map((r) => ({ value: r, label: r })),
+          required: false,
+        })
+        if (p.isCancel(result)) return p.cancel("Installation cancelled.")
+        if (Array.isArray(result)) selectedRules = result as string[]
+      }
+    }
+
+    if (selectedTools.length === 0 && selectedRules.length === 0) {
+      p.cancel("No tools or rules selected.")
       return
     }
 
-    if (!Array.isArray(selectedTools) || selectedTools.length === 0) {
-      p.cancel("No tools selected.")
-      return
-    }
-
-    // Step 4: Execution (Copy files, update state, setup env)
     const installSpinner = p.spinner()
-    installSpinner.start(`Installing tools to .opencode/tool/ ...`)
-
-    const targetDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
-    if (!existsSync(targetDir)) mkdirSync(targetDir, { recursive: true })
+    installSpinner.start(`Installing to ${OPENCODE_DIR}/ ...`)
 
     const lockData = readLockFile()
     const now = new Date().toISOString()
     let requiresPython = false
 
-    for (const tool of selectedTools) {
-      const toolName = tool as string
+    // 👈 核心修复：在这里提前确保 opencode.jsonc 和基础节点被创建
+    ensureOpencodeConfig()
 
-      const hasPy = copyToolFiles(toolName, toolDirPath, targetDir)
-      if (hasPy) requiresPython = true
+    // --- 执行: Tools ---
+    if (selectedTools.length > 0) {
+      const targetToolDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
+      if (!existsSync(targetToolDir)) mkdirSync(targetToolDir, { recursive: true })
 
-      lockData.tools[toolName] = { source: repoUrl, installedAt: now }
+      for (const tool of selectedTools) {
+        const hasPy = copyToolFiles(tool, toolDirPath, targetToolDir)
+        if (hasPy) requiresPython = true
+        if (lockData.tools) lockData.tools[tool] = { source: repoUrl, installedAt: now }
+      }
+
+      // 现在写入时，文件已经存在，可以正常注入了
+      updateOpencodeConfigTools(selectedTools)
+    }
+
+    // --- 执行: Rules ---
+    if (selectedRules.length > 0) {
+      const targetRulesDir = path.join(process.cwd(), OPENCODE_DIR, RULES_SUBDIR)
+      const installedRulePaths = installRules(selectedRules, rulesDirPath, targetRulesDir)
+
+      for (const rule of selectedRules) {
+        if (!lockData.rules) lockData.rules = {}
+        lockData.rules[rule] = { source: repoUrl, installedAt: now }
+      }
+
+      // 现在写入时，文件已经存在，可以正常注入了
+      updateOpencodeConfigInstructions(installedRulePaths)
     }
 
     writeLockFile(lockData)
-    ensureOpencodeConfig()
-    updateOpencodeConfigTools(selectedTools as string[])
 
     if (requiresPython) {
       setupPythonEnvironment(process.cwd(), installSpinner)
     }
 
-    await new Promise((r) => setTimeout(r, 400)) // UI 缓冲
-    installSpinner.stop(`${GREEN}Successfully installed and configured ${selectedTools.length} tools.${RESET}`)
+    const totalInstalled = selectedTools.length + selectedRules.length
+    installSpinner.stop(`${GREEN}Successfully installed ${totalInstalled} items.${RESET}`)
   } catch (error) {
-    s.stop("Failed to fetch tools.")
-    if (error instanceof GitCloneError) {
-      p.log.error(`${YELLOW}Git Error:${RESET}\n${error.message}`)
-    } else {
-      p.log.error(`Error: ${(error as Error).message}`)
-    }
+    s.stop("Failed to fetch repository.")
+    if (error instanceof GitCloneError) p.log.error(`${YELLOW}Git Error:${RESET}\n${error.message}`)
+    else p.log.error(`Error: ${(error as Error).message}`)
   } finally {
     if (tempDir) await cleanupTempDir(tempDir).catch(() => {})
   }
 
-  p.outro(`✨ Workspace updated for ${CYAN}.opencode${RESET}`)
+  p.outro(`✨ Workspace updated for ${CYAN}${OPENCODE_DIR}${RESET}`)
 }

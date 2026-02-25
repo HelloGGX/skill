@@ -10,6 +10,7 @@ export const UNIVERSAL_SKILLS_DIR = ".agents/skills"
 // ==========================================
 export const OPENCODE_DIR = ".opencode"
 export const TOOL_SUBDIR = "tool"
+export const RULES_SUBDIR = "rules"
 export const LOCK_FILE = "vibe-lock.json"
 export const CONFIG_FILE = "opencode.jsonc"
 
