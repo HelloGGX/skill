@@ -156,7 +156,7 @@ export default defineConfig({
 
     # 7. Setup Shadcn
     run_command_silent(
-        ["bunx", "--bun", "shadcn-vue@latest", "init", "-y", "-d"], cwd=project_path
+        ["npx", "shadcn-vue@latest", "init", "-y", "-d"], cwd=project_path
     )
 
     shadcn_deps = [
@@ -171,7 +171,7 @@ export default defineConfig({
 
     # 8. Add Components
     run_command_silent(
-        ["bunx", "--bun", "shadcn-vue@latest", "add", "button", "-y"], cwd=project_path
+        ["npx", "shadcn-vue@latest", "add", "button", "-y"], cwd=project_path
     )
 
     # 8.1 Install Pinia & Vue Query
