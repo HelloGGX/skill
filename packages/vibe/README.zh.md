@@ -4,6 +4,7 @@
 
 **专为 OpenCode 打造的 vibe coding 生态构建工具**
 
+[![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
 [![npm version](https://img.shields.io/npm/v/@vibe-coder/cli.svg?style=flat-square)](https://www.npmjs.com/package/@vibe-coder/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](../../LICENSE.md)
 [![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=flat-square&logo=bun&logoColor=white)](https://bun.sh)
@@ -123,6 +124,19 @@ your-project/
 ```
 
 ---
+
+
+## 🤝 融入生态 (Join the Ecosystem)
+
+如果你的开源项目（如 Agent Skills、Tools 或 Rules）兼容并使用了 vibe-coding 规范，欢迎在你的 `README.md` 中挂上这枚专属徽章，向社区展示你的前卫品味！
+
+复制以下 Markdown 代码即可添加到你的项目中：
+
+```markdown
+[![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
+```
+(挂上徽章后，你将有机会被收录进官方的名人堂精选列表！)
+
 
 ## 🛠️ 开发者指南 (Development)
 

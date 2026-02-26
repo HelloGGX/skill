@@ -3,6 +3,20 @@ import { runList } from "./commands/list"
 import { runUpdate } from "./commands/update"
 import { runRemove } from "./commands/remove"
 import { RESET, BOLD, CYAN, DIM, TEXT } from "./constants"
+import { join } from "node:path"
+import { readFileSync } from "node:fs"
+
+function getVersion(): string {
+  try {
+    const pkgPath = join(__dirname, "..", "package.json")
+    const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"))
+    return pkg.version
+  } catch {
+    return "0.0.0"
+  }
+}
+
+const VERSION = getVersion()
 
 const VIBE_LOGO = [
   "██╗   ██╗██╗██████╗ ███████╗",
@@ -15,22 +29,22 @@ const VIBE_LOGO = [
 
 // 256-color middle grays - visible on both light and dark backgrounds
 const GRAYS = [
-  '\x1b[38;5;250m', // lighter gray
-  '\x1b[38;5;248m',
-  '\x1b[38;5;245m', // mid gray
-  '\x1b[38;5;243m',
-  '\x1b[38;5;240m',
-  '\x1b[38;5;238m', // darker gray
-];
+  "\x1b[38;5;250m", // lighter gray
+  "\x1b[38;5;248m",
+  "\x1b[38;5;245m", // mid gray
+  "\x1b[38;5;243m",
+  "\x1b[38;5;240m",
+  "\x1b[38;5;238m", // darker gray
+]
 
 function showLogo(): void {
-  console.log();
+  console.log()
   VIBE_LOGO.forEach((line, i) => {
     // 确保 i 不会越界，虽然这里刚好都是 6 行
-    const color = GRAYS[i] || GRAYS[GRAYS.length - 1]; 
-    console.log(`${color}${line}${RESET}`);
-  });
-  console.log();
+    const color = GRAYS[i] || GRAYS[GRAYS.length - 1]
+    console.log(`${color}${line}${RESET}`)
+  })
+  console.log()
 }
 
 function showBanner() {
@@ -41,6 +55,7 @@ function showBanner() {
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe list${RESET}                ${DIM}List installed tools & skills${RESET}`)
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe update${RESET}              ${DIM}Update installed tools & skills${RESET}`)
   console.log(`  ${DIM}$${RESET} ${TEXT}vibe remove${RESET}              ${DIM}Remove tools & rules${RESET}`)
+  console.log(`  ${DIM}$${RESET} ${TEXT}vibe version${RESET}             ${DIM}Show version${RESET}`)
   console.log()
   console.log(`${DIM}Example:${RESET} vibe add helloggx/skill`)
   console.log()
@@ -60,6 +75,7 @@ ${BOLD}Manage Tools & Skills:${RESET}
 
 ${BOLD}Options:${RESET}
   --help, -h        Show this help message
+  --version, -v     Show version number
 
 ${BOLD}Examples:${RESET}
   ${DIM}$${RESET} vibe add helloggx/skill
@@ -91,7 +107,7 @@ async function main() {
       showLogo()
       await runAdd(args.slice(1))
       break
-    case "rm":         // 👈 接入路由
+    case "rm": // 👈 接入路由
     case "remove":
       console.clear()
       await runRemove(args.slice(1))
@@ -104,10 +120,13 @@ async function main() {
     case "update":
       await runUpdate(args.slice(1))
       break
-    case "--help":
-    case "-h":
+    case "h":
     case "help":
       showHelp()
+      break
+    case "v":
+    case "version":
+      console.log(VERSION)
       break
     default:
       console.log(`${CYAN}vibe:${RESET} Unknown command '${command}'`)

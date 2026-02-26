@@ -1,6 +1,6 @@
 {
   "name": "@vibe-coder/cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vibe Coding development tool",
   "private": false,
   "type": "module",
