@@ -1,9 +1,15 @@
 {
   "name": "@vibe-coder/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vibe Coding development tool",
   "private": false,
   "type": "module",
+  "author": "HelloGGX",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HelloGGX/skill.git"
+  },
   "bin": {
     "vibe": "./bin/vibe"
   },
@@ -22,7 +28,8 @@
   "keywords": [
     "cli",
     "agent-skills",
-    "skills"
+    "skills",
+    "vibe-coding"
   ],
   "dependencies": {
     "@clack/prompts": "^1.0.1",
@@ -33,5 +40,9 @@
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/HelloGGX/skill/issues"
+  },
+  "homepage": "https://github.com/HelloGGX/skill#readme"
 }

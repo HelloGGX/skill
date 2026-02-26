@@ -4,39 +4,48 @@
 
 **A vibe coding ecosystem builder tailored for OpenCode**
 
+[![npm version](https://img.shields.io/npm/v/@vibe-coder/cli.svg?style=flat-square)](https://www.npmjs.com/package/@vibe-coder/cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](../../LICENSE.md)
+[![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=flat-square&logo=bun&logoColor=white)](https://bun.sh)
+
 **English** · [简体中文](https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.zh.md)
+
+> *Seamlessly aggregate AI tools and context rules, making your Agent truly understand your codebase.*
 
 </div>
 
 ## 📖 Introduction
 
-`vibe-coding-cli` is a modern command-line scaffolding tool built specifically for the **OpenCode** platform. Its core objective is to quickly set up a Vibe Coding development environment and simplify resource management for specification-driven development.
+`@vibe-coder/cli` is a modern command-line scaffolding tool built specifically for the **OpenCode** platform. Its core objective is to quickly set up a Vibe Coding development environment and simplify resource management for specification-driven development.
 
-With the `vibe` command, you can pull TypeScript/Python tool scripts or Markdown rule files from remote GitHub repositories with a single click. It automatically and seamlessly registers them into your OpenCode configuration and manages the underlying runtime dependency environments, allowing you to focus entirely on "co-creating code with AI".
+With the `vibe` command, you can pull TypeScript/Python tool scripts or Markdown rule files from remote GitHub repositories with a single click. It seamlessly registers them into your OpenCode configuration and manages the underlying runtime dependency environments, allowing you to focus entirely on "co-creating code with AI."
 
 ## ✨ Features
 
-* 🛠 **Fully Automated Tool Management:** Quickly parse, select, and download `.ts` / `.py` scripts from any GitHub repository straight to your local `.opencode/tool/` directory, ready to use out of the box.
-* 📜 **Integrates Everything You Need for Vibe Coding:** A unique ecosystem aggregation capability that perfectly blends the **Capabilities (tools and skills)** needed for Agent execution with the **Context (guidelines and best practices)**. Supports on-demand installation of `.md` rule files so the AI truly understands your architectural intent and coding standards.
-* 📦 **Smart Configuration Injection:** Automatically intercepts and updates `.opencode/opencode.jsonc`, silently injecting tool enable-switches and Prompt instruction paths. Say goodbye to tedious manual configuration forever.
-* ⚡ **Lightning-Fast Parallel Updates:** Designed with a concurrency model to simultaneously handle resource comparison and pulling from multiple source repositories, drastically reducing update wait times in multi-dependency scenarios.
-* 🪄 **Standard Skills Aggregation:** Deeply integrated with Vercel's `pnpx skills` ecosystem, allowing you to manage standard Agent skill libraries alongside localized extension resources within a unified CLI workflow.
+* 🛠 **Fully Automated Tool Management:** Quickly parse, select, and download `.ts` / `.py` scripts from any GitHub repository straight to your local setup, ready to use out of the box.
+* 📜 **Context & Capabilities United:** A unique ecosystem aggregation capability that perfectly blends the **tools/skills** needed for Agent execution with your **guidelines and best practices**. Supports on-demand installation of `.md` rule files so the AI truly understands your architectural intent.
+* 📦 **Smart Configuration Injection:** Automatically intercepts and updates `.opencode/opencode.jsonc`, silently injecting tool enable-switches and Prompt instruction paths. Say goodbye to manual configuration forever.
+* ⚡ **Lightning-Fast Parallel Updates:** Designed with a concurrency model to simultaneously handle resource comparison and pulling from multiple source repositories, drastically reducing update wait times.
+* 🪄 **Standard Skills Aggregation:** Deeply integrated with Vercel's `pnpx skills` ecosystem, allowing you to manage standard Agent skill libraries alongside local extension resources within a unified CLI workflow.
 
 ---
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+* [Node.js](https://www.google.com/search?q=https://nodejs.org/) >= 18.0.0 or [Bun](https://bun.sh/) >= 1.0.0
+
 ### Installation
 
-Install as a global package (npm or bun recommended):
+Install as a global package:
 
 ```bash
 # Using npm
-npm install -g vibe-coding-cli
+npm i -g @vibe-coder/cli
 
 # Using bun
-bun add -g vibe-coding-cli
-
+bun add -g @vibe-coder/cli
 ```
 
 ### Basic Usage
@@ -45,117 +54,89 @@ Initialize and add an ecosystem library (e.g., `helloggx/skill` from this projec
 
 ```bash
 vibe add helloggx/skill
-
 ```
 
-*This command will pop up an interactive menu, allowing you to flexibly select the **Tools** and **Rules** you want to install. The CLI will automatically configure the entire environment for you.*
+*The CLI will pop up an interactive menu, allowing you to flexibly select the **Tools** and **Rules** you want to install, automatically configuring the entire environment for you.*
 
 ---
 
 ## 📚 Commands
 
-### 1. Add Resources (`add` / `a`)
+| Command | Alias | Description |
+| --- | --- | --- |
+| `vibe add <repo>` | `a` | Parses the target GitHub repository, pops up a UI list, installs selected tools and rules on demand, and automatically injects configurations. |
+| `vibe list` | `ls` | Prints a clear status map of all installed resources (local tools, context rules, global standard skills) in the current project. |
+| `vibe update` | `up` | Concurrently pulls all source repositories recorded in `vibe-lock.json`, intelligently comparing and overwriting local scripts and rules. |
+| `vibe remove [resource]` | `rm` | **No arguments:** Opens a UI multi-select list to remove local items.<br>
 
-```bash
-vibe add <repository>
+<br>**With arguments:** Quickly matches and removes specified standard skills or local tools, cleaning up configurations synchronously. |
 
-```
+---
 
-**Execution Flow**:
+## 🏗️ Build Your Own Resource Repository
 
-1. Invokes native capabilities to install basic Agent skills from the target repository.
-2. Clones and parses the `skill`, `tool`, and `rules` asset directories in the target repository.
-3. Triggers an interactive multi-select list to pick specific tool scripts and rule documents on demand.
-4. Automatically executes file copying, intelligently merges common rules, updates `opencode.jsonc`, and configures the Python dependency environment (if needed).
+We highly encourage you or your team to create a dedicated Vibe Coding resource repository on GitHub to standardize your favorite AI tools and custom coding guidelines across all your projects.
 
-### 2. List Installed Items (`list` / `ls`)
+### Recommended Directory Structure
 
-```bash
-vibe list
+To ensure perfect compatibility with `@vibe-coder/cli`, we recommend the following convention (referencing the `helloggx/skill` repository):
 
-```
-
-**Function**:
-Clearly prints a status map of all installed resources in the current project, including:
-
-* 🛠️ Local Tools
-* 📜 Injected Context Rules (Local Rules)
-* 🪄 Global Standard Skills
-
-### 3. One-Click Sync & Update (`update` / `up`)
-
-```bash
-vibe update
-
-```
-
-**Function**:
-Executes a full workspace update with one click. The CLI will concurrently pull all source repositories recorded in `vibe-lock.json`, intelligently compare and overwrite the latest local scripts and rule files, and simultaneously trigger an upgrade of the standard skills library.
-
-### 4. Remove Resources (`remove` / `rm`)
-
-```bash
-# Interactive mode: Pops up a UI list to select tools and rules to remove
-vibe remove
-
-# Shortcut mode: Directly specify the resource to remove (supports standard skills and local tools/rules)
-vibe remove <resource>
+```text
+your-custom-repo/
+├── skill/                  # (Optional) Standard Vercel AI Agent skills
+├── tool/                   # Custom TS/Python executable tools
+│   ├── get_dsl.ts
+│   ├── get_dsl.py          # 💡 Python scripts should share the exact name as the TS tool calling them
+│   └── shadcn_vue_init.ts
+└── rules/                  # Personalized Markdown context rules
+    ├── common/             # Global rules applicable to all projects
+    │   ├── coding-style.md
+    │   └── security.md
+    └── typescript/         # Tech-stack specific rules
+        └── coding-style.md # 💡 Recommended to share the name with the extended common rule
 
 ```
 
-**Execution Flow**:
+### Organization Best Practices
 
-1. Invokes native capabilities to remove standard Agent skills from the target repository (via `pnpx skills remove`).
-2. Parses the list of installed resources in the local `vibe-lock.json`.
-3. **Interactive Mode**: Pops up a multi-select list, allowing you to choose specific tools and rule categories for removal.
-4. **Shortcut Mode**: Directly matches and removes local tool/rule files based on the passed arguments.
-5. Automatically cleans up the corresponding physical files (`.opencode/tool/` and `.opencode/rules/`) and synchronously updates the `opencode.jsonc` configuration.
+* **Cross-Language Tool Linkage**: If your `.ts` tool script relies on an underlying `.py` script, **ensure both files share the exact same base name** (e.g., `get_dsl.ts` and `get_dsl.py`). The CLI intelligently detects and pulls both files together.
+* **Rule Inheritance & Overrides**:
+* Always place your global, universal coding rules in the `rules/common/` directory.
+* When creating tech-stack specific rules (e.g., under `rules/typescript/`) that need to inherit from a `common` rule, it is highly recommended to **use the exact same file name** and explicitly state the inheritance at the top of the file:
+*> This file extends [common/coding-style.md](https://www.google.com/search?q=../common/coding-style.md) with TypeScript specific content.*
+
+
 
 ---
 
 ## 📂 Workspace Structure
 
-After running `vibe add`, the tool will automatically create and maintain the following standard Vibe Coding structure in your project's root directory:
+After running `vibe add`, the tool will automatically take over and maintain the following structure in your project's root directory:
 
 ```text
 your-project/
 ├── .opencode/
-│   ├── tool/                   # Stores the pulled underlying .ts / .py tool scripts
-│   │   ├── get_dsl.ts
-│   │   └── ...
-│   ├── rules/                  # Stores the pulled .md rule files (categorized by type)
-│   │   ├── common/
-│   │   └── typescript/
-│   ├── opencode.jsonc          # Core OpenCode configuration file
-│   │                           # (vibe automatically manages "tools": {...} and "instructions": [...] inside)
-│   └── vibe-lock.json          # Internal state lock file, accurately recording resource sources, versions, and update timestamps
-├── .venv/                      # (Auto-created as needed) Isolated Python virtual environment
-└── requirements.txt            # (Auto-maintained as needed) Dependency list required for Python scripts
-
+│   ├── tool/                   # Pulled underlying .ts / .py tool scripts
+│   ├── rules/                  # Pulled .md rule files (categorized by type)
+│   ├── opencode.jsonc          # Core OpenCode config (CLI auto-injects tool switches and paths)
+│   └── vibe-lock.json          # State lock file, accurately recording resource sources and versions
+├── .venv/                      # (Auto-created as needed) Isolated Python virtual environment
+└── requirements.txt            # (Auto-maintained as needed) Python script dependencies
 ```
 
 ---
 
 ## 🛠️ Development
 
-This project is built on top of [Bun](https://bun.sh/), offering a lightning-fast execution and bundling experience.
+This project is built on top of the lightning-fast [Bun](https://bun.sh/) runtime.
 
 ```bash
-# 1. Install project dependencies
-bun install
-
-# 2. Run CLI locally for debugging
-bun run dev --help
-
-# 3. Strict type checking
-bun run typecheck
-
-# 4. Build production version (outputs to ./dist)
-bun run build
-
+bun install             # 1. Install dependencies
+bun run dev --help      # 2. Local debugging
+bun run typecheck       # 3. Type checking
+bun run build           # 4. Build production version (outputs to ./dist)
 ```
 
 ## 📄 License
 
-This project is open-sourced under the [MIT License](https://www.google.com/search?q=../../LICENSE.md).
-© 2026 [HelloGGX](https://github.com/HelloGGX)
+[MIT License](https://www.google.com/search?q=../../LICENSE.md) © 2026 [HelloGGX](https://github.com/HelloGGX)
