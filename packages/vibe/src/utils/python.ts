@@ -9,7 +9,7 @@ export function setupPythonEnvironment(rootDir: string, spinner: ReturnType<type
   try {
     const reqPath = path.join(rootDir, "requirements.txt")
     const reqContent = `# 核心依赖\nrequests>=2.28.0\nurllib3>=1.26.0\npython-dotenv>=0.19.0\n`
-    
+
     if (!existsSync(reqPath)) {
       writeFileSync(reqPath, reqContent, "utf-8")
     } else {
@@ -26,7 +26,8 @@ export function setupPythonEnvironment(rootDir: string, spinner: ReturnType<type
       }
     }
 
-    const pipCmd = process.platform === "win32" ? path.join(venvPath, "Scripts", "pip") : path.join(venvPath, "bin", "pip")
+    const pipCmd =
+      process.platform === "win32" ? path.join(venvPath, "Scripts", "pip") : path.join(venvPath, "bin", "pip")
     spinner.message(`Installing Python dependencies...`)
     execSync(`"${pipCmd}" install -r "${reqPath}"`, { stdio: "ignore" })
   } catch (pyError) {
@@ -37,5 +38,12 @@ export function setupPythonEnvironment(rootDir: string, spinner: ReturnType<type
 
 export function getPythonActivationCmd(): string {
   const isWin = process.platform === "win32"
-  return isWin ? ".\\.venv\\Scripts\\Activate.ps1" : "source .venv/bin/activate"
+  if (isWin) {
+    return `# Windows CMD 
+venv\\Scripts\\activate.bat
+
+# Windows PowerShell
+.\\.venv\\Scripts\\Activate.ps1`
+  }
+  return "source .venv/bin/activate"
 }
