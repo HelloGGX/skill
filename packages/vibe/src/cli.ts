@@ -120,12 +120,12 @@ async function main() {
     case "update":
       await runUpdate(args.slice(1))
       break
-    case "h":
-    case "help":
+    case "-h":
+    case "--help":
       showHelp()
       break
-    case "v":
-    case "version":
+    case "-v":
+    case "--version":
       console.log(VERSION)
       break
     default:
