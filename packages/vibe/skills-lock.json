@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "code-review-expert": {
+      "source": "helloggx/skill",
+      "sourceType": "github",
+      "computedHash": "571527ce1c72bcc8dab8a309c21a018e937e3081347c94e742359bab00e7ca8c"
+    }
+  }
+}
