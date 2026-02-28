@@ -3,8 +3,12 @@ import { runList } from "./commands/list"
 import { runUpdate } from "./commands/update"
 import { runRemove } from "./commands/remove"
 import { RESET, BOLD, CYAN, DIM, TEXT } from "./constants"
-import { join } from "node:path"
+import { fileURLToPath } from "node:url"
+import { join, dirname } from "node:path"
 import { readFileSync } from "node:fs"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 function getVersion(): string {
   try {
