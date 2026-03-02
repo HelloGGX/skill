@@ -1,22 +1,26 @@
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from "fs"
 import path from "path"
+import { parse as parseJsonc } from "jsonc-parser"
 import { OPENCODE_DIR, LOCK_FILE, CONFIG_FILE, YELLOW, RESET, RULES_SUBDIR } from "../constants"
 import type { VibeLock, OpencodeConfig } from "../types"
 import { ErrorSeverity, handleExecError } from "./error"
 
-// 内部工具：安全解析 JSONC（去除注释和尾随逗号）
-function parseJsonc<T>(content: string): T {
-  let safeJsonStr = content.replace(/"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (m) => m.startsWith('"') ? m : '')
-  safeJsonStr = safeJsonStr.replace(/,\s*([\]}])/g, '$1')
-  return JSON.parse(safeJsonStr)
+/**
+ * Get the path to the vibe lock file
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ * @returns Absolute path to vibe-lock.json
+ */
+export function getLockFilePath(cwd?: string) {
+  return path.join(cwd || process.cwd(), OPENCODE_DIR, LOCK_FILE)
 }
 
-export function getLockFilePath() {
-  return path.join(process.cwd(), OPENCODE_DIR, LOCK_FILE)
-}
-
-export function readLockFile(): VibeLock {
-  const lockPath = getLockFilePath()
+/**
+ * Read and parse the vibe lock file
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ * @returns Parsed lock file data, or empty lock file if not found
+ */
+export function readLockFile(cwd?: string): VibeLock {
+  const lockPath = getLockFilePath(cwd)
   try {
     if (existsSync(lockPath)) {
       const parsed = JSON.parse(readFileSync(lockPath, "utf-8"))
@@ -36,8 +40,13 @@ export function readLockFile(): VibeLock {
   return createEmptyLockFile()
 }
 
-export function writeLockFile(lockData: VibeLock) {
-  const lockPath = getLockFilePath()
+/**
+ * Write lock file data to disk with sorted entries
+ * @param lockData - Lock file data to write
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ */
+export function writeLockFile(lockData: VibeLock, cwd?: string) {
+  const lockPath = getLockFilePath(cwd)
   const dir = path.dirname(lockPath)
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
   
@@ -52,6 +61,76 @@ export function writeLockFile(lockData: VibeLock) {
   // Add trailing newline for better git diffs
   const content = JSON.stringify(sorted, null, 2) + '\n'
   writeFileSync(lockPath, content, "utf-8")
+}
+
+/**
+ * Update lock file with a transaction-like pattern
+ * Reads current state, applies updater function, and writes back atomically
+ * 
+ * @param updater - Function that modifies the lock data
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ * 
+ * @example
+ * ```ts
+ * updateLockFile((lock) => {
+ *   lock.tools['new-tool'] = { source: 'owner/repo', sourceType: 'github' }
+ * })
+ * ```
+ */
+export function updateLockFile(updater: (lock: VibeLock) => void, cwd?: string): void {
+  const lockData = readLockFile(cwd)
+  updater(lockData)
+  writeLockFile(lockData, cwd)
+}
+
+/**
+ * Batch update lock file entries in a single transaction
+ * Supports adding, updating, and removing skills, tools, and rules
+ * 
+ * @param updates - Object containing updates to apply
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ * 
+ * @example
+ * ```ts
+ * batchUpdateLockFile({
+ *   skills: { 'new-skill': { source: 'owner/repo', sourceType: 'github' } },
+ *   removeTools: ['old-tool']
+ * })
+ * ```
+ */
+export interface LockFileUpdate {
+  skills?: Record<string, VibeLock['skills'][string]>
+  tools?: Record<string, VibeLock['tools'][string]>
+  rules?: Record<string, VibeLock['rules'][string]>
+  removeSkills?: string[]
+  removeTools?: string[]
+  removeRules?: string[]
+}
+
+export function batchUpdateLockFile(updates: LockFileUpdate, cwd?: string): void {
+  updateLockFile((lock) => {
+    // Add or update entries
+    if (updates.skills) {
+      Object.assign(lock.skills, updates.skills)
+    }
+    if (updates.tools) {
+      Object.assign(lock.tools, updates.tools)
+    }
+    if (updates.rules) {
+      Object.assign(lock.rules, updates.rules)
+    }
+    
+    // Remove entries
+    if (updates.removeSkills) {
+      updates.removeSkills.forEach(name => delete lock.skills[name])
+    }
+    if (updates.removeTools) {
+      updates.removeTools.forEach(name => delete lock.tools[name])
+    }
+    if (updates.removeRules) {
+      updates.removeRules.forEach(name => delete lock.rules[name])
+    }
+  }, cwd)
 }
 
 function sortObject<T>(obj: Record<string, T>): Record<string, T> {
@@ -71,8 +150,14 @@ function createEmptyLockFile(): VibeLock {
   }
 }
 
-export function ensureOpencodeConfig() {
-  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
+/**
+ * Ensure OpenCode configuration directory and file exist
+ * Creates default config if not present, does not overwrite existing config
+ * 
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ */
+export function ensureOpencodeConfig(cwd?: string) {
+  const configPath = path.join(cwd || process.cwd(), OPENCODE_DIR, CONFIG_FILE)
   const configDir = path.dirname(configPath)
   
   if (!existsSync(configDir)) mkdirSync(configDir, { recursive: true })
@@ -93,16 +178,23 @@ export function ensureOpencodeConfig() {
   }
 }
 
-// 统一更新 opencode.jsonc 中的 tools 和 instructions
-export function updateOpencodeConfig(newTools: string[], newRulePaths: string[]) {
+/**
+ * Update opencode.jsonc configuration with new tools and rule paths
+ * Parses JSONC (with comments), adds entries, and writes back
+ * 
+ * @param newTools - Array of tool names to add
+ * @param newRulePaths - Array of rule file paths to add to instructions
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ */
+export function updateOpencodeConfig(newTools: string[], newRulePaths: string[], cwd?: string) {
   if (newTools.length === 0 && newRulePaths.length === 0) return;
   
-  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
+  const configPath = path.join(cwd || process.cwd(), OPENCODE_DIR, CONFIG_FILE)
   if (!existsSync(configPath)) return;
 
   try {
     const content = readFileSync(configPath, "utf-8")
-    const config = parseJsonc<OpencodeConfig>(content)
+    const config = parseJsonc(content) as OpencodeConfig
     let updated = false
 
     if (newTools.length > 0) {
@@ -131,16 +223,23 @@ export function updateOpencodeConfig(newTools: string[], newRulePaths: string[])
   }
 }
 
-// 🌟 新增：从 opencode.jsonc 中移除 tools 和 instructions
-export function removeOpencodeConfig(toolsToRemove: string[], rulesToRemove: string[]) {
+/**
+ * Remove tools and rules from opencode.jsonc configuration
+ * Parses JSONC, removes specified entries, and writes back
+ * 
+ * @param toolsToRemove - Array of tool names to remove
+ * @param rulesToRemove - Array of rule categories to remove from instructions
+ * @param cwd - Optional working directory, defaults to process.cwd()
+ */
+export function removeOpencodeConfig(toolsToRemove: string[], rulesToRemove: string[], cwd?: string) {
   if (toolsToRemove.length === 0 && rulesToRemove.length === 0) return;
 
-  const configPath = path.join(process.cwd(), OPENCODE_DIR, CONFIG_FILE)
+  const configPath = path.join(cwd || process.cwd(), OPENCODE_DIR, CONFIG_FILE)
   if (!existsSync(configPath)) return;
 
   try {
     const content = readFileSync(configPath, "utf-8")
-    const config = parseJsonc<OpencodeConfig>(content)
+    const config = parseJsonc(content) as OpencodeConfig
     let updated = false
 
     // 1. 从 tools 字典中删除对应的 key

@@ -15,6 +15,19 @@ export const LOCK_FILE = "vibe-lock.json"
 export const CONFIG_FILE = "opencode.jsonc"
 
 // ==========================================
+// Git 相关常量
+// ==========================================
+export const CLONE_TIMEOUT_MS = 60000 // 60 seconds
+export const GIT_TERMINAL_PROMPT = "0"
+
+// ==========================================
+// 文件排除规则
+// ==========================================
+export const EXCLUDE_FILES = new Set(['metadata.json'])
+export const EXCLUDE_DIRS = new Set(['.git', 'node_modules', '__pycache__', '.venv'])
+export const EXCLUDE_FILE_PREFIXES = ['_']
+
+// ==========================================
 // 颜色定义
 // ==========================================
 export const BOLD = "\x1b[1m"

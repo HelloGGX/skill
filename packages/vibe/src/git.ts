@@ -2,8 +2,7 @@ import simpleGit from "simple-git"
 import { join, normalize, resolve, sep } from "path"
 import { mkdtemp, rm } from "fs/promises"
 import { tmpdir } from "os"
-
-const CLONE_TIMEOUT_MS = 60000 // 60 seconds
+import { CLONE_TIMEOUT_MS, GIT_TERMINAL_PROMPT } from "./constants"
 
 export class GitCloneError extends Error {
   readonly url: string
@@ -21,7 +20,7 @@ export class GitCloneError extends Error {
 
 export async function cloneRepo(url: string, ref?: string): Promise<string> {
   const tempDir = await mkdtemp(join(tmpdir(), "skills-"))
-  process.env.GIT_TERMINAL_PROMPT = "0"
+  process.env.GIT_TERMINAL_PROMPT = GIT_TERMINAL_PROMPT
   const git = simpleGit({
     timeout: { block: CLONE_TIMEOUT_MS },
   })
