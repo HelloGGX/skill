@@ -7,13 +7,13 @@ import { copyToolFiles, installRules } from "../utils/file"
 import { setupPythonEnvironment, getPythonActivationCmd } from "../utils/python"
 import { ErrorSeverity, handleExecError } from "../utils/error"
 import { ensureBunInstalled, ensurePythonInstalled } from "../utils/env"
+import { computeFolderHash, computeFilesHash } from "../utils/hash"
 import { OPENCODE_DIR, TOOL_SUBDIR, RULES_SUBDIR, RESET, CYAN, BG_CYAN, GREEN } from "../constants"
 import {
   discoverSkills,
   installSkill,
   parseSource,
   getOwnerRepo,
-  addSkillToLock,
   getSkillDisplayName
 } from "../skills"
 
@@ -142,21 +142,25 @@ export async function runAdd(args: string[]) {
     installSpinner.start(`Installing to ${OPENCODE_DIR}/ ...`)
 
     ensureOpencodeConfig()
-    const lockData = readLockFile()
-    const now = new Date().toISOString()
     let installedRulePaths: string[] = []
+
+    // 读取现有的 lock 文件
+    const lockData = readLockFile()
 
     // Install Skills
     if (selectedSkills.length > 0) {
       for (const skill of selectedSkills) {
         const result = await installSkill(skill)
-        if (result.success) {
-          await addSkillToLock(skill.name, {
+        if (result.success && result.path) {
+          // Compute hash of installed skill directory
+          const computedHash = await computeFolderHash(result.path)
+          
+          lockData.skills[skill.name] = {
             source: ownerRepo || repoUrl,
             sourceType: parsed.type,
-            sourceUrl: repoUrl,
-            skillPath: parsed.subpath
-          })
+            skillPath: parsed.subpath,
+            computedHash
+          }
         }
       }
     }
@@ -168,7 +172,19 @@ export async function runAdd(args: string[]) {
 
       for (const tool of selectedTools) {
         copyToolFiles(tool, toolDirPath, targetToolDir)
-        if (lockData.tools) lockData.tools[tool] = { source: repoUrl, installedAt: now }
+        
+        // Compute hash of installed tool files (.ts and .py)
+        const toolFiles = [
+          path.join(targetToolDir, `${tool}.ts`),
+          path.join(targetToolDir, `${tool}.py`)
+        ]
+        const computedHash = await computeFilesHash(toolFiles)
+        
+        lockData.tools[tool] = { 
+          source: repoUrl,
+          sourceType: parsed.type,
+          computedHash
+        }
       }
     }
 
@@ -178,14 +194,23 @@ export async function runAdd(args: string[]) {
       installedRulePaths = installRules(selectedRules, rulesDirPath, targetRulesDir)
 
       for (const rule of selectedRules) {
-        if (!lockData.rules) lockData.rules = {}
-        lockData.rules[rule] = { source: repoUrl, installedAt: now }
+        // Compute hash of installed rule directory
+        const ruleDir = path.join(targetRulesDir, rule)
+        const computedHash = await computeFolderHash(ruleDir)
+        
+        lockData.rules[rule] = { 
+          source: repoUrl,
+          sourceType: parsed.type,
+          computedHash
+        }
       }
     }
 
-    // Update config and lock files
-    updateOpencodeConfig(selectedTools, installedRulePaths)
+    // 统一写入 lock 文件
     writeLockFile(lockData)
+
+    // Update config
+    updateOpencodeConfig(selectedTools, installedRulePaths)
 
     if (requiresPython) setupPythonEnvironment(process.cwd(), installSpinner)
 

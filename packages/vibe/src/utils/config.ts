@@ -20,19 +20,55 @@ export function readLockFile(): VibeLock {
   try {
     if (existsSync(lockPath)) {
       const parsed = JSON.parse(readFileSync(lockPath, "utf-8"))
-      if (!parsed.rules) parsed.rules = {}
+      
+      // Ensure all required fields exist
+      if (typeof parsed.version !== 'number') {
+        return createEmptyLockFile()
+      }
+      
+      if (!parsed.skills) parsed.skills = {}
       if (!parsed.tools) parsed.tools = {}
+      if (!parsed.rules) parsed.rules = {}
+      
       return parsed
     }
   } catch (e) {}
-  return { version: 1, tools: {}, rules: {} }
+  return createEmptyLockFile()
 }
 
 export function writeLockFile(lockData: VibeLock) {
   const lockPath = getLockFilePath()
   const dir = path.dirname(lockPath)
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-  writeFileSync(lockPath, JSON.stringify(lockData, null, 2), "utf-8")
+  
+  // Sort all entries alphabetically for deterministic output / clean diffs
+  const sorted: VibeLock = {
+    version: lockData.version,
+    skills: sortObject(lockData.skills),
+    tools: sortObject(lockData.tools),
+    rules: sortObject(lockData.rules)
+  }
+  
+  // Add trailing newline for better git diffs
+  const content = JSON.stringify(sorted, null, 2) + '\n'
+  writeFileSync(lockPath, content, "utf-8")
+}
+
+function sortObject<T>(obj: Record<string, T>): Record<string, T> {
+  const sorted: Record<string, T> = {}
+  for (const key of Object.keys(obj).sort()) {
+    sorted[key] = obj[key]!
+  }
+  return sorted
+}
+
+function createEmptyLockFile(): VibeLock {
+  return {
+    version: 1,
+    skills: {},
+    tools: {},
+    rules: {}
+  }
 }
 
 export function ensureOpencodeConfig() {

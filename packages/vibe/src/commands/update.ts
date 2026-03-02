@@ -5,6 +5,7 @@ import { cloneRepo, cleanupTempDir } from "../git"
 import { readLockFile, writeLockFile } from "../utils/config"
 import { copyToolFiles, installRules } from "../utils/file"
 import { handleExecError, ErrorSeverity } from "../utils/error"
+import { computeFolderHash, computeFilesHash } from "../utils/hash"
 import { OPENCODE_DIR, TOOL_SUBDIR, RULES_SUBDIR, RESET, CYAN, DIM, TEXT, BOLD, GREEN } from "../constants"
 import {
   getSkillsBySource,
@@ -55,7 +56,6 @@ export async function runUpdate(args: string[]) {
   const targetToolDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
   const targetRulesDir = path.join(process.cwd(), OPENCODE_DIR, RULES_SUBDIR)
   const skillsDir = getOpencodeSkillsDir()
-  const now = new Date().toISOString()
 
   const sourcesCount = Object.keys(itemsBySource).length
 
@@ -83,16 +83,17 @@ export async function runUpdate(args: string[]) {
             if (existsSync(skillMdPath)) {
               const skill = await parseSkillMd(skillMdPath)
               if (skill) {
-                await installSkill(skill)
-
-                // Update lock file timestamp
-                const lockEntry = lockData.skills?.[skillName]
-                if (lockEntry) {
-                  lockEntry.updatedAt = now
+                const result = await installSkill(skill)
+                if (result.success && result.path) {
+                  // Update hash in lock file
+                  const computedHash = await computeFolderHash(result.path)
+                  if (lockData.skills[skillName]) {
+                    lockData.skills[skillName].computedHash = computedHash
+                  }
+                  
+                  successCount++
+                  logs.push(`  ${GREEN}✓${RESET} Updated skill: ${skillName}`)
                 }
-
-                successCount++
-                logs.push(`  ${GREEN}✓${RESET} Updated skill: ${skillName}`)
               }
             }
           }
@@ -102,7 +103,17 @@ export async function runUpdate(args: string[]) {
         if (items.tools.length > 0 && existsSync(path.join(tempDir, "tool"))) {
           for (const tool of items.tools) {
             copyToolFiles(tool, path.join(tempDir, "tool"), targetToolDir)
-            if (lockData.tools[tool]) lockData.tools[tool].installedAt = now
+            
+            // Update hash in lock file
+            const toolFiles = [
+              path.join(targetToolDir, `${tool}.ts`),
+              path.join(targetToolDir, `${tool}.py`)
+            ]
+            const computedHash = await computeFilesHash(toolFiles)
+            if (lockData.tools[tool]) {
+              lockData.tools[tool].computedHash = computedHash
+            }
+            
             successCount++
             logs.push(`  ${GREEN}✓${RESET} Updated tool: ${tool}`)
           }
@@ -112,7 +123,13 @@ export async function runUpdate(args: string[]) {
         if (items.rules.length > 0 && existsSync(path.join(tempDir, "rules"))) {
           installRules(items.rules, path.join(tempDir, "rules"), targetRulesDir)
           for (const rule of items.rules) {
-            if (lockData.rules![rule]) lockData.rules![rule].installedAt = now
+            // Update hash in lock file
+            const ruleDir = path.join(targetRulesDir, rule)
+            const computedHash = await computeFolderHash(ruleDir)
+            if (lockData.rules[rule]) {
+              lockData.rules[rule].computedHash = computedHash
+            }
+            
             successCount++
             logs.push(`  ${GREEN}✓${RESET} Updated rule: ${rule}`)
           }

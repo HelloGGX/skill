@@ -7,7 +7,6 @@ import { ErrorSeverity, handleExecError } from "../utils/error"
 import {
   listInstalledSkills,
   removeSkill,
-  removeSkillFromLock,
 } from "../skills"
 
 export async function runRemove(args: string[]) {
@@ -91,21 +90,25 @@ export async function runRemove(args: string[]) {
     const targetToolDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
     const targetRulesDir = path.join(process.cwd(), OPENCODE_DIR, RULES_SUBDIR)
 
+    // Remove skills
     for (const skill of skillsToRemove) {
       await removeSkill(skill)
-      await removeSkillFromLock(skill)
+      delete lockData.skills[skill]
     }
 
+    // Remove tools
     for (const tool of toolsToRemove) {
       removeToolFiles(tool, targetToolDir)
       delete lockData.tools[tool]
     }
 
+    // Remove rules
     for (const rule of rulesToRemove) {
       removeRuleCategory(rule, targetRulesDir)
-      delete lockData.rules![rule]
+      delete lockData.rules[rule]
     }
 
+    // 统一写入 lock 文件
     removeOpencodeConfig(toolsToRemove, rulesToRemove)
     writeLockFile(lockData)
 

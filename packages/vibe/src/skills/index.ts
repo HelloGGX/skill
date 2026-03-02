@@ -1,7 +1,6 @@
 export { discoverSkills, parseSkillMd, getSkillDisplayName, filterSkills } from './parser'
 export { installSkill, removeSkill, listInstalledSkills, getInstallPath, isSkillInstalled, getOpencodeSkillsDir, sanitizeName } from './installer'
-export { addSkillToLock, removeSkillFromLock, getSkillFromLock, getAllLockedSkills, getSkillsBySource, readSkillLock, writeSkillLock } from './skill-lock'
+export { getAllLockedSkills, getSkillsBySource } from './skill-lock'
 export { parseSource, getOwnerRepo } from './source-parser'
 export type { ParsedSource } from './source-parser'
 export type { InstallResult } from './installer'
-export type { SkillLockFile } from './skill-lock'
