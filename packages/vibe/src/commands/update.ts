@@ -1,65 +1,104 @@
 import * as p from "@clack/prompts"
-import { execSync } from "child_process"
 import { existsSync } from "fs"
 import path from "path"
 import { cloneRepo, cleanupTempDir } from "../git"
 import { readLockFile, writeLockFile } from "../utils/config"
 import { copyToolFiles, installRules } from "../utils/file"
 import { handleExecError, ErrorSeverity } from "../utils/error"
-import { OPENCODE_DIR, TOOL_SUBDIR, RULES_SUBDIR, RESET, CYAN, DIM, TEXT, BOLD, GREEN, YELLOW } from "../constants"
+import { OPENCODE_DIR, TOOL_SUBDIR, RULES_SUBDIR, RESET, CYAN, DIM, TEXT, BOLD, GREEN } from "../constants"
+import {
+  getSkillsBySource,
+  installSkill,
+  parseSkillMd,
+  getOpencodeSkillsDir,
+  sanitizeName
+} from "../skills"
 
 export async function runUpdate(args: string[]) {
-  // 1. 更新标准 Skills
-  console.log(`\n${BOLD}🪄  Updating Standard Skills...${RESET}\n`)
-  try { 
-    execSync("pnpx skills update", { stdio: "inherit" }) 
-  } catch (error) { 
-    handleExecError(error, "Failed to update standard skills", ErrorSeverity.WARN) 
-  }
-
-  // 2. 准备更新本地 Tools & Rules
-  console.log(`\n${BOLD}📦  Updating Local Tools & Rules...${RESET}\n`)
+  console.log(`\n${BOLD}📦  Updating Skills, Tools & Rules...${RESET}\n`)
 
   const lockData = readLockFile()
+  const skillsBySource = await getSkillsBySource()
   const toolNames = Object.keys(lockData.tools || {})
   const ruleNames = Object.keys(lockData.rules || {})
 
-  if (toolNames.length === 0 && ruleNames.length === 0) {
-    return console.log(`  ${DIM}No local items to update.${RESET}\n`)
+  if (skillsBySource.size === 0 && toolNames.length === 0 && ruleNames.length === 0) {
+    return console.log(`  ${DIM}No items to update.${RESET}\n`)
   }
 
-  // 将依赖按源仓库分组
-  const itemsBySource: Record<string, { tools: string[], rules: string[] }> = {}
-  toolNames.forEach(t => { 
-    const s = lockData.tools[t]?.source; 
-    if (s) { itemsBySource[s] = itemsBySource[s] || { tools: [], rules: [] }; itemsBySource[s].tools.push(t) } 
+  // Group tools and rules by source
+  const itemsBySource: Record<string, { tools: string[], rules: string[], skills: string[] }> = {}
+
+  // Add skills grouped by source
+  for (const [source, data] of skillsBySource) {
+    itemsBySource[source] = { tools: [], rules: [], skills: data.skills }
+  }
+
+  // Add tools grouped by source
+  toolNames.forEach(t => {
+    const s = lockData.tools[t]?.source
+    if (s) {
+      if (!itemsBySource[s]) itemsBySource[s] = { tools: [], rules: [], skills: [] }
+      itemsBySource[s].tools.push(t)
+    }
   })
-  ruleNames.forEach(r => { 
-    const s = lockData.rules![r]?.source; 
-    if (s) { itemsBySource[s] = itemsBySource[s] || { tools: [], rules: [] }; itemsBySource[s].rules.push(r) } 
+
+  // Add rules grouped by source
+  ruleNames.forEach(r => {
+    const s = lockData.rules![r]?.source
+    if (s) {
+      if (!itemsBySource[s]) itemsBySource[s] = { tools: [], rules: [], skills: [] }
+      itemsBySource[s].rules.push(r)
+    }
   })
 
   const targetToolDir = path.join(process.cwd(), OPENCODE_DIR, TOOL_SUBDIR)
   const targetRulesDir = path.join(process.cwd(), OPENCODE_DIR, RULES_SUBDIR)
+  const skillsDir = getOpencodeSkillsDir()
   const now = new Date().toISOString()
-  
+
   const sourcesCount = Object.keys(itemsBySource).length
-  
-  // 启动一个总的 Spinner，避免终端并发闪烁
+
   const s = p.spinner()
   s.start(`Fetching from ${CYAN}${sourcesCount}${RESET} source(s) concurrently...`)
 
-  // 3. 构建并行处理任务
+  // Build parallel update tasks
   const updatePromises = Object.entries(itemsBySource).map(
     async ([source, items]) => {
       let tempDir: string | null = null
       let successCount = 0
-      const logs: string[] = [] // 收集当前源的更新日志
-      
+      const logs: string[] = []
+
       try {
         tempDir = await cloneRepo(source)
-        
-        // 更新 Tools
+
+        // Update Skills
+        if (items.skills.length > 0) {
+          for (const skillName of items.skills) {
+            const sanitized = sanitizeName(skillName)
+            const skillDir = path.join(skillsDir, sanitized)
+
+            // Try to find the skill in the cloned repo
+            const skillMdPath = path.join(tempDir, 'SKILL.md')
+            if (existsSync(skillMdPath)) {
+              const skill = await parseSkillMd(skillMdPath)
+              if (skill) {
+                await installSkill(skill)
+
+                // Update lock file timestamp
+                const lockEntry = lockData.skills?.[skillName]
+                if (lockEntry) {
+                  lockEntry.updatedAt = now
+                }
+
+                successCount++
+                logs.push(`  ${GREEN}✓${RESET} Updated skill: ${skillName}`)
+              }
+            }
+          }
+        }
+
+        // Update Tools
         if (items.tools.length > 0 && existsSync(path.join(tempDir, "tool"))) {
           for (const tool of items.tools) {
             copyToolFiles(tool, path.join(tempDir, "tool"), targetToolDir)
@@ -69,7 +108,7 @@ export async function runUpdate(args: string[]) {
           }
         }
 
-        // 更新 Rules
+        // Update Rules
         if (items.rules.length > 0 && existsSync(path.join(tempDir, "rules"))) {
           installRules(items.rules, path.join(tempDir, "rules"), targetRulesDir)
           for (const rule of items.rules) {
@@ -78,7 +117,7 @@ export async function runUpdate(args: string[]) {
             logs.push(`  ${GREEN}✓${RESET} Updated rule: ${rule}`)
           }
         }
-        
+
         return { source, success: true, count: successCount, logs }
       } catch (err) {
         return { source, success: false, count: 0, error: err, logs: [] }
@@ -88,13 +127,13 @@ export async function runUpdate(args: string[]) {
     }
   )
 
-  // 4. 等待所有源并行处理完毕
+  // Wait for all sources to complete
   const results = await Promise.allSettled(updatePromises)
   s.stop(`Finished fetching from ${sourcesCount} source(s).`)
 
-  // 5. 统一结算并打印日志
+  // Process results and print logs
   let totalSuccessCount = 0
-  
+
   for (const result of results) {
     if (result.status === "fulfilled") {
       const { source, success, count, logs, error } = result.value
@@ -105,15 +144,14 @@ export async function runUpdate(args: string[]) {
         handleExecError(error, `Failed to fetch from ${source}`, ErrorSeverity.WARN)
       }
     } else {
-      // 捕获未预料到的 Promise 崩溃
       handleExecError(result.reason, "Unexpected error during concurrent update", ErrorSeverity.ERROR)
     }
   }
 
-  // 统一回写锁文件
+  // Write lock file once at the end
   writeLockFile(lockData)
-  
+
   if (totalSuccessCount > 0) {
-    console.log(`${TEXT}✓ Successfully updated ${totalSuccessCount} local item(s)${RESET}\n`)
+    console.log(`${TEXT}✓ Successfully updated ${totalSuccessCount} item(s)${RESET}\n`)
   }
 }
