@@ -36,6 +36,8 @@ export interface VibeLock {
   tools: Record<string, VibeLockEntry>
   /** Map of rule name to its lock entry */
   rules: Record<string, VibeLockEntry>
+  /** Map of agent name to its lock entry */
+  agents: Record<string, VibeLockEntry>
 }
 
 export interface SkillLockEntry {
@@ -46,6 +48,14 @@ export interface SkillLockEntry {
 }
 
 export interface Skill {
+  name: string
+  description: string
+  path: string
+  rawContent: string
+  metadata?: any
+}
+
+export interface Agent {
   name: string
   description: string
   path: string

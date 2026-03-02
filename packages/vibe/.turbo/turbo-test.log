@@ -1,0 +1,21 @@
+$ vitest run
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/aiProj/skill/packages/vibe[39m
+
+ [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/utils/error.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 146[2mms[22m[39m
+ [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 186[2mms[22m[39m
+ [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 281[2mms[22m[39m
+ [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 302[2mms[22m[39m
+ [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 205[2mms[22m[39m
+ [32m✓[39m src/git.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3036[2mms[22m[39m
+       [33m[2m✓[22m[39m should throw GitCloneError for invalid repository [33m 1667[2mms[22m[39m
+       [33m[2m✓[22m[39m should throw GitCloneError with auth error for private repo without credentials [33m 1338[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[32m140 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m 22:04:30
+[2m   Duration [22m 3.90s[2m (transform 1.33s, setup 0ms, import 2.35s, tests 4.27s, environment 2ms)[22m
+

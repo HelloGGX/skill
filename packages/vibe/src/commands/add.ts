@@ -16,6 +16,11 @@ import {
   getOwnerRepo,
   getSkillDisplayName
 } from "../skills"
+import {
+  discoverAgents,
+  installAgent,
+  getAgentDisplayName
+} from "../agents"
 
 export async function runAdd(args: string[]) {
   const repository = args[0]
@@ -38,22 +43,24 @@ export async function runAdd(args: string[]) {
   let tempDir: string | null = null
 
   try {
-    // 1. Clone repository
+    // 1. Clone repository (with retry mechanism)
     tempDir = await cloneRepo(repoUrl, parsed.ref)
-    s.stop("Remote repository parsed.")
+    s.stop("Remote repository fetched successfully.")
 
     // 2. Discover skills in the repository
     const skills = await discoverSkills(tempDir, parsed.subpath)
 
     const toolDirPath = path.join(tempDir, "tool")
     const rulesDirPath = path.join(tempDir, "rules")
+    const agentsDirPath = path.join(tempDir, "agents")
     const hasTools = existsSync(toolDirPath)
     const hasRules = existsSync(rulesDirPath)
     const hasSkills = skills.length > 0
+    const hasAgents = existsSync(agentsDirPath)
 
-    if (!hasTools && !hasRules && !hasSkills) {
+    if (!hasTools && !hasRules && !hasSkills && !hasAgents) {
       return handleExecError(
-        new Error("No skills, tools, or rules found in repository."),
+        new Error("No skills, tools, rules, or agents found in repository."),
         "Parse Error",
         ErrorSeverity.WARN,
       )
@@ -62,6 +69,7 @@ export async function runAdd(args: string[]) {
     let selectedSkills: typeof skills = []
     let selectedTools: string[] = []
     let selectedRules: string[] = []
+    let selectedAgents: Awaited<ReturnType<typeof discoverAgents>> = []
 
     // 3. UI interaction: Select Skills
     if (hasSkills) {
@@ -110,11 +118,29 @@ export async function runAdd(args: string[]) {
       }
     }
 
-    if (selectedSkills.length === 0 && selectedTools.length === 0 && selectedRules.length === 0) {
-      return p.cancel("No skills, tools, or rules selected.")
+    // 6. UI interaction: Select Agents
+    if (hasAgents) {
+      const agents = await discoverAgents(agentsDirPath)
+      if (agents.length > 0) {
+        const res = await p.multiselect({
+          message: "Select agents to install (space to toggle)",
+          options: agents.map(agent => ({
+            value: agent,
+            label: getAgentDisplayName(agent),
+            hint: agent.description
+          })),
+          required: false,
+        })
+        if (p.isCancel(res)) return p.cancel("Installation cancelled.")
+        if (Array.isArray(res)) selectedAgents = res as typeof agents
+      }
     }
 
-    // 6. Environment checks
+    if (selectedSkills.length === 0 && selectedTools.length === 0 && selectedRules.length === 0 && selectedAgents.length === 0) {
+      return p.cancel("No skills, tools, rules, or agents selected.")
+    }
+
+    // 7. Environment checks
     let requiresPython = false
 
     if (selectedTools.length > 0) {
@@ -137,7 +163,7 @@ export async function runAdd(args: string[]) {
       }
     }
 
-    // 7. Install skills, tools, and rules
+    // 8. Install skills, tools, rules, and agents
     const installSpinner = p.spinner()
     installSpinner.start(`Installing to ${OPENCODE_DIR}/ ...`)
 
@@ -206,6 +232,23 @@ export async function runAdd(args: string[]) {
       }
     }
 
+    // Install Agents
+    if (selectedAgents.length > 0) {
+      for (const agent of selectedAgents) {
+        const result = await installAgent(agent)
+        if (result.success && result.path) {
+          // Compute hash of installed agent file
+          const computedHash = await computeFilesHash([result.path])
+          
+          lockData.agents[agent.name] = {
+            source: ownerRepo || repoUrl,
+            sourceType: parsed.type,
+            computedHash
+          }
+        }
+      }
+    }
+
     // 统一写入 lock 文件
     writeLockFile(lockData)
 
@@ -215,7 +258,7 @@ export async function runAdd(args: string[]) {
     if (requiresPython) setupPythonEnvironment(process.cwd(), installSpinner)
 
     await new Promise((r) => setTimeout(r, 400))
-    installSpinner.stop(`${GREEN}Successfully installed ${selectedSkills.length + selectedTools.length + selectedRules.length} items.${RESET}`)
+    installSpinner.stop(`${GREEN}Successfully installed ${selectedSkills.length + selectedTools.length + selectedRules.length + selectedAgents.length} items.${RESET}`)
 
     if (requiresPython) {
       p.note(
@@ -226,6 +269,20 @@ export async function runAdd(args: string[]) {
   } catch (error) {
     if (s) s.stop("Failed to fetch repository.")
     if (error instanceof GitCloneError) {
+      if (error.isNetworkError) {
+        p.log.error("Network connection failed. Please check your internet connection or proxy settings.")
+        p.note(
+          `If you're in China or behind a firewall, try:\n\n` +
+          `  1. Set up a proxy:\n` +
+          `     ${CYAN}set HTTP_PROXY=http://127.0.0.1:7890${RESET}\n` +
+          `     ${CYAN}set HTTPS_PROXY=http://127.0.0.1:7890${RESET}\n\n` +
+          `  2. Or use a mirror (if available):\n` +
+          `     ${CYAN}git config --global url."https://mirror.ghproxy.com/https://github.com/".insteadOf "https://github.com/"${RESET}\n\n` +
+          `  3. Or clone manually and use local path:\n` +
+          `     ${CYAN}vibe add ./path/to/local/repo${RESET}`,
+          "💡 Network Troubleshooting"
+        )
+      }
       handleExecError(error, "Git Error", ErrorSeverity.ERROR)
     } else {
       handleExecError(error, "Repository Fetch Error", ErrorSeverity.ERROR)

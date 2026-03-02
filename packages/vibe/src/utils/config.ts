@@ -33,6 +33,7 @@ export function readLockFile(cwd?: string): VibeLock {
       if (!parsed.skills) parsed.skills = {}
       if (!parsed.tools) parsed.tools = {}
       if (!parsed.rules) parsed.rules = {}
+      if (!parsed.agents) parsed.agents = {}
       
       return parsed
     }
@@ -55,7 +56,8 @@ export function writeLockFile(lockData: VibeLock, cwd?: string) {
     version: lockData.version,
     skills: sortObject(lockData.skills),
     tools: sortObject(lockData.tools),
-    rules: sortObject(lockData.rules)
+    rules: sortObject(lockData.rules),
+    agents: sortObject(lockData.agents)
   }
   
   // Add trailing newline for better git diffs
@@ -102,9 +104,11 @@ export interface LockFileUpdate {
   skills?: Record<string, VibeLock['skills'][string]>
   tools?: Record<string, VibeLock['tools'][string]>
   rules?: Record<string, VibeLock['rules'][string]>
+  agents?: Record<string, VibeLock['agents'][string]>
   removeSkills?: string[]
   removeTools?: string[]
   removeRules?: string[]
+  removeAgents?: string[]
 }
 
 export function batchUpdateLockFile(updates: LockFileUpdate, cwd?: string): void {
@@ -119,6 +123,9 @@ export function batchUpdateLockFile(updates: LockFileUpdate, cwd?: string): void
     if (updates.rules) {
       Object.assign(lock.rules, updates.rules)
     }
+    if (updates.agents) {
+      Object.assign(lock.agents, updates.agents)
+    }
     
     // Remove entries
     if (updates.removeSkills) {
@@ -129,6 +136,9 @@ export function batchUpdateLockFile(updates: LockFileUpdate, cwd?: string): void
     }
     if (updates.removeRules) {
       updates.removeRules.forEach(name => delete lock.rules[name])
+    }
+    if (updates.removeAgents) {
+      updates.removeAgents.forEach(name => delete lock.agents[name])
     }
   }, cwd)
 }
@@ -146,7 +156,8 @@ function createEmptyLockFile(): VibeLock {
     version: 1,
     skills: {},
     tools: {},
-    rules: {}
+    rules: {},
+    agents: {}
   }
 }
 

@@ -2,13 +2,13 @@
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
     "typecheck": {},
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
-    },
-    "vibe#test": {
-      "dependsOn": ["^build"],
-      "outputs": []
     }
   }
 }

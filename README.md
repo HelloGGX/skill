@@ -199,3 +199,34 @@ Performs deep technical reviews before merging code or submitting a PR.
 ## License
 
 MIT License © 2026 [HelloGGX](https://www.google.com/search?q=https://github.com/HelloGGX)
+
+---
+
+## 🛠️ Development
+
+For contributors and developers working on this project:
+
+- **[Development Guide](./docs/development.md)** - Setup, testing, and contribution guidelines
+- **[Network Troubleshooting](./packages/vibe/docs/network-troubleshooting.md)** - Resolve connection issues
+
+### Quick Commands
+
+```bash
+# Install dependencies
+bun install
+
+# Run all tests
+bun run test
+
+# Type checking
+bun run typecheck
+
+# Development mode
+bun run dev
+```
+
+### Git Hooks
+
+This project uses Husky for Git hooks:
+- **pre-commit**: Runs type checking and tests before each commit
+- **pre-push**: Validates Bun version and runs type checking before push

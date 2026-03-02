@@ -178,3 +178,34 @@ TOKEN_URL_DARK="https://mastergo.com/goto/..."
 ## 许可证
 
 MIT License © 2026 [HelloGGX](https://www.google.com/search?q=https://github.com/HelloGGX)
+
+---
+
+## 🛠️ 开发指南
+
+面向贡献者和开发者：
+
+- **[开发指南](./docs/development.md)** - 环境配置、测试和贡献指南
+- **[网络问题排查](./packages/vibe/docs/network-troubleshooting.md)** - 解决连接问题
+
+### 快速命令
+
+```bash
+# 安装依赖
+bun install
+
+# 运行所有测试
+bun run test
+
+# 类型检查
+bun run typecheck
+
+# 开发模式
+bun run dev
+```
+
+### Git Hooks
+
+本项目使用 Husky 管理 Git hooks：
+- **pre-commit**: 每次提交前运行类型检查和测试
+- **pre-push**: 推送前验证 Bun 版本并运行类型检查

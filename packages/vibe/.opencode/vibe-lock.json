@@ -40,5 +40,12 @@
       "sourceType": "github",
       "computedHash": "90bc2fcd43f1997fcc2109ccdbe1155c4a7465940d5caccd9223a0c4c356e6b0"
     }
+  },
+  "agents": {
+    "security-reviewer": {
+      "source": "helloggx/skill",
+      "sourceType": "github",
+      "computedHash": "a13d4b9fcd47314d109990436879e97ce83c61879260ec96a7fce83b98087c10"
+    }
   }
 }

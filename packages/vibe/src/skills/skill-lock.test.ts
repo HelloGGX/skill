@@ -52,7 +52,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -84,7 +85,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -137,7 +139,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -170,7 +173,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -197,7 +201,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -214,7 +219,8 @@ describe('skill-lock utilities', () => {
         version: 1,
         skills: {},
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)
@@ -238,7 +244,8 @@ describe('skill-lock utilities', () => {
           }
         },
         tools: {},
-        rules: {}
+        rules: {},
+        agents: {}
       }
 
       createLockFile(lockData)

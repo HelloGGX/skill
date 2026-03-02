@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "theme": "one-dark",
   "instructions": [
     "./rules/common/coding-style.md",
     "./rules/common/git-workflow.md",

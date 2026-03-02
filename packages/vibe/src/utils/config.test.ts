@@ -36,6 +36,7 @@ describe('config utilities', () => {
         skills: {},
         tools: {},
         rules: {},
+        agents: {}
       })
     })
 
@@ -48,6 +49,7 @@ describe('config utilities', () => {
         skills: { 'test-skill': { source: 'test/repo', sourceType: 'github' } },
         tools: { 'test-tool': { source: 'test/repo', sourceType: 'github' } },
         rules: {},
+        agents: {}
       }
       
       writeFileSync(
@@ -85,6 +87,7 @@ describe('config utilities', () => {
         },
         tools: {},
         rules: {},
+        agents: {}
       }
 
       writeLockFile(lockData, testDir)
@@ -105,6 +108,7 @@ describe('config utilities', () => {
         skills: {},
         tools: {},
         rules: {},
+        agents: {}
       }
 
       writeLockFile(lockData, testDir)
