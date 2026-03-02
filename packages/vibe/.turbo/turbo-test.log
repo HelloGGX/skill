@@ -2,46 +2,20 @@ $ vitest run
 
 [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/aiProj/skill/packages/vibe[39m
 
+ [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 10[2mms[22m[39m
  [32m✓[39m src/utils/error.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 15[2mms[22m[39m
- [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 9[2mms[22m[39m
- [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 133[2mms[22m[39m
- [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 89[2mms[22m[39m
- [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 140[2mms[22m[39m
- [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 179[2mms[22m[39m
- [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 297[2mms[22m[39m
- [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 318[2mms[22m[39m
- [31m❯[39m src/git.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 49814[2mms[22m[39m
-       [32m✓[39m should create error with url[32m 4[2mms[22m[39m
-       [32m✓[39m should create timeout error[32m 2[2mms[22m[39m
-       [32m✓[39m should create auth error[32m 2[2mms[22m[39m
-       [32m✓[39m should create network error[32m 2[2mms[22m[39m
-       [33m[2m✓[22m[39m should throw GitCloneError for invalid repository [33m 19769[2mms[22m[39m
-[31m       [31m×[31m should throw GitCloneError with auth error for private repo without credentials[39m[33m 30015[2mms[22m[39m
-       [32m✓[39m should remove directory[32m 5[2mms[22m[39m
-       [32m✓[39m should handle non-existent directory[32m 2[2mms[22m[39m
-       [32m✓[39m should throw error for directory outside tmpdir[32m 2[2mms[22m[39m
-       [32m✓[39m should handle cleanup of tmpdir subdirectories[32m 3[2mms[22m[39m
-       [32m✓[39m should handle nested directories[32m 7[2mms[22m[39m
+ [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+ [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 73[2mms[22m[39m
+ [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 125[2mms[22m[39m
+ [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 285[2mms[22m[39m
+ [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 173[2mms[22m[39m
+ [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 299[2mms[22m[39m
+ [32m✓[39m src/git.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 18668[2mms[22m[39m
+       [33m[2m✓[22m[39m should throw GitCloneError for invalid repository [33m 1514[2mms[22m[39m
+       [33m[2m✓[22m[39m should throw GitCloneError with auth error for private repo without credentials [33m 17120[2mms[22m[39m
 
-[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[32m140 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m 22:21:45
+[2m   Duration [22m 19.25s[2m (transform 798ms, setup 0ms, import 1.63s, tests 19.77s, environment 1ms)[22m
 
-[41m[1m FAIL [22m[49m src/git.test.ts[2m > [22mgit utilities[2m > [22mcloneRepo[2m > [22mshould throw GitCloneError with auth error for private repo without credentials
-[31m[1mError[22m: Test timed out in 30000ms.
-If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
-[36m [2m❯[22m src/git.test.ts:[2m65:5[22m[39m
-    [90m 63| [39m    }[33m,[39m [34m30000[39m)
-    [90m 64| [39m
-    [90m 65| [39m    it('should throw GitCloneError with auth error for private repo wi…
-
-    [90m   | [39m    [31m^[39m
-    [90m 66| [39m      [35mconst[39m privateUrl [33m=[39m [32m'https://github.com/private/secret-repo.git'[39m
-[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (9)[39m
-    [90m 67| [39m      
-[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m139 passed[39m[22m[90m (140)[39m
-[2m   Start at [22m 22:15:51
-[2m   Duration [22m 50.49s[2m (transform 861ms, setup 0ms, import 1.69s, tests 50.99s, environment 1ms)[22m
-
-
-[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
-
-error: script "test" exited with code 1
