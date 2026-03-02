@@ -1,9 +1,7 @@
-import { readFile, writeFile, mkdir } from 'fs/promises'
-import { join, dirname } from 'path'
-import type { SkillLockEntry } from '../types'
-import { OPENCODE_DIR } from '../constants'
-
-const LOCK_FILE = 'vibe-lock.json'
+import { readFile, writeFile, mkdir } from "fs/promises"
+import { join, dirname } from "path"
+import type { SkillLockEntry } from "../types"
+import { LOCK_FILE, OPENCODE_DIR } from "../constants"
 
 export interface SkillLockFile {
   version: number
@@ -27,7 +25,7 @@ export async function readSkillLock(cwd?: string): Promise<SkillLockFile> {
   const lockPath = getSkillLockPath(cwd)
 
   try {
-    const content = await readFile(lockPath, 'utf-8')
+    const content = await readFile(lockPath, "utf-8")
     const parsed = JSON.parse(content) as SkillLockFile
 
     if (!parsed.skills) {
@@ -55,7 +53,7 @@ export async function writeSkillLock(lock: SkillLockFile, cwd?: string): Promise
   await mkdir(dirname(lockPath), { recursive: true })
 
   const content = JSON.stringify(lock, null, 2)
-  await writeFile(lockPath, content, 'utf-8')
+  await writeFile(lockPath, content, "utf-8")
 }
 
 /**
@@ -63,8 +61,8 @@ export async function writeSkillLock(lock: SkillLockFile, cwd?: string): Promise
  */
 export async function addSkillToLock(
   skillName: string,
-  entry: Omit<SkillLockEntry, 'installedAt' | 'updatedAt'>,
-  cwd?: string
+  entry: Omit<SkillLockEntry, "installedAt" | "updatedAt">,
+  cwd?: string,
 ): Promise<void> {
   const lock = await readSkillLock(cwd)
   const now = new Date().toISOString()
@@ -78,7 +76,7 @@ export async function addSkillToLock(
   lock.skills[skillName] = {
     ...entry,
     installedAt: existingEntry?.installedAt ?? now,
-    updatedAt: now
+    updatedAt: now,
   }
 
   await writeSkillLock(lock, cwd)
@@ -118,9 +116,9 @@ export async function getAllLockedSkills(cwd?: string): Promise<Record<string, S
 /**
  * Get skills grouped by source for batch update operations
  */
-export async function getSkillsBySource(cwd?: string): Promise<
-  Map<string, { skills: string[]; entry: SkillLockEntry }>
-> {
+export async function getSkillsBySource(
+  cwd?: string,
+): Promise<Map<string, { skills: string[]; entry: SkillLockEntry }>> {
   const lock = await readSkillLock(cwd)
   const bySource = new Map<string, { skills: string[]; entry: SkillLockEntry }>()
 
@@ -148,6 +146,6 @@ function createEmptyLockFile(): SkillLockFile {
     version: 1,
     tools: {},
     rules: {},
-    skills: {}
+    skills: {},
   }
 }
