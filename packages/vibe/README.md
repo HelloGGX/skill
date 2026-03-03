@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌊 Vibe Coding CLI
+<img src="./logo.jpg" alt="Vibe Coding Logo" width="600" />
 
 **The vibe coding ecosystem builder, specifically designed for OpenCode.**
 

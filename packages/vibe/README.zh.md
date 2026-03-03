@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌊 Vibe Coding CLI
+<img src="./logo.jpg" alt="Vibe Coding Logo" width="600" />
 
 **专为 OpenCode 打造的 vibe coding 生态构建工具**
 
