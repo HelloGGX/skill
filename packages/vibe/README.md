@@ -1,17 +1,25 @@
 <div align="center">
 
-<img src="./logo.jpg" alt="Vibe Coding Logo" width="600" />
+ <a href="https://github.com/HelloGGX/vibe-coding-cli">
+    <img src="./logo.jpg" alt="Vibe Coding CLI Logo" width="600" />
+  </a>
 
-**The vibe coding ecosystem builder, specifically designed for OpenCode.**
+  <p>
+    <strong>The vibe coding ecosystem builder, specifically designed for OpenCode.</strong>
+  </p>
 
 [![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
 [![npm version](https://img.shields.io/npm/v/@vibe-coder/cli.svg?style=flat-square)](https://www.npmjs.com/package/@vibe-coder/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](../../LICENSE.md)
 [![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=flat-square&logo=bun&logoColor=white)](https://bun.sh)
 
-**English** · [简体中文](https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.zh.md)
+<p>
+    <b>English</b> · <a href="https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.zh.md">简体中文</a>
+  </p>
 
-> *One-click aggregation of AI tools and contextual rules, enabling Agents to truly understand your codebase architecture.*
+<p>
+    <em>"One-click aggregation of AI tools and contextual rules, enabling Agents to truly understand your codebase architecture."</em>
+  </p>
 
 </div>
 
@@ -23,11 +31,11 @@ With the `vibe` command, you can pull TypeScript/Python tool scripts or Markdown
 
 ## ✨ Features
 
-* 🛠 **Fully Automated Tool Management**: Rapidly parse, multi-select, and download `.ts` / `.py` scripts from any GitHub repository for out-of-the-box local usage.
-* 📜 **Perfect Fusion of Context and Capabilities**: Innovative ecosystem aggregation that deeply binds the **tool skills** required by Agents with your **behavioral guidelines**. Supports on-demand installation of `.md` rule files, ensuring AI truly understands your architectural intent.
-* 📦 **Smart Configuration Injection**: Automatically intercepts and updates `.opencode/opencode.jsonc`, silently injecting tool toggles and prompt directive paths. Say goodbye to tedious manual configuration.
-* ⚡ **Blazing Fast Parallel Updates**: Designed with a concurrency model to simultaneously process resource comparisons and pulls across multiple source repositories, drastically reducing update wait times.
-* 🪄 **Standard Skill Aggregation**: Deeply integrated with Vercel's `pnpx skills` ecosystem, allowing you to manage both standard Agent skill libraries and local extension resources within a unified CLI workflow.
+- 🛠 **Fully Automated Tool Management**: Rapidly parse, multi-select, and download `.ts` / `.py` scripts from any GitHub repository for out-of-the-box local usage.
+- 📜 **Perfect Fusion of Context and Capabilities**: Innovative ecosystem aggregation that deeply binds the **tool skills** required by Agents with your **behavioral guidelines**. Supports on-demand installation of `.md` rule files, ensuring AI truly understands your architectural intent.
+- 📦 **Smart Configuration Injection**: Automatically intercepts and updates `.opencode/opencode.jsonc`, silently injecting tool toggles and prompt directive paths. Say goodbye to tedious manual configuration.
+- ⚡ **Blazing Fast Parallel Updates**: Designed with a concurrency model to simultaneously process resource comparisons and pulls across multiple source repositories, drastically reducing update wait times.
+- 🪄 **Standard Skill Aggregation**: Deeply integrated with Vercel's `pnpx skills` ecosystem, allowing you to manage both standard Agent skill libraries and local extension resources within a unified CLI workflow.
 
 ---
 
@@ -35,7 +43,7 @@ With the `vibe` command, you can pull TypeScript/Python tool scripts or Markdown
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >= 18.0.0 or [Bun](https://bun.sh/) >= 1.0.0
+- [Node.js](https://nodejs.org/) >= 18.0.0 or [Bun](https://bun.sh/) >= 1.0.0
 
 ### Installation
 
@@ -57,23 +65,22 @@ Initialize and add an ecosystem repository (e.g., `helloggx/skill` from this pro
 vibe add helloggx/skill
 ```
 
-*The CLI will launch an interactive menu, allowing you to flexibly multi-select the **Tools** and **Rules** you want to install, and will automatically handle all environment configurations for you.*
+_The CLI will launch an interactive menu, allowing you to flexibly multi-select the **Tools** and **Rules** you want to install, and will automatically handle all environment configurations for you._
 
 ---
 
 ## 📚 Commands
 
-| Command | Alias | Description |
-| --- | --- | --- |
-| `vibe add <repo>` | `a` | Parses the target GitHub repo, launches a UI list for on-demand installation of tools/rules, and auto-injects configurations. |
-| `vibe list` | `ls` | Prints a clear status map of all installed resources (local tools, context rules, global standard skills) in the current project. |
-| `vibe update` | `up` | Concurrently pulls all source repositories listed in `vibe-lock.json` with one click, intelligently comparing and overwriting local scripts and rules. |
-| `vibe remove [resource]` | `rm` | **Run without args**: Launches a UI multi-select list to delete local items.<br>
+| Command                  | Alias | Description                                                                                                                                            |
+| ------------------------ | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `vibe add <repo>`        | `a`   | Parses the target GitHub repo, launches a UI list for on-demand installation of tools/rules, and auto-injects configurations.                          |
+| `vibe list`              | `ls`  | Prints a clear status map of all installed resources (local tools, context rules, global standard skills) in the current project.                      |
+| `vibe update`            | `up`  | Concurrently pulls all source repositories listed in `vibe-lock.json` with one click, intelligently comparing and overwriting local scripts and rules. |
+| `vibe remove [resource]` | `rm`  | **Run without args**: Launches a UI multi-select list to delete local items.<br>                                                                       |
 
 <br>
 
-<br>**Run with args**: Quickly matches and removes specified standard skills or local tools, synchronously cleaning up configurations. |
----
+## <br>**Run with args**: Quickly matches and removes specified standard skills or local tools, synchronously cleaning up configurations. |
 
 ## 🏗️ Build Your Own Resource Repository
 
@@ -101,11 +108,11 @@ your-custom-repo/
 
 ### Organization Best Practices
 
-* **Cross-language tool linkage**: If your `.ts` tool relies on an underlying `.py` script, **ensure the base names of both files are exactly the same** (e.g., `get_dsl.ts` and `get_dsl.py`). The CLI will intelligently recognize and pull them together.
-* **Rule inheritance and extension**:
-* Global common rules must be placed under `rules/common/`.
-* When writing rules for a specific tech stack (e.g., `rules/typescript/`), if you need to inherit a `common` rule, it is recommended to **keep the same name** and explicitly declare the inheritance at the top of the file:
-*> This file extends [common/coding-style.md](https://www.google.com/search?q=../common/coding-style.md) and adds TS-specific content.*
+- **Cross-language tool linkage**: If your `.ts` tool relies on an underlying `.py` script, **ensure the base names of both files are exactly the same** (e.g., `get_dsl.ts` and `get_dsl.py`). The CLI will intelligently recognize and pull them together.
+- **Rule inheritance and extension**:
+- Global common rules must be placed under `rules/common/`.
+- When writing rules for a specific tech stack (e.g., `rules/typescript/`), if you need to inherit a `common` rule, it is recommended to **keep the same name** and explicitly declare the inheritance at the top of the file:
+  _> This file extends [common/coding-style.md](https://www.google.com/search?q=../common/coding-style.md) and adds TS-specific content._
 
 ---
 
@@ -137,7 +144,7 @@ Copy the following Markdown code to add it to your project:
 [![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
 ```
 
-*(By adding the badge, you'll have the opportunity to be featured in the official Hall of Fame curated list!)*
+_(By adding the badge, you'll have the opportunity to be featured in the official Hall of Fame curated list!)_
 
 ## 🛠️ Development
 

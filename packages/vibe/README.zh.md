@@ -1,18 +1,24 @@
 <div align="center">
 
-<img src="./logo.jpg" alt="Vibe Coding Logo" width="600" />
+  <a href="https://github.com/HelloGGX/vibe-coding-cli">
+    <img src="./logo.jpg" alt="Vibe Coding CLI Logo" width="600" />
+  </a>
 
-**专为 OpenCode 打造的 vibe coding 生态构建工具**
+   <p>
+    <strong>专为 OpenCode 打造的 vibe coding 生态构建工具</strong>
+   </p>
 
 [![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
 [![npm version](https://img.shields.io/npm/v/@vibe-coder/cli.svg?style=flat-square)](https://www.npmjs.com/package/@vibe-coder/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](../../LICENSE.md)
 [![Built with Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=flat-square&logo=bun&logoColor=white)](https://bun.sh)
 
-[English](https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.md) · **简体中文**
-
-> *一键聚合 AI 工具与上下文规范，让 Agent 真正懂你的代码架构。*
-
+  <p>
+    <a href="https://github.com/HelloGGX/skill/blob/main/packages/vibe/README.md">English</a> · <b>简体中文</b>
+  </p>
+  <p>
+    <em>"一键聚合 AI 工具与上下文规范，让 Agent 真正懂你的代码架构。"</em>
+  </p>
 </div>
 
 ## 📖 简介 (Introduction)
@@ -34,6 +40,7 @@
 ## 🚀 快速开始 (Quick Start)
 
 ### 环境要求 (Prerequisites)
+
 - [Node.js](https://nodejs.org/) >= 18.0.0 或 [Bun](https://bun.sh/) >= 1.0.0
 
 ### 安装
@@ -56,18 +63,18 @@ bun add -g @vibe-coder/cli
 vibe add helloggx/skill
 ```
 
-*CLI 将唤起交互式菜单，允许你灵活多选想要安装的 **Tools (工具)** 和 **Rules (规则)**，并自动为你完成所有环境配置。*
+_CLI 将唤起交互式菜单，允许你灵活多选想要安装的 **Tools (工具)** 和 **Rules (规则)**，并自动为你完成所有环境配置。_
 
 ---
 
 ## 📚 命令指南 (Commands)
 
-| 命令 | 别名 | 功能描述 |
-| --- | --- | --- |
-| `vibe add <repo>` | `a` | 解析目标 GitHub 仓库，唤起 UI 列表，按需安装工具和规则文件，并自动注入配置。 |
-| `vibe list` | `ls` | 清晰打印当前项目中所有已安装资源（本地工具、上下文规则、全局标准技能）的态势图。 |
-| `vibe update` | `up` | 一键并发拉取 `vibe-lock.json` 中的所有源仓库，智能比对并覆盖本地脚本与规则。 |
-| `vibe remove [资源]` | `rm` | **无参运行**：唤起 UI 多选列表删除本地项。<br>
+| 命令                 | 别名 | 功能描述                                                                         |
+| -------------------- | ---- | -------------------------------------------------------------------------------- |
+| `vibe add <repo>`    | `a`  | 解析目标 GitHub 仓库，唤起 UI 列表，按需安装工具和规则文件，并自动注入配置。     |
+| `vibe list`          | `ls` | 清晰打印当前项目中所有已安装资源（本地工具、上下文规则、全局标准技能）的态势图。 |
+| `vibe update`        | `up` | 一键并发拉取 `vibe-lock.json` 中的所有源仓库，智能比对并覆盖本地脚本与规则。     |
+| `vibe remove [资源]` | `rm` | **无参运行**：唤起 UI 多选列表删除本地项。<br>                                   |
 
 <br>**带参运行**：快捷匹配并移除指定的标准技能或本地工具，并同步清理配置。 |
 
@@ -98,13 +105,11 @@ your-custom-repo/
 
 ### 组织最佳实践
 
-* **跨语言工具联动**：若你的 `.ts` 工具依赖底层的 `.py` 脚本，**请确保两文件基础名称完全一致**（如 `get_dsl.ts` 和 `get_dsl.py`）。CLI 会智能识别并一并拉取。
-* **规则继承与扩展**：
-* 全局通用规则务必放在 `rules/common/` 下。
-* 为特定技术栈编写规则时（如 `rules/typescript/`），若需继承 `common` 规则，建议**保持同名**，并在文件顶部显式声明继承关系：
-*> 此文件扩展了 [common/coding-style.md](https://www.google.com/search?q=../common/coding-style.md) 并增加了 TS 特定内容。*
-
-
+- **跨语言工具联动**：若你的 `.ts` 工具依赖底层的 `.py` 脚本，**请确保两文件基础名称完全一致**（如 `get_dsl.ts` 和 `get_dsl.py`）。CLI 会智能识别并一并拉取。
+- **规则继承与扩展**：
+- 全局通用规则务必放在 `rules/common/` 下。
+- 为特定技术栈编写规则时（如 `rules/typescript/`），若需继承 `common` 规则，建议**保持同名**，并在文件顶部显式声明继承关系：
+  _> 此文件扩展了 [common/coding-style.md](https://www.google.com/search?q=../common/coding-style.md) 并增加了 TS 特定内容。_
 
 ---
 
@@ -125,7 +130,6 @@ your-project/
 
 ---
 
-
 ## 🤝 融入生态 (Join the Ecosystem)
 
 如果你的开源项目（如 Agent Skills、Tools 或 Rules）兼容并使用了 vibe-coding 规范，欢迎在你的 `README.md` 中挂上这枚专属徽章，向社区展示你的前卫品味！
@@ -135,8 +139,8 @@ your-project/
 ```markdown
 [![vibe-coding: enabled](https://img.shields.io/badge/vibe--coding-enabled-BD00FF?style=flat-square&logo=github&logoColor=white&labelColor=2D3748)](https://github.com/HelloGGX/vibe-coding-cli)
 ```
-(挂上徽章后，你将有机会被收录进官方的名人堂精选列表！)
 
+(挂上徽章后，你将有机会被收录进官方的名人堂精选列表！)
 
 ## 🛠️ 开发者指南 (Development)
 
