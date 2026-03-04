@@ -66,7 +66,7 @@ To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow t
 ### Step 1: Initialize Project Scaffolding
 
 **Instruction**:
-1. Execute the script: `python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]`
+1. Execute the script: `python3 ./opencode/skills/vue-creater/scripts/shadcn_vue_init.py [project-name]`
    * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
 2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
 3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
