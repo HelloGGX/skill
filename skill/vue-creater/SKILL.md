@@ -10,10 +10,45 @@ authors: [玄子]
 
 ## Data Flow & Context Management (CRITICAL)
 
-You must maintain a **Session Context** to store file paths. Do not proceed to Step 3 until you have populated the required variables from Step 1 and Step 2.
+You must maintain a **Session Context** to store file paths. Do not proceed to subsequent steps until you have populated the required variables.
 
 * `$PROJECT_ROOT`: The absolute path to the project created in Step 1.
-* `$DSL_PATH`: The absolute path to the `dsl.json` file generated in Step 2.
+* `$DSL_PATH`: The absolute path to the `dsl.json` file generated in Step 2 (only for default template).
+
+## Quick Start
+
+### Step 0: Select Project Type
+
+**FIRST STEP - MANDATORY**: You must ask the user to select a project type:
+
+```
+Please select the project type:
+
+    1. **Default** (shadcn + tailwindcss + vite)
+    2. **Nuxt Admin Dashboard** (shadcn + tailwindcss + nuxt)
+
+    Choice [1/2]:
+```
+
+**STOP and WAIT for user input** - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command match
+
+**Action based on user input:**
+
+* **If Choice "1" (Default):**
+    1. Proceed to Step 1 and follow the default workflow (Steps 1-5).
+
+* **If Choice "2" (Nuxt Admin Dashboard):**
+    1. Execute the script: `python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py [project-name]`
+       * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
+    2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
+    3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
+    4. **SKIP ALL REMAINING STEPS** - The Nuxt dashboard is fully configured and ready to use.
+    5. Inform the user to run: `cd $PROJECT_ROOT && bun run dev`
+    6. **END WORKFLOW** - Do not proceed to Steps 1-5.
+
+---
+
+## Default Template Workflow (Choice 1)
 
 To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow these steps:
 1. Initialize the project scaffold using script: `skill/vue-creater/scripts/shadcn_vue_init.py`
@@ -27,8 +62,6 @@ To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow t
 - **Core**: Vue 3 (Script Setup) + TypeScript + Vite v8.0.0
 - **Styling**: Tailwind CSS v4 + shadcn-vue (Radix-vue based)
 - **State & Logic**: Pinia (Store) + Vue Router + TanStack Query (vue-query)
-
-## Quick Start
 
 ### Step 1: Initialize Project Scaffolding
 
