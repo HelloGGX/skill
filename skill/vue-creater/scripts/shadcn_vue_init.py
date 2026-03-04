@@ -264,7 +264,7 @@ class ProjectInitializer:
         # Install @types/node and unplugin-auto-import
         self.runner.run(
             ["bun", "install", "-D", "@types/node", "unplugin-auto-import"],
-            cwd=self.config.path
+            cwd=self.config.path,
         )
 
         vite_config = """import { fileURLToPath, URL } from 'node:url'
@@ -307,7 +307,7 @@ export default defineConfig({
         )
 
     def _update_eslint_config(self) -> None:
-        """Update ESLint to allow single-word component names."""
+        """Update ESLint to allow single-word component names and any type in ui components."""
         eslint_path = self.config.path / "eslint.config.ts"
         if not eslint_path.exists():
             return
@@ -318,6 +318,13 @@ export default defineConfig({
     name: 'app/custom-rules',
     rules: {
       'vue/multi-word-component-names': 'off',
+    },
+  },
+  {
+    name: 'app/allow-any-in-ui',
+    files: ['src/components/ui/**/*'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 
@@ -485,11 +492,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: Date | string, format = 'YYYY-MM-DD'): string {
-  const d = typeof date === 'string' ? new Date(date) : date
-  return d.toISOString().split('T')[0]
-}
-
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -639,13 +641,10 @@ const {{ mutate }} = useApiMutation('/api/users', 'POST')
 ### Common Utilities
 
 ```typescript
-import {{ cn, formatDate, sleep }} from '@/lib/utils'
+import {{ cn, sleep }} from '@/lib/utils'
 
 // Merge class names
 const className = cn('text-red-500', isActive && 'font-bold')
-
-// Format dates
-const formatted = formatDate(new Date())
 
 // Async delay
 await sleep(1000)

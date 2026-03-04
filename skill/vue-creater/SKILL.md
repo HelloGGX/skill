@@ -208,7 +208,7 @@ project-name/
 │   ├── layouts/
 │   │   └── DefaultLayout.vue     # Default layout wrapper
 │   ├── lib/
-│   │   └── utils.ts              # Common utilities (cn, formatDate, sleep)
+│   │   └── utils.ts              # Common utilities (cn, sleep)
 │   ├── router/
 │   │   └── index.ts              # Vue Router configuration
 │   ├── stores/
