@@ -16,11 +16,12 @@ You must maintain a **Session Context** to store file paths. Do not proceed to S
 * `$DSL_PATH`: The absolute path to the `dsl.json` file generated in Step 2.
 
 To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow these steps:
-1. Initialize the project scaffold using tool: `shadcn_vue_init`
+1. Initialize the project scaffold using script: `skill/vue-creater/scripts/shadcn_vue_init.py`
 2. Retrieve design data using tool: `get_dsl`
-3. Apply design tokens and styles using tool: `get_token`
-4. Develop the artifact logic
-5. Bundle code (if necessary for single-file delivery)
+3. Select frontend template using script: `skill/vue-creater/scripts/setup_admin_dashboard.py` (optional)
+4. Apply design tokens and styles using tool: `get_token`
+5. Develop the artifact logic
+6. Bundle code (if necessary for single-file delivery)
 
 **Stack**: 
 - **Core**: Vue 3 (Script Setup) + TypeScript + Vite v8.0.0
@@ -32,13 +33,13 @@ To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow t
 ### Step 1: Initialize Project Scaffolding
 
 **Instruction**:
-1. Execute `shadcn_vue_init` tool.
-   * *Condition*: If a project name is specified in the context, pass it to the `projectName` parameter. Otherwise, omit the parameter.
-2. **CAPTURE OUTPUT**: Look for the directory path in the tool's output.
+1. Execute the script: `python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]`
+   * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
+2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
 3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
 4. *Validation*: If `$PROJECT_ROOT` is empty, stop and ask the user to verify the installation.
 
-**What this tool does**:
+**What this script does**:
 
 * ✅ Sets up Vue 3 + Vite 8.0.0
 * ✅ Configures Tailwind CSS 4 (CSS-first configuration, no generic config js)
@@ -78,7 +79,40 @@ Fetch the design structure and layout data from the source:
     1. Log "Using default theme, skipping DSL fetch."
     2. **ASSIGN**: Set `$DSL_PATH` to empty or null to indicate no custom design tokens.
 
-### Step 3: Apply Design Tokens
+### Step 3: Select Frontend Template
+
+**Instruction**:
+You must ask the user to select a frontend template:
+
+```
+Please select the frontend template:
+
+    1. **Skip** (Keep the basic project structure)
+    2. **Admin Dashboard** (中后台管理系统模板)
+
+    Choice [1/2]:
+```
+
+**STOP and WAIT for user input** - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command match
+
+**Action based on user input:**
+
+* **If Choice "1" (Skip):**
+    1. Log "Skipping template setup, using basic structure."
+    2. Proceed to Step 4.
+
+* **If Choice "2" (Admin Dashboard):**
+    1. Execute the script: `python3 skill/vue-creater/scripts/setup_admin_dashboard.py "$PROJECT_ROOT"`
+    2. **What this does**:
+       - Installs required dependencies (dnd-kit-vue, @dnd-kit/abstract)
+       - Installs dashboard components via `npx shadcn-vue@latest add dashboard-01`
+       - Creates DashboardView.vue with sidebar, data table, and analytics cards
+       - Updates router configuration to use dashboard as home page
+       - Sets up proper layout structure following admin dashboard best practices
+       - Removes old HomeView.vue
+    3. Wait for completion before proceeding to Step 4.
+
+### Step 4: Apply Design Tokens
 
 **Prerequisites**:
 * Ensure `$PROJECT_ROOT` is defined (from Step 1).
@@ -96,14 +130,99 @@ You must now call the `get_token` tool using the exact paths captured previously
 
 **Goal**: Extract design tokens from the DSL file at `$DSL_PATH` and inject them into the Tailwind 4 configuration located inside `$PROJECT_ROOT`.
 
-### Step 4: Start Development Server
+### Step 5: Start Development Server
 
 **Instruction**:
 1. Execute the command below immediately.
 2. **CRITICAL**: You MUST use the chained command format (`&&`) to ensure the directory context is preserved.
 
 ```bash
-cd "$PROJECT_ROOT" && npm run dev
+cd "$PROJECT_ROOT" && bun run dev
+```
+
+**Note**: The project uses `bun` as the package manager for faster dependency installation and development server startup.
+
+## Scripts Reference
+
+### shadcn_vue_init.py
+
+**Location**: `skill/vue-creater/scripts/shadcn_vue_init.py`
+
+**Usage**:
+```bash
+python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]
+```
+
+**Features**:
+- Creates Vue 3 + Vite 7.3.1 project (stable version)
+- Configures Tailwind CSS 4 with CSS-first configuration
+- Installs and configures shadcn-vue components
+- Sets up Pinia, Vue Router, and TanStack Query
+- Installs Zod for schema validation
+- Installs VueUse for composition utilities
+- Creates utility files (lib/utils.ts, composables/useApi.ts)
+- Generates comprehensive README.md
+- Cleans up unnecessary template files
+
+### setup_admin_dashboard.py
+
+**Location**: `skill/vue-creater/scripts/setup_admin_dashboard.py`
+
+**Usage**:
+```bash
+python3 skill/vue-creater/scripts/setup_admin_dashboard.py <project-path>
+```
+
+**Features**:
+- Installs dnd-kit dependencies for drag-and-drop functionality
+- Adds dashboard-01 components from shadcn-vue
+- Creates DashboardView.vue with:
+  - Sidebar navigation (AppSidebar)
+  - Site header (SiteHeader)
+  - Analytics cards (SectionCards)
+  - Interactive charts (ChartAreaInteractive)
+  - Data table with sample data (DataTable)
+- Updates router to use dashboard as home page
+- Creates layout structure for admin dashboard
+- Removes old HomeView.vue
+
+## Project Structure
+
+After running both scripts with Admin Dashboard template, your project will have:
+
+```
+project-name/
+├── src/
+│   ├── assets/
+│   │   └── main.css              # Tailwind CSS imports
+│   ├── components/
+│   │   ├── ui/                   # Shadcn UI components
+│   │   ├── AppSidebar.vue        # Dashboard sidebar
+│   │   ├── SiteHeader.vue        # Dashboard header
+│   │   ├── SectionCards.vue      # Analytics cards
+│   │   ├── ChartAreaInteractive.vue  # Interactive charts
+│   │   ├── DataTable.vue         # Data table with drag-and-drop
+│   │   └── ...                   # Other dashboard components
+│   ├── composables/
+│   │   └── useApi.ts             # API utilities with TanStack Query
+│   ├── layouts/
+│   │   └── DefaultLayout.vue     # Default layout wrapper
+│   ├── lib/
+│   │   └── utils.ts              # Common utilities (cn, formatDate, sleep)
+│   ├── router/
+│   │   └── index.ts              # Vue Router configuration
+│   ├── stores/
+│   │   └── counter.ts            # Pinia store example
+│   ├── views/
+│   │   └── DashboardView.vue     # Main dashboard page
+│   ├── App.vue                   # Root component
+│   └── main.ts                   # Application entry
+├── .env.example                  # Environment variables template
+├── README.md                     # Project documentation
+├── package.json                  # Dependencies
+├── tsconfig.json                 # TypeScript configuration
+├── vite.config.ts                # Vite configuration
+└── tailwind.config.js            # Tailwind CSS configuration
 ```
 
 ## Reference
