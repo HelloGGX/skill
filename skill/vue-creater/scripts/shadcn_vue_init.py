@@ -84,6 +84,7 @@ class CommandRunner:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
+                 encoding="utf-8",
             )
         except subprocess.CalledProcessError as e:
             print(f"\n命令执行失败: {' '.join(command)}", file=sys.stderr)
@@ -197,7 +198,7 @@ class ProjectInitializer:
                 "create",
                 "vue@latest",
                 self.config.name,
-                "--",
+                "---",
                 "--ts",
                 "--router",
                 "--pinia",
@@ -302,7 +303,7 @@ export default defineConfig({
         """Initialize Shadcn UI."""
         self.progress.update("Setting up Shadcn")
         self.runner.run(
-            ["npx", "shadcn-vue@latest", "init", "-b", "neutral", "--yes"],
+            ["npx", "shadcn-vue@latest", "init", "--yes", "--defaults"],
             cwd=self.config.path,
         )
 
