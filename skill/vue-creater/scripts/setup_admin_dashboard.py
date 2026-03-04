@@ -44,11 +44,9 @@ class DashboardSetup:
         """Install dashboard components from shadcn-vue."""
         print("📦 Installing dashboard components...")
 
-        # Install required dependencies for dashboard
-        print("  Installing dnd-kit dependencies...")
-        self.run_command(["bun", "add", "dnd-kit-vue", "@dnd-kit/abstract"])
+        print("  Installing dnd-kit & ofetch dependencies...")
+        self.run_command(["bun", "add", "dnd-kit-vue", "@dnd-kit/abstract", "ofetch"])
 
-        # Install dashboard components
         print("  Installing dashboard-01 components...")
         self.run_command(["npx", "shadcn-vue@latest", "add", "dashboard-01"])
 
@@ -84,259 +82,7 @@ const data = [
     target: "29",
     limit: "24",
     reviewer: "Eddie Lake",
-  },
-  {
-    id: 3,
-    header: "Executive summary",
-    type: "Narrative",
-    status: "Done",
-    target: "10",
-    limit: "13",
-    reviewer: "Eddie Lake",
-  },
-  {
-    id: 4,
-    header: "Technical approach",
-    type: "Narrative",
-    status: "Done",
-    target: "27",
-    limit: "23",
-    reviewer: "Jamik Tashpulatov",
-  },
-  {
-    id: 5,
-    header: "Design",
-    type: "Narrative",
-    status: "In Process",
-    target: "2",
-    limit: "16",
-    reviewer: "Jamik Tashpulatov",
-  },
-  {
-    id: 6,
-    header: "Capabilities",
-    type: "Narrative",
-    status: "In Process",
-    target: "20",
-    limit: "8",
-    reviewer: "Jamik Tashpulatov",
-  },
-  {
-    id: 7,
-    header: "Integration with existing systems",
-    type: "Narrative",
-    status: "In Process",
-    target: "19",
-    limit: "21",
-    reviewer: "Jamik Tashpulatov",
-  },
-  {
-    id: 8,
-    header: "Innovation and Advantages",
-    type: "Narrative",
-    status: "Done",
-    target: "25",
-    limit: "26",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 9,
-    header: "Overview of EMR's Innovative Solutions",
-    type: "Technical content",
-    status: "Done",
-    target: "7",
-    limit: "23",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 10,
-    header: "Advanced Algorithms and Machine Learning",
-    type: "Narrative",
-    status: "Done",
-    target: "30",
-    limit: "28",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 11,
-    header: "Adaptive Communication Protocols",
-    type: "Narrative",
-    status: "Done",
-    target: "9",
-    limit: "31",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 12,
-    header: "Advantages Over Current Technologies",
-    type: "Narrative",
-    status: "Done",
-    target: "12",
-    limit: "0",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 13,
-    header: "Past Performance",
-    type: "Narrative",
-    status: "Done",
-    target: "22",
-    limit: "33",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 14,
-    header: "Customer Feedback and Satisfaction Levels",
-    type: "Narrative",
-    status: "Done",
-    target: "15",
-    limit: "34",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 15,
-    header: "Implementation Challenges and Solutions",
-    type: "Narrative",
-    status: "Done",
-    target: "3",
-    limit: "35",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 16,
-    header: "Security Measures and Data Protection Policies",
-    type: "Narrative",
-    status: "In Process",
-    target: "6",
-    limit: "36",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 17,
-    header: "Scalability and Future Proofing",
-    type: "Narrative",
-    status: "Done",
-    target: "4",
-    limit: "37",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 18,
-    header: "Cost-Benefit Analysis",
-    type: "Plain language",
-    status: "Done",
-    target: "14",
-    limit: "38",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 19,
-    header: "User Training and Onboarding Experience",
-    type: "Narrative",
-    status: "Done",
-    target: "17",
-    limit: "39",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 20,
-    header: "Future Development Roadmap",
-    type: "Narrative",
-    status: "Done",
-    target: "11",
-    limit: "40",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 21,
-    header: "System Architecture Overview",
-    type: "Technical content",
-    status: "In Process",
-    target: "24",
-    limit: "18",
-    reviewer: "Maya Johnson",
-  },
-  {
-    id: 22,
-    header: "Risk Management Plan",
-    type: "Narrative",
-    status: "Done",
-    target: "15",
-    limit: "22",
-    reviewer: "Carlos Rodriguez",
-  },
-  {
-    id: 23,
-    header: "Compliance Documentation",
-    type: "Legal",
-    status: "In Process",
-    target: "31",
-    limit: "27",
-    reviewer: "Sarah Chen",
-  },
-  {
-    id: 24,
-    header: "API Documentation",
-    type: "Technical content",
-    status: "Done",
-    target: "8",
-    limit: "12",
-    reviewer: "Raj Patel",
-  },
-  {
-    id: 25,
-    header: "User Interface Mockups",
-    type: "Visual",
-    status: "In Process",
-    target: "19",
-    limit: "25",
-    reviewer: "Leila Ahmadi",
-  },
-  {
-    id: 26,
-    header: "Database Schema",
-    type: "Technical content",
-    status: "Done",
-    target: "22",
-    limit: "20",
-    reviewer: "Thomas Wilson",
-  },
-  {
-    id: 27,
-    header: "Testing Methodology",
-    type: "Technical content",
-    status: "In Process",
-    target: "17",
-    limit: "14",
-    reviewer: "Assign reviewer",
-  },
-  {
-    id: 28,
-    header: "Deployment Strategy",
-    type: "Narrative",
-    status: "Done",
-    target: "26",
-    limit: "30",
-    reviewer: "Eddie Lake",
-  },
-  {
-    id: 29,
-    header: "Budget Breakdown",
-    type: "Financial",
-    status: "In Process",
-    target: "13",
-    limit: "16",
-    reviewer: "Jamik Tashpulatov",
-  },
-  {
-    id: 30,
-    header: "Market Analysis",
-    type: "Research",
-    status: "Done",
-    target: "29",
-    limit: "32",
-    reviewer: "Sophia Martinez",
-  },
+  }
 ]
 </script>
 
@@ -355,7 +101,6 @@ const data = [
         dashboard_path = self.project_path / "src" / "views" / "DashboardView.vue"
         self.write_file(dashboard_path, dashboard_content)
 
-        # Remove old HomeView.vue if it exists
         home_view = self.project_path / "src" / "views" / "HomeView.vue"
         if home_view.exists():
             home_view.unlink()
@@ -436,13 +181,13 @@ export default router
         self.write_file(router_path, router_content)
 
     def create_api_client(self) -> None:
-        """Create enhanced API client with interceptors."""
-        print("🔧 Creating API client...")
+        """Create enhanced API client with ofetch and interceptors."""
+        print("🔧 Creating API client with ofetch...")
 
         api_content = """import { useQuery, useMutation } from '@tanstack/vue-query'
 import type { UseQueryOptions, UseMutationOptions } from '@tanstack/vue-query'
 import { useAuthStore } from '@/stores/auth'
-import { ROUTE_PATHS } from '@/constants/routes'
+import { ofetch } from 'ofetch'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
@@ -450,57 +195,38 @@ class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
-    public code?: string
+    public data?: any
   ) {
     super(message)
     this.name = 'ApiError'
   }
 }
 
-async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const authStore = useAuthStore()
-  const token = authStore.token
-
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }),
-    ...options.headers,
-  }
-
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  })
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}))
-    throw new ApiError(
-      errorData.message || `Request failed with status ${response.status}`,
-      response.status,
-      errorData.code
-    )
-  }
-
-  if (response.status === 204) {
-    return undefined as T
-  }
-
-  return response.json()
-}
-
-function handleError(error: unknown): never {
-  if (error instanceof ApiError) {
-    if (error.status === 401) {
-      const authStore = useAuthStore()
-      authStore.logout()
-      window.location.href = ROUTE_PATHS.LOGIN
+// Create an ofetch instance with default interceptors
+export const apiFetch = ofetch.create({
+  baseURL: API_BASE_URL,
+  async onRequest({ options }) {
+    const authStore = useAuthStore()
+    if (authStore.token) {
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${authStore.token}`,
+      }
     }
-    console.error(`[API Error] ${error.status}: ${error.message}`)
-    throw error
+  },
+  async onResponseError({ response }) {
+    // Handle 401 Unauthorized globally
+    if (response.status === 401) {
+      const authStore = useAuthStore()
+      authStore.logout() // 内部已包含 router.push，支持 SPA 无刷新跳转
+    }
+
+    const message = response._data?.message || `Request failed with status ${response.status}`
+    console.error(`[API Error] ${response.status}: ${message}`)
+    
+    throw new ApiError(message, response.status, response._data)
   }
-  console.error('[Unknown Error]', error)
-  throw new ApiError('An unexpected error occurred', 500)
-}
+})
 
 export function useApiQuery<T>(
   key: string[],
@@ -509,7 +235,7 @@ export function useApiQuery<T>(
 ) {
   return useQuery<T>({
     queryKey: key,
-    queryFn: () => fetchApi<T>(endpoint).catch(handleError),
+    queryFn: () => apiFetch<T>(endpoint),
     ...options,
   })
 }
@@ -521,23 +247,22 @@ export function useApiMutation<TData, TVariables>(
 ) {
   return useMutation<TData, Error, TVariables>({
     mutationFn: (variables) =>
-      fetchApi<TData>(endpoint, {
+      apiFetch<TData>(endpoint, {
         method,
-        body: method !== 'GET' ? JSON.stringify(variables) : undefined,
-      }).catch(handleError),
+        // ofetch 会自动序列化 body 为 JSON，无需手动 JSON.stringify
+        body: method !== 'GET' ? variables : undefined,
+      }),
     ...options,
   })
 }
 
+// 导出易于使用的单例 API 请求方法
 export const api = {
-  get: <T>(endpoint: string) => fetchApi<T>(endpoint, { method: 'GET' }),
-  post: <T>(endpoint: string, data: unknown) =>
-    fetchApi<T>(endpoint, { method: 'POST', body: JSON.stringify(data) }),
-  put: <T>(endpoint: string, data: unknown) =>
-    fetchApi<T>(endpoint, { method: 'PUT', body: JSON.stringify(data) }),
-  patch: <T>(endpoint: string, data: unknown) =>
-    fetchApi<T>(endpoint, { method: 'PATCH', body: JSON.stringify(data) }),
-  delete: <T>(endpoint: string) => fetchApi<T>(endpoint, { method: 'DELETE' }),
+  get: <T>(endpoint: string, query?: any) => apiFetch<T>(endpoint, { method: 'GET', query }),
+  post: <T>(endpoint: string, body?: any) => apiFetch<T>(endpoint, { method: 'POST', body }),
+  put: <T>(endpoint: string, body?: any) => apiFetch<T>(endpoint, { method: 'PUT', body }),
+  patch: <T>(endpoint: string, body?: any) => apiFetch<T>(endpoint, { method: 'PATCH', body }),
+  delete: <T>(endpoint: string, body?: any) => apiFetch<T>(endpoint, { method: 'DELETE', body }),
 }
 
 export { API_BASE_URL }
@@ -626,18 +351,16 @@ export const useAuthStore = defineStore('auth', () => {
         self.write_file(auth_store_path, auth_store_content)
 
     def create_settings_store(self) -> None:
-        """Create settings store for app configuration."""
+        """Create settings store for app configuration (No i18n)."""
         print("🔧 Creating settings store...")
 
         settings_store_content = """import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export type Theme = 'light' | 'dark' | 'system'
-export type Language = 'en' | 'zh-CN' | 'zh-TW'
 
 export interface AppSettings {
   theme: Theme
-  language: Language
   sidebarCollapsed: boolean
   tableDensity: 'compact' | 'default' | 'comfortable'
   showNotifications: boolean
@@ -645,7 +368,6 @@ export interface AppSettings {
 
 const DEFAULT_SETTINGS: AppSettings = {
   theme: 'system',
-  language: 'en',
   sidebarCollapsed: false,
   tableDensity: 'default',
   showNotifications: true,
@@ -680,10 +402,6 @@ export const useSettingsStore = defineStore('settings', () => {
     settings.value.theme = theme
   }
 
-  function setLanguage(language: Language) {
-    settings.value.language = language
-  }
-
   function toggleSidebar() {
     settings.value.sidebarCollapsed = !settings.value.sidebarCollapsed
   }
@@ -699,7 +417,6 @@ export const useSettingsStore = defineStore('settings', () => {
   return {
     settings,
     setTheme,
-    setLanguage,
     toggleSidebar,
     setTableDensity,
     resetSettings,
@@ -1287,38 +1004,15 @@ interface ImportMeta {
         env_dts_path = self.project_path / "src" / "env.d.ts"
         self.write_file(env_dts_path, env_dts_content)
 
-    def fix_chart_component(self) -> None:
-        """Fix ChartAreaInteractive.vue to import ref and computed."""
-        print("🔧 Fixing chart component imports...")
-
-        chart_path = (
-            self.project_path / "src" / "components" / "ChartAreaInteractive.vue"
-        )
-        if not chart_path.exists():
-            return
-
-        content = chart_path.read_text(encoding="utf-8")
-
-        if "import { ref, computed }" in content or "import {ref,computed}" in content:
-            return
-
-        if '<script setup lang="ts">' in content:
-            content = content.replace(
-                '<script setup lang="ts">',
-                "<script setup lang=\"ts\">\nimport { ref, computed } from 'vue'",
-            )
-            chart_path.write_text(content, encoding="utf-8")
-
     def setup(self) -> None:
         """Execute full dashboard setup."""
         print("\n" + "=" * 60)
-        print("  Admin Dashboard Setup (Enhanced)")
+        print("  Admin Dashboard Setup (Enhanced & ofetch)")
         print("  Setting up production-ready admin dashboard")
         print("=" * 60 + "\n")
 
         self.install_dashboard_components()
         self.create_dashboard_view()
-        self.fix_chart_component()
         self.create_router()
         self.create_api_client()
         self.create_auth_store()
@@ -1340,7 +1034,8 @@ interface ImportMeta {
         print("🎯 Enhanced Features:")
         print("  - Complete routing system with guards")
         print("  - Layout system (Default + Auth)")
-        print("  - Enhanced API client with interceptors")
+        print("  - Enhanced API client with ofetch & global interceptors")
+        print("  - SPA Friendly 401 handling")
         print("  - Authentication store")
         print("  - Type definitions")
         print("  - Constants")
