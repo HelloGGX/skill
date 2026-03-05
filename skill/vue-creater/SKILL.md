@@ -135,15 +135,11 @@ Please select the frontend template:
     2. Proceed to Step 4.
 
 * **If Choice "2" (Admin Dashboard):**
-    1. Execute the script: `python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"`
-    2. **What this does**:
-       - Installs required dependencies (dnd-kit-vue, @dnd-kit/abstract)
-       - Installs dashboard components via `npx shadcn-vue@latest add dashboard-01`
-       - Creates DashboardView.vue with sidebar, data table, and analytics cards
-       - Updates router configuration to use dashboard as home page
-       - Sets up proper layout structure following admin dashboard best practices
-       - Removes old HomeView.vue
-    3. Wait for completion before proceeding to Step 4.
+    1. Execute the script: 
+    ```bash
+    python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"
+    ```
+    2. Wait for completion before proceeding to Step 4.
 
 ### Step 4: Apply Design Tokens
 
