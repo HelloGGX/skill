@@ -53,7 +53,7 @@ Please select the project type:
 To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow these steps:
 1. Initialize the project scaffold using script: `skill/vue-creater/scripts/shadcn_vue_init.py`
 2. Retrieve design data using tool: `get_dsl`
-3. Select frontend template using script: `skill/vue-creater/scripts/setup_admin_dashboard.py` (optional)
+3. Select frontend template using script: `skill/vue-creater/scripts/setup_nuxt_dashboard.py` (optional)
 4. Apply design tokens and styles using tool: `get_token`
 5. Develop the artifact logic
 6. Bundle code (if necessary for single-file delivery)
@@ -135,7 +135,7 @@ Please select the frontend template:
     2. Proceed to Step 4.
 
 * **If Choice "2" (Admin Dashboard):**
-    1. Execute the script: `python3 skill/vue-creater/scripts/setup_admin_dashboard.py "$PROJECT_ROOT"`
+    1. Execute the script: `python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"`
     2. **What this does**:
        - Installs required dependencies (dnd-kit-vue, @dnd-kit/abstract)
        - Installs dashboard components via `npx shadcn-vue@latest add dashboard-01`
@@ -197,13 +197,13 @@ python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]
 - Generates comprehensive README.md
 - Cleans up unnecessary template files
 
-### setup_admin_dashboard.py
+### setup_nuxt_dashboard.py
 
-**Location**: `skill/vue-creater/scripts/setup_admin_dashboard.py`
+**Location**: `skill/vue-creater/scripts/setup_nuxt_dashboard.py`
 
 **Usage**:
 ```bash
-python3 skill/vue-creater/scripts/setup_admin_dashboard.py <project-path>
+python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py <project-path>
 ```
 
 **Features**:
