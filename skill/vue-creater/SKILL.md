@@ -38,7 +38,7 @@ Please select the project type:
     1. Proceed to Step 1 and follow the default workflow (Steps 1-5).
 
 * **If Choice "2" (Nuxt Admin Dashboard):**
-    1. Execute the script: `python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py [project-name]`
+    1. Execute the script: `python3 scripts/setup_nuxt_dashboard.py [project-name]`
        * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
     2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
     3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
@@ -51,9 +51,9 @@ Please select the project type:
 ## Default Template Workflow (Choice 1)
 
 To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow these steps:
-1. Initialize the project scaffold using script: `skill/vue-creater/scripts/shadcn_vue_init.py`
+1. Initialize the project scaffold using script: `scripts/shadcn_vue_init.py`
 2. Retrieve design data using tool: `get_dsl`
-3. Select frontend template using script: `skill/vue-creater/scripts/setup_nuxt_dashboard.py` (optional)
+3. Select frontend template using script: `scripts/setup_nuxt_dashboard.py` (optional)
 4. Apply design tokens and styles using tool: `get_token`
 5. Develop the artifact logic
 6. Bundle code (if necessary for single-file delivery)
@@ -66,7 +66,7 @@ To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow t
 ### Step 1: Initialize Project Scaffolding
 
 **Instruction**:
-1. Execute the script: `python3 ./opencode/skills/vue-creater/scripts/shadcn_vue_init.py [project-name]`
+1. Execute the script: `python3 scripts/shadcn_vue_init.py [project-name]`
    * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
 2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
 3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
@@ -137,7 +137,7 @@ Please select the frontend template:
 * **If Choice "2" (Admin Dashboard):**
     1. Execute the script: 
     ```bash
-    python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"
+    python3 scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"
     ```
     2. Wait for completion before proceeding to Step 4.
 
@@ -175,11 +175,11 @@ cd "$PROJECT_ROOT" && bun run dev
 
 ### shadcn_vue_init.py
 
-**Location**: `skill/vue-creater/scripts/shadcn_vue_init.py`
+**Location**: `scripts/shadcn_vue_init.py`
 
 **Usage**:
 ```bash
-python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]
+python3 scripts/shadcn_vue_init.py [project-name]
 ```
 
 **Features**:
@@ -195,11 +195,11 @@ python3 skill/vue-creater/scripts/shadcn_vue_init.py [project-name]
 
 ### setup_nuxt_dashboard.py
 
-**Location**: `skill/vue-creater/scripts/setup_nuxt_dashboard.py`
+**Location**: `scripts/setup_nuxt_dashboard.py`
 
 **Usage**:
 ```bash
-python3 skill/vue-creater/scripts/setup_nuxt_dashboard.py <project-path>
+python3 scripts/setup_nuxt_dashboard.py <project-path>
 ```
 
 **Features**:
