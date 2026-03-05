@@ -9,6 +9,7 @@ Usage:
 
 Example:
     python setup_nuxt_dashboard.py my-nuxt-admin
+    python setup_nuxt_dashboard.py  # Creates 'dashboard' directory
 """
 
 import shutil
@@ -19,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 # Constants
-DEFAULT_PROJECT_NAME = "nuxt-admin-dashboard"
+DEFAULT_PROJECT_NAME = "dashboard"
 PROGRESS_BAR_WIDTH = 40
 
 
@@ -45,7 +46,7 @@ class ProgressBar:
     def finish(self) -> None:
         """Mark progress as complete."""
         bar = "=" * PROGRESS_BAR_WIDTH
-        print(f"\r [{bar}] 100% - Done[{self.description}]!\n")
+        print(f"\r[{self.description}] [{bar}] 100% - Done!\n")
 
 
 class NuxtDashboardSetup:
@@ -76,25 +77,54 @@ class NuxtDashboardSetup:
             sys.exit(1)
 
     def _extract_template(self) -> None:
-        """Extract the Nuxt dashboard template."""
+        """Extract the Nuxt dashboard template directly to project directory."""
         self.progress.update("Extracting template")
 
         # Remove existing directory if it exists
         if self.project_path.exists():
             shutil.rmtree(self.project_path)
 
-        # Create project directory
-        self.project_path.mkdir(parents=True, exist_ok=True)
+        # Create a temporary directory for extraction
+        temp_dir = self.project_path.parent / f".temp_{self.project_name}"
+        if temp_dir.exists():
+            shutil.rmtree(temp_dir)
+        temp_dir.mkdir(parents=True, exist_ok=True)
 
-        # Extract zip file
         try:
+            # Extract zip file to temp directory
             with zipfile.ZipFile(self.zip_path, 'r') as zip_ref:
-                zip_ref.extractall(self.project_path)
+                zip_ref.extractall(temp_dir)
+
+            # Find the actual content directory (handle nested structure)
+            extracted_items = list(temp_dir.iterdir())
+            
+            # If there's only one directory, assume it's the wrapper
+            if len(extracted_items) == 1 and extracted_items[0].is_dir():
+                source_dir = extracted_items[0]
+            else:
+                source_dir = temp_dir
+
+            # Move content to final destination
+            self.project_path.mkdir(parents=True, exist_ok=True)
+            for item in source_dir.iterdir():
+                dest = self.project_path / item.name
+                if item.is_dir():
+                    shutil.copytree(item, dest)
+                else:
+                    shutil.copy2(item, dest)
+
+            # Clean up temp directory
+            shutil.rmtree(temp_dir)
+
         except zipfile.BadZipFile:
             print(f"\n❌ Error: Invalid zip file at {self.zip_path}", file=sys.stderr)
+            if temp_dir.exists():
+                shutil.rmtree(temp_dir)
             sys.exit(1)
         except Exception as e:
             print(f"\n❌ Error extracting template: {e}", file=sys.stderr)
+            if temp_dir.exists():
+                shutil.rmtree(temp_dir)
             sys.exit(1)
 
     def _install_dependencies(self) -> None:
