@@ -1,21 +1,712 @@
-$ vitest run
 
-[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/aiProj/skill/packages/vibe[39m
+[0m[2m[35m$[0m [2m[1mvitest run[0m
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/Users/xiaoluo/Desktop/work/skill/packages/vibe[39m
 
- [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 7[2mms[22m[39m
- [32m✓[39m src/utils/error.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 20[2mms[22m[39m
- [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 128[2mms[22m[39m
- [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 288[2mms[22m[39m
- [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 113[2mms[22m[39m
- [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 307[2mms[22m[39m
- [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 212[2mms[22m[39m
- [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 174[2mms[22m[39m
- [32m✓[39m src/git.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3030[2mms[22m[39m
-       [33m[2m✓[22m[39m should throw GitCloneError for invalid repository [33m 1529[2mms[22m[39m
-       [33m[2m✓[22m[39m should throw GitCloneError with auth error for private repo without credentials [33m 1473[2mms[22m[39m
+[?2026h
+[1m[33m ❯ [39m[22msrc/utils/config.test.ts[2m [queued][22m
 
-[2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
-[2m      Tests [22m [1m[32m140 passed[39m[22m[90m (140)[39m
-[2m   Start at [22m 22:49:18
-[2m   Duration [22m 3.84s[2m (transform 1.30s, setup 0ms, import 3.26s, tests 4.28s, environment 2ms)[22m
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m104ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 0/11[22m
+[1m[33m ❯ [39m[22msrc/skills/installer.test.ts[2m 0/27[22m
+[1m[33m ❯ [39m[22msrc/skills/parser.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22msrc/skills/skill-lock.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22msrc/utils/config.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22msrc/utils/file.test.ts[2m 0/18[22m
+[1m[33m ❯ [39m[22msrc/utils/hash.test.ts[2m 0/9[22m
 
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (65)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m205ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 73[2mms[22m[39m
+ [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 0/11[22m
+[1m[33m ❯ [39m[22msrc/utils/error.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m105 passed[39m[22m[90m (116)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m306ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/utils/error.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m911ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m1.92s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m2.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m3.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m4.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m5.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m6.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m7.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m8.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m9.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m10.99s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m12.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m12.91s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m13.92s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m14.92s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m15.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m16.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m17.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m18.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m19.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m20.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m21.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m22.99s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m24.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m25.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m26.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m26.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m27.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m28.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 4/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m29.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m30.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m30.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m31.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m32.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m33.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m34.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m35.99s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m37.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m38.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m39.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m40.03s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m40.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m41.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m42.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m43.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m44.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m46.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m47.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m48.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m49.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m50.03s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m51.04s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m51.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m52.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m53.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m54.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m56.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m57.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m58.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m59.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 5/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m1 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m60.03s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 6/11[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[31m2 failed[39m[22m[2m | [22m[1m[32m133 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m09:00:37
+[2m   Duration [22m60.23s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [31m❯[39m src/git.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 60025[2mms[22m[39m
+       [32m✓[39m should create error with url[32m 2[2mms[22m[39m
+       [32m✓[39m should create timeout error[32m 0[2mms[22m[39m
+       [32m✓[39m should create auth error[32m 0[2mms[22m[39m
+       [32m✓[39m should create network error[32m 0[2mms[22m[39m
+[31m       [31m×[31m should throw GitCloneError for invalid repository[39m[33m 30008[2mms[22m[39m
+[31m       [31m×[31m should throw GitCloneError with auth error for private repo without credentials[39m[33m 30007[2mms[22m[39m
+       [32m✓[39m should remove directory[32m 4[2mms[22m[39m
+       [32m✓[39m should handle non-existent directory[32m 1[2mms[22m[39m
+       [32m✓[39m should throw error for directory outside tmpdir[32m 1[2mms[22m[39m
+       [32m✓[39m should handle cleanup of tmpdir subdirectories[32m 1[2mms[22m[39m
+       [32m✓[39m should handle nested directories[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/git.test.ts[2m > [22mgit utilities[2m > [22mcloneRepo[2m > [22mshould throw GitCloneError for invalid repository
+[31m[1mError[22m: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/git.test.ts:[2m59:5[22m[39m
+    [90m 57| [39m
+    [90m 58| [39m  [34mdescribe[39m([32m'cloneRepo'[39m[33m,[39m () [33m=>[39m {
+    [90m 59| [39m    [34mit[39m([32m'should throw GitCloneError for invalid repository'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   | [39m    [31m^[39m
+    [90m 60| [39m      [35mconst[39m invalidUrl [33m=[39m [32m'https://github.com/nonexistent/repo-that-does-not-exist-12345.git'[39m
+    [90m 61| [39m      
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/git.test.ts[2m > [22mgit utilities[2m > [22mcloneRepo[2m > [22mshould throw GitCloneError with auth error for private repo without credentials
+[31m[1mError[22m: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/git.test.ts:[2m65:5[22m[39m
+    [90m 63| [39m    }[33m,[39m [34m30000[39m)
+    [90m 64| [39m
+    [90m 65| [39m    [34mit[39m([32m'should throw GitCloneError with auth error for private repo without credentials'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   | [39m    [31m^[39m
+    [90m 66| [39m      [35mconst[39m privateUrl [33m=[39m [32m'https://github.com/private/secret-repo.git'[39m
+    [90m 67| [39m      
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m138 passed[39m[22m[90m (140)[39m
+[2m   Start at [22m 09:00:37
+[2m   Duration [22m 60.29s[2m (transform 529ms, setup 0ms, import 763ms, tests 60.34s, environment 1ms)[22m
+
+[?25h[0m[31merror[0m[2m:[0m script [1m"test"[0m exited with code 1[0m

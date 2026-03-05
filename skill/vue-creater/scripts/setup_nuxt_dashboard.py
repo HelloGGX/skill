@@ -55,7 +55,7 @@ class NuxtDashboardSetup:
         self.project_name = project_name
         self.project_path = Path.cwd() / project_name
         self.script_dir = Path(__file__).parent
-        self.zip_path = self.script_dir.parent / "references" / "nuxt-shadcn-dashboard.zip"
+        self.zip_path = self.script_dir.parent / "templates" / "nuxt-shadcn-dashboard.zip"
         self.is_windows = sys.platform.startswith("win")
         self.progress = ProgressBar(3, "Setting up Nuxt Dashboard")
 
@@ -72,7 +72,7 @@ class NuxtDashboardSetup:
         """Check if the template zip file exists."""
         if not self.zip_path.exists():
             print(f"\n❌ Error: Template file not found at {self.zip_path}", file=sys.stderr)
-            print("Please ensure nuxt-shadcn-dashboard.zip exists in skill/vue-creater/references/", file=sys.stderr)
+            print("Please ensure nuxt-shadcn-dashboard.zip exists in skill/vue-creater/templates/", file=sys.stderr)
             sys.exit(1)
 
     def _extract_template(self) -> None:
