@@ -53,10 +53,9 @@ Please select the project type:
 To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow these steps:
 1. Initialize the project scaffold using script: `scripts/shadcn_vue_init.py`
 2. Retrieve design data using tool: `get_dsl`
-3. Select frontend template using script: `scripts/setup_nuxt_dashboard.py` (optional)
-4. Apply design tokens and styles using tool: `get_token`
-5. Develop the artifact logic
-6. Bundle code (if necessary for single-file delivery)
+3. Apply design tokens and styles using tool: `get_token`
+4. Develop the artifact logic
+5. Bundle code (if necessary for single-file delivery)
 
 **Stack**: 
 - **Core**: Vue 3 (Script Setup) + TypeScript + Vite v8.0.0
@@ -112,36 +111,7 @@ Fetch the design structure and layout data from the source:
     1. Log "Using default theme, skipping DSL fetch."
     2. **ASSIGN**: Set `$DSL_PATH` to empty or null to indicate no custom design tokens.
 
-### Step 3: Select Frontend Template
-
-**Instruction**:
-You must ask the user to select a frontend template:
-
-```
-Please select the frontend template:
-
-    1. **Skip** (Keep the basic project structure)
-    2. **Admin Dashboard** (中后台管理系统模板)
-
-    Choice [1/2]:
-```
-
-**STOP and WAIT for user input** - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command match
-
-**Action based on user input:**
-
-* **If Choice "1" (Skip):**
-    1. Log "Skipping template setup, using basic structure."
-    2. Proceed to Step 4.
-
-* **If Choice "2" (Admin Dashboard):**
-    1. Execute the script: 
-    ```bash
-    python3 scripts/setup_nuxt_dashboard.py "$PROJECT_ROOT"
-    ```
-    2. Wait for completion before proceeding to Step 4.
-
-### Step 4: Apply Design Tokens
+### Step 3: Apply Design Tokens
 
 **Prerequisites**:
 * Ensure `$PROJECT_ROOT` is defined (from Step 1).
@@ -159,7 +129,7 @@ You must now call the `get_token` tool using the exact paths captured previously
 
 **Goal**: Extract design tokens from the DSL file at `$DSL_PATH` and inject them into the Tailwind 4 configuration located inside `$PROJECT_ROOT`.
 
-### Step 5: Start Development Server
+### Step 4: Start Development Server
 
 **Instruction**:
 1. Execute the command below immediately.
@@ -203,56 +173,12 @@ python3 scripts/setup_nuxt_dashboard.py <project-path>
 ```
 
 **Features**:
-- Installs dnd-kit dependencies for drag-and-drop functionality
-- Adds dashboard-01 components from shadcn-vue
-- Creates DashboardView.vue with:
-  - Sidebar navigation (AppSidebar)
-  - Site header (SiteHeader)
-  - Analytics cards (SectionCards)
-  - Interactive charts (ChartAreaInteractive)
-  - Data table with sample data (DataTable)
-- Updates router to use dashboard as home page
-- Creates layout structure for admin dashboard
-- Removes old HomeView.vue
+- Extracts a pre-configured Nuxt 3 admin dashboard template from zip file
+- Includes Shadcn UI components and Tailwind CSS configuration
+- Installs all necessary dependencies using bun
+- Provides a ready-to-use admin dashboard structure
 
-## Project Structure
 
-After running both scripts with Admin Dashboard template, your project will have:
-
-```
-project-name/
-├── src/
-│   ├── assets/
-│   │   └── main.css              # Tailwind CSS imports
-│   ├── components/
-│   │   ├── ui/                   # Shadcn UI components
-│   │   ├── AppSidebar.vue        # Dashboard sidebar
-│   │   ├── SiteHeader.vue        # Dashboard header
-│   │   ├── SectionCards.vue      # Analytics cards
-│   │   ├── ChartAreaInteractive.vue  # Interactive charts
-│   │   ├── DataTable.vue         # Data table with drag-and-drop
-│   │   └── ...                   # Other dashboard components
-│   ├── composables/
-│   │   └── useApi.ts             # API utilities with TanStack Query
-│   ├── layouts/
-│   │   └── DefaultLayout.vue     # Default layout wrapper
-│   ├── lib/
-│   │   └── utils.ts              # Common utilities (cn, sleep)
-│   ├── router/
-│   │   └── index.ts              # Vue Router configuration
-│   ├── stores/
-│   │   └── counter.ts            # Pinia store example
-│   ├── views/
-│   │   └── DashboardView.vue     # Main dashboard page
-│   ├── App.vue                   # Root component
-│   └── main.ts                   # Application entry
-├── .env.example                  # Environment variables template
-├── README.md                     # Project documentation
-├── package.json                  # Dependencies
-├── tsconfig.json                 # TypeScript configuration
-├── vite.config.ts                # Vite configuration
-└── tailwind.config.js            # Tailwind CSS configuration
-```
 
 ## Reference
 
