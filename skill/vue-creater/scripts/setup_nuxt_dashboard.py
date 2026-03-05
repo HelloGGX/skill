@@ -17,140 +17,77 @@ import subprocess
 import sys
 import zipfile
 from pathlib import Path
-from typing import Optional
 
 # Constants
 DEFAULT_PROJECT_NAME = "dashboard"
-PROGRESS_BAR_WIDTH = 40
 
 
-class ProgressBar:
-    """Visual progress indicator for long-running operations."""
 
-    def __init__(self, total_steps: int, description: str = "Progress"):
-        self.total = total_steps
-        self.current = 0
-        self.description = description
+def extract_template(zip_path: Path, project_path: Path) -> None:
+    """Extract the Nuxt dashboard template to project directory."""
+    print("📦 Extracting template...", flush=True)
 
-    def update(self, step_name: str = "") -> None:
-        """Update progress bar with current step."""
-        self.current += 1
-        percent = int((self.current / self.total) * 100)
-        filled = int((self.current / self.total) * PROGRESS_BAR_WIDTH)
-        bar = "=" * filled + "-" * (PROGRESS_BAR_WIDTH - filled)
+    # Remove existing directory if it exists
+    if project_path.exists():
+        shutil.rmtree(project_path)
 
-        status = f" - {step_name}" if step_name else ""
-        display = f"\r[{self.description}] [{bar}] {percent}%{status}"
-        print(display, end="", flush=True)
+    # Create temporary extraction directory
+    temp_dir = project_path.parent / f".temp_{project_path.name}"
+    if temp_dir.exists():
+        shutil.rmtree(temp_dir)
 
-    def finish(self) -> None:
-        """Mark progress as complete."""
-        bar = "=" * PROGRESS_BAR_WIDTH
-        print(f"\r[{self.description}] [{bar}] 100% - Done!\n")
+    try:
+        # Extract zip file to temp directory
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(temp_dir)
 
+        # Find nuxt-shadcn-dashboard folder and move its contents to project_path
+        source_dir = temp_dir / "nuxt-shadcn-dashboard"
 
-class NuxtDashboardSetup:
-    """Setup Nuxt admin dashboard from template."""
-
-    def __init__(self, project_name: str):
-        self.project_name = project_name
-        self.project_path = Path.cwd() / project_name
-        self.script_dir = Path(__file__).parent
-        self.zip_path = self.script_dir.parent / "templates" / "nuxt-shadcn-dashboard.zip"
-        self.is_windows = sys.platform.startswith("win")
-        self.progress = ProgressBar(3, "Setting up Nuxt Dashboard")
-
-    def setup(self) -> None:
-        """Execute full setup workflow."""
-        self._validate_zip_exists()
-        self._extract_template()
-        self._install_dependencies()
-        
-        self.progress.finish()
-        print(self.project_path.absolute())
-
-    def _validate_zip_exists(self) -> None:
-        """Check if the template zip file exists."""
-        if not self.zip_path.exists():
-            print(f"\n❌ Error: Template file not found at {self.zip_path}", file=sys.stderr)
-            print("Please ensure nuxt-shadcn-dashboard.zip exists in skill/vue-creater/templates/", file=sys.stderr)
+        if not source_dir.exists():
+            print(f"❌ Error: nuxt-shadcn-dashboard folder not found in zip", file=sys.stderr)
+            shutil.rmtree(temp_dir)
             sys.exit(1)
 
-    def _extract_template(self) -> None:
-        """Extract the Nuxt dashboard template directly to project directory."""
-        self.progress.update("Extracting template")
+        # Move the nuxt-shadcn-dashboard folder to project_path
+        shutil.move(str(source_dir), str(project_path))
 
-        # Remove existing directory if it exists
-        if self.project_path.exists():
-            shutil.rmtree(self.project_path)
+        # Clean up temp directory
+        shutil.rmtree(temp_dir)
 
-        # Create a temporary directory for extraction
-        temp_dir = self.project_path.parent / f".temp_{self.project_name}"
+        print("✅ Template extracted successfully")
+    except zipfile.BadZipFile:
+        print(f"❌ Error: Invalid zip file at {zip_path}", file=sys.stderr)
         if temp_dir.exists():
             shutil.rmtree(temp_dir)
-        temp_dir.mkdir(parents=True, exist_ok=True)
-
-        try:
-            # Extract zip file to temp directory
-            with zipfile.ZipFile(self.zip_path, 'r') as zip_ref:
-                zip_ref.extractall(temp_dir)
-
-            # Find the actual content directory (handle nested structure)
-            extracted_items = list(temp_dir.iterdir())
-            
-            # If there's only one directory, assume it's the wrapper
-            if len(extracted_items) == 1 and extracted_items[0].is_dir():
-                source_dir = extracted_items[0]
-            else:
-                source_dir = temp_dir
-
-            # Move content to final destination
-            self.project_path.mkdir(parents=True, exist_ok=True)
-            for item in source_dir.iterdir():
-                dest = self.project_path / item.name
-                if item.is_dir():
-                    shutil.copytree(item, dest)
-                else:
-                    shutil.copy2(item, dest)
-
-            # Clean up temp directory
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error extracting template: {e}", file=sys.stderr)
+        if temp_dir.exists():
             shutil.rmtree(temp_dir)
+        sys.exit(1)
 
-        except zipfile.BadZipFile:
-            print(f"\n❌ Error: Invalid zip file at {self.zip_path}", file=sys.stderr)
-            if temp_dir.exists():
-                shutil.rmtree(temp_dir)
-            sys.exit(1)
-        except Exception as e:
-            print(f"\n❌ Error extracting template: {e}", file=sys.stderr)
-            if temp_dir.exists():
-                shutil.rmtree(temp_dir)
-            sys.exit(1)
 
-    def _install_dependencies(self) -> None:
-        """Install project dependencies using bun."""
-        self.progress.update("Installing dependencies")
+def install_dependencies(project_path: Path) -> None:
+    """Install project dependencies using bun."""
+    print("📥 Installing dependencies with bun...", flush=True)
 
-        try:
-            subprocess.run(
-                ["bun", "install"],
-                check=True,
-                cwd=self.project_path,
-                shell=self.is_windows,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                encoding="utf-8",
-            )
-        except subprocess.CalledProcessError as e:
-            print(f"\n❌ Failed to install dependencies", file=sys.stderr)
-            print(f"Standard output: {e.stdout}", file=sys.stderr)
-            print(f"Error message: {e.stderr}", file=sys.stderr)
-            sys.exit(1)
-        except FileNotFoundError:
-            print(f"\n❌ Command not found: bun", file=sys.stderr)
-            print("Please install bun: https://bun.sh", file=sys.stderr)
-            sys.exit(1)
+    try:
+        # Change to project directory and run bun install
+        subprocess.run(
+            ["bun", "install"],
+            cwd=project_path,
+            check=True,
+            capture_output=False
+        )
+        print("✅ Dependencies installed successfully")
+    except subprocess.CalledProcessError:
+        print("❌ Failed to install dependencies", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError:
+        print("❌ Command not found: bun", file=sys.stderr)
+        print("Please install bun: https://bun.sh", file=sys.stderr)
+        sys.exit(1)
 
 
 def main() -> None:
@@ -165,13 +102,25 @@ def main() -> None:
     project_name = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_PROJECT_NAME
     project_path = Path.cwd() / project_name
 
+    # Get template zip path
+    script_dir = Path(__file__).parent
+    zip_path = script_dir.parent / "templates" / "nuxt-shadcn-dashboard.zip"
+
+    # Validate zip exists
+    if not zip_path.exists():
+        print(f"❌ Error: Template file not found at {zip_path}", file=sys.stderr)
+        print("Please ensure nuxt-shadcn-dashboard.zip exists in skill/vue-creater/templates/", file=sys.stderr)
+        sys.exit(1)
+
     # Confirm project creation
     print(f"📦 Project name: {project_name}")
     print(f"📁 Project path: {project_path.absolute()}\n")
 
-    # Setup project
-    setup = NuxtDashboardSetup(project_name)
-    setup.setup()
+    # Extract template
+    extract_template(zip_path, project_path)
+
+    # Install dependencies
+    install_dependencies(project_path)
 
     # Print success message
     print("\n" + "=" * 60)
@@ -191,10 +140,10 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n\n操作已取消", file=sys.stderr)
+        print("\n\n❌ Operation cancelled", file=sys.stderr)
         sys.exit(130)
     except Exception as e:
-        print(f"\n发生错误: {e}", file=sys.stderr)
+        print(f"\n❌ Error occurred: {e}", file=sys.stderr)
         import traceback
         traceback.print_exc()
         sys.exit(1)
