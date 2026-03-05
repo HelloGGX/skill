@@ -13,7 +13,7 @@ authors: [玄子]
 You must maintain a **Session Context** to store file paths. Do not proceed to subsequent steps until you have populated the required variables.
 
 * `$PROJECT_ROOT`: The absolute path to the project created in Step 1.
-* `$DSL_PATH`: The absolute path to the `dsl.json` file generated in Step 2 (only for default template).
+* `$DSL_PATH`: The absolute path to the `dsl.json` file generated in Step 2 (only for Default template workflow).
 
 ## Quick Start
 
@@ -35,7 +35,7 @@ Please select the project type:
 **Action based on user input:**
 
 * **If Choice "1" (Default):**
-    1. Proceed to Step 1 and follow the default workflow (Steps 1-5).
+    1. Proceed to Step 1 and follow the default workflow (Steps 1-4).
 
 * **If Choice "2" (Nuxt Admin Dashboard):**
     1. Execute the script: `python3 scripts/setup_nuxt_dashboard.py [project-name]`
@@ -44,7 +44,7 @@ Please select the project type:
     3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
     4. **SKIP ALL REMAINING STEPS** - The Nuxt dashboard is fully configured and ready to use.
     5. Inform the user to run: `cd $PROJECT_ROOT && bun run dev`
-    6. **END WORKFLOW** - Do not proceed to Steps 1-5.
+    6. **END WORKFLOW** - Do not proceed to Steps 1-4.
 
 ---
 
@@ -54,8 +54,7 @@ To build powerful frontend claude.ai artifacts using the Vue ecosystem, follow t
 1. Initialize the project scaffold using script: `scripts/shadcn_vue_init.py`
 2. Retrieve design data using tool: `get_dsl`
 3. Apply design tokens and styles using tool: `get_token`
-4. Develop the artifact logic
-5. Bundle code (if necessary for single-file delivery)
+4. Start development server
 
 **Stack**: 
 - **Core**: Vue 3 (Script Setup) + TypeScript + Vite v8.0.0
@@ -153,7 +152,7 @@ python3 scripts/shadcn_vue_init.py [project-name]
 ```
 
 **Features**:
-- Creates Vue 3 + Vite 7.3.1 project (stable version)
+- Creates Vue 3 + Vite 8.0.0 project
 - Configures Tailwind CSS 4 with CSS-first configuration
 - Installs and configures shadcn-vue components
 - Sets up Pinia, Vue Router, and TanStack Query
@@ -169,7 +168,7 @@ python3 scripts/shadcn_vue_init.py [project-name]
 
 **Usage**:
 ```bash
-python3 scripts/setup_nuxt_dashboard.py <project-path>
+python3 scripts/setup_nuxt_dashboard.py [project-name]
 ```
 
 **Features**:
@@ -177,8 +176,6 @@ python3 scripts/setup_nuxt_dashboard.py <project-path>
 - Includes Shadcn UI components and Tailwind CSS configuration
 - Installs all necessary dependencies using bun
 - Provides a ready-to-use admin dashboard structure
-
-
 
 ## Reference
 
