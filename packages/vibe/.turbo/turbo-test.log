@@ -4,11 +4,11 @@
 [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/Users/xiaoluo/Desktop/work/skill/packages/vibe[39m
 
 [?2026h
-[1m[33m ❯ [39m[22msrc/skills/installer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22msrc/skills/parser.test.ts[2m [queued][22m
 
 [2m Test Files [22m[1m[32m0 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m09:02:50
+[2m   Start at [22m09:15:17
 [2m   Duration [22m102ms
 [?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m [queued][22m
@@ -16,86 +16,93 @@
 [1m[33m ❯ [39m[22msrc/skills/parser.test.ts[2m [queued][22m
 [1m[33m ❯ [39m[22msrc/skills/skill-lock.test.ts[2m [queued][22m
 [1m[33m ❯ [39m[22msrc/utils/config.test.ts[2m [queued][22m
-[1m[33m ❯ [39m[22msrc/utils/file.test.ts[2m 0/18[22m
+[1m[33m ❯ [39m[22msrc/utils/file.test.ts[2m [queued][22m
 [1m[33m ❯ [39m[22msrc/utils/hash.test.ts[2m 0/9[22m
 
 [2m Test Files [22m[1m[32m0 passed[39m[22m[90m (9)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (27)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m211ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 35[2mms[22m[39m
- [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 43[2mms[22m[39m
- [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 18[2mms[22m[39m
- [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 26[2mms[22m[39m
- [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m09:15:17
+[2m   Duration [22m328ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/utils/hash.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [32m✓[39m src/skills/skill-lock.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m src/utils/file.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 65[2mms[22m[39m
+ [32m✓[39m src/utils/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 39[2mms[22m[39m
 
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 1/16[22m
 [1m[33m ❯ [39m[22msrc/skills/installer.test.ts[2m 0/27[22m
+[1m[33m ❯ [39m[22msrc/skills/parser.test.ts[2m 0/26[22m
 [1m[33m ❯ [39m[22msrc/utils/hash.test.ts[2m 9/9[22m
 
-[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (9)[39m
-[2m      Tests [22m[1m[32m79 passed[39m[22m[90m (121)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m311ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 94[2mms[22m[39m
+[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m53 passed[39m[22m[90m (121)[39m
+[2m   Start at [22m09:15:17
+[2m   Duration [22m528ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/skills/parser.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 80[2mms[22m[39m
+ [32m✓[39m src/skills/installer.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 126[2mms[22m[39m
+ [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 4[2mms[22m[39m
  [32m✓[39m src/utils/error.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 5[2mms[22m[39m
- [32m✓[39m src/skills/source-parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+
+
+
+[1m[33m ❯ [39m[22msrc/git.test.ts[2m 6/16[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m[1m[32m135 passed[39m[22m[90m (145)[39m
+[2m   Start at [22m09:15:17
+[2m   Duration [22m932ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
 
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 6/16[22m
 
 [2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m135 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m915ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[2m   Start at [22m09:15:17
+[2m   Duration [22m1.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 6/16[22m
 
 [2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m135 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m1.93s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[2m   Start at [22m09:15:17
+[2m   Duration [22m2.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
 
-[1m[33m ❯ [39m[22msrc/git.test.ts[2m 6/16[22m
-
-[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
-[2m      Tests [22m[1m[32m135 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m2.94s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 7/16[22m
 
 [2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m136 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m3.34s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[2m   Start at [22m09:15:17
+[2m   Duration [22m3.45s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 7/16[22m
 
 [2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m136 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
+[2m   Start at [22m09:15:17
 [2m   Duration [22m3.95s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
 
 [1m[33m ❯ [39m[22msrc/git.test.ts[2m 8/16[22m
 
 [2m Test Files [22m[1m[32m8 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m[1m[32m137 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m09:02:50
-[2m   Duration [22m4.25s
-[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/git.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 4035[2mms[22m[39m
-       [33m[2m✓[22m[39m should retry on network errors [33m 3007[2mms[22m[39m
-       [33m[2m✓[22m[39m should retry on timeout errors [33m 1003[2mms[22m[39m
+[2m   Start at [22m09:15:17
+[2m   Duration [22m4.46s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/git.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 4044[2mms[22m[39m
+       [33m[2m✓[22m[39m should retry on network errors [33m 3006[2mms[22m[39m
+       [33m[2m✓[22m[39m should retry on timeout errors [33m 1004[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
 [2m      Tests [22m [1m[32m145 passed[39m[22m[90m (145)[39m
-[2m   Start at [22m 09:02:50
-[2m   Duration [22m 4.30s[2m (transform 620ms, setup 0ms, import 855ms, tests 4.33s, environment 1ms)[22m
+[2m   Start at [22m 09:15:17
+[2m   Duration [22m 4.48s[2m (transform 1.65s, setup 0ms, import 1.96s, tests 4.44s, environment 1ms)[22m
 
 [?25h
