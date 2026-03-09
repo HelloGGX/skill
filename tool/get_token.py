@@ -100,6 +100,18 @@ def determine_target_selector(input_data):
         return ":root"
 
 
+def find_css_file(project_root):
+    possible_paths = [
+        os.path.join(project_root, "src", "assets", "main.css"),
+        os.path.join(project_root, "src", "assets", "base.css"),
+        os.path.join(project_root, "src", "style.css"),
+    ]
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    return None
+
+
 def merge_css_content(input_data, target_file_path):
     # 1. 解析参数传入的数据
     updates = parse_dsl_to_map(input_data)
@@ -191,7 +203,14 @@ if __name__ == "__main__":
             sys.exit(1)
 
         # 3. 执行合并
-        target_css_file = os.path.join(project_root, "src", "style.css")
+        target_css_file = find_css_file(project_root)
+        if not target_css_file:
+            print(
+                f"错误：在 {project_root} 中找不到 CSS 文件 (style.css 或 assets/main.css)"
+            )
+            sys.exit(1)
+
+        print(f"找到 CSS 文件: {target_css_file}")
         merge_css_content(input_data, target_css_file)
 
     except Exception as e:
