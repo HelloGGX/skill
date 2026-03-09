@@ -29,8 +29,9 @@ Please select the project type:
 
     1. **Default** (shadcn + tailwindcss + vite)
     2. **Nuxt Admin Dashboard** (shadcn + tailwindcss + nuxt)
+    3. **Electron** (shadcn + tailwindcss + electron + vite)
 
-    Choice [1/2]:
+    Choice [1/2/3]:
 ```
 
 **STOP and WAIT for user input** - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command match
@@ -48,6 +49,14 @@ Please select the project type:
     4. **SKIP ALL REMAINING STEPS** - The Nuxt dashboard is fully configured and ready to use.
     5. Inform the user to run: `cd $PROJECT_ROOT && bun run dev`
     6. **END WORKFLOW** - Do not proceed to Steps 1-4.
+
+* **If Choice "3" (Electron):**
+    1. Execute the script: `python3 $SKILL_DIR/scripts/electron_vue_init.py [project-name]`
+       * *Condition*: If a project name is specified in the context, pass it as an argument. Otherwise, omit it to use the default name.
+    2. **CAPTURE OUTPUT**: Look for the directory path in the script's output (last line before success message).
+    3. **ASSIGN**: Set this path to variable `$PROJECT_ROOT`.
+    4. **SKIP Step 1 and Step 4** - Project scaffolding is complete.
+    5. Proceed to **Step 2** to sync design data (DSL).
 
 ---
 
@@ -103,11 +112,24 @@ Fetch the design structure and layout data from the source:
     4. **ASSIGN**: Set this path to variable `$DSL_PATH`.
 
 * **If Choice "2" (TOKEN_URL_LIGHT):**
-    1. Read the `TOKEN_URL_LIGHT` variable from `.env` file.
-    2. **If TOKEN_URL_LIGHT is not defined**: Prompt user to define it in `.env` file, e.g., `TOKEN_URL_LIGHT=https://your-token-url.com/dsl.json`
-    3. **If TOKEN_URL_LIGHT is defined**: Execute `get_dsl` with the URL from `TOKEN_URL_LIGHT`.
-    4. **CAPTURE OUTPUT**: Look for the file path of the saved JSON (e.g., `.../dsl.json`).
-    5. **ASSIGN**: Set this path to variable `$DSL_PATH`.
+    1. **Check for .env file existence**:
+       - Look for `.env` file in the current working directory or project root.
+       - **If .env file does NOT exist**: 
+         - **STOP and WAIT for user input**
+         - Prompt user to create `.env` file with the following content:
+           ```
+           TOKEN_URL_LIGHT=https://your-token-url.com/dsl.json
+           ```
+         - Explain to user where to place the .env file and the required parameter.
+         - **WAIT** until user confirms they have created and configured the .env file.
+    2. After .env file is confirmed to exist, read the `TOKEN_URL_LIGHT` variable from `.env` file.
+    3. **If TOKEN_URL_LIGHT is not defined in .env**: 
+       - **STOP and WAIT for user input**
+       - Prompt user to add `TOKEN_URL_LIGHT=https://your-token-url.com/dsl.json` to the `.env` file.
+       - **WAIT** until user confirms they have added the variable.
+    4. **If TOKEN_URL_LIGHT is defined**: Execute `get_dsl` with the URL from `TOKEN_URL_LIGHT`.
+    5. **CAPTURE OUTPUT**: Look for the file path of the saved JSON (e.g., `.../dsl.json`).
+    6. **ASSIGN**: Set this path to variable `$DSL_PATH`.
 
 * **If Choice "3" (Use Default):**
     1. Log "Using default theme, skipping DSL fetch."
