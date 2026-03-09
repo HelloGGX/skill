@@ -338,6 +338,11 @@ export default defineConfig({
 
         content = self.file_manager.read(eslint_path)
 
+        content = content.replace(
+            "globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**'])",
+            "globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/dist-electron/**'])",
+        )
+
         custom_rules = """  {
     name: 'app/custom-rules',
     rules: {
